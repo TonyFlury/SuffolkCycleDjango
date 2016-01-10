@@ -31,16 +31,16 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'SuffolkCycleRide.apps.SuffolkCycleRideConfig',
+    'RegisteredUsers.apps.RegisteredUsersConfig',
+    'cyclists.apps.cyclistsConfig',
+    'newsletter.apps.newsletterConfig'
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'SuffolkCycleRide.apps.SuffolkCycleRideConfig',
-    'RegisteredUsers.apps.RegisteredUsersConfig',
-    'cyclists.apps.cyclistsConfig',
-    'newsletter.apps.newsletterConfig'
 ]
 
 MIDDLEWARE_CLASSES = [
