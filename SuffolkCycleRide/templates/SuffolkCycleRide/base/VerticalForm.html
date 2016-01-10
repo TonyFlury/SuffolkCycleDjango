@@ -1,0 +1,29 @@
+{% extends "SuffolkCycleRide/base/base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+    <div >
+        {% for form in forms %}
+            <div class="form" style="margin-left: 25%; margin-right:25%;">
+                <span class="special_font large">{% block form-name %}{{ form.name }}{% endblock %}</span>
+                <div class="description small">{% block description %}{{ form.description }}{% endblock %}</div>
+                {% block form-content %}
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <table>
+                        {{ form.form }}
+                    </table>
+                    <input type='submit' name='submit' value='{{form.submit}}'/>
+
+                    </form>
+                {% endblock %}
+            </div>
+        <hr>
+        {% endfor %}
+    </div>
+{% endblock %}
