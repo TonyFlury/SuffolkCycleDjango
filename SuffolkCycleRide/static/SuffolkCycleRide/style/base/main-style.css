@@ -1,0 +1,299 @@
+/* ------------------- Layout -------------------------- */
+
+body {
+    background-color: #00B7B1;
+    font: 24px/1.4em "Open Sans",sans-serif;
+}
+
+.special_font {
+    font-family: "fredericka the great",fantasy;
+}
+
+#Site_Background
+{
+	position: absolute;
+	top: 0px;
+	height: 100%;
+	width: 1397px;
+}
+
+#Site_Root  /* Centered Box */
+{
+	min-height: 100%;
+	position: relative;
+	margin: 0px auto;
+	width: 980px;
+	padding-bottom: 41px;
+}
+
+#header /* Box for the header menu */
+{
+	top: 0px;
+	width: 980px;
+	height: 66px;
+	position: absolute;
+	left: 0px;
+}
+
+#header_bg { /* Extra wide box for the header strip */
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	background-color: #005551;
+	box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.7);
+	border-top: 0px solid #9AE7E4;
+	border-bottom: 0px solid #9AE7E4;
+	width: 1397px;
+	left: -220px;
+}
+
+#footer_bg { /* Extra wide box for the header strip */
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	background-color: #005551;
+	box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.7);
+	border-top: 0px solid #9AE7E4;
+	border-bottom: 0px solid #9AE7E4;
+	width: 1397px;
+	left: -220px;
+}
+
+#footer /* Box for the footer info menu */
+{
+	bottom: 0;
+	position: fixed;
+	width: 980px;
+	height: 40px;
+}
+
+
+div .centered
+{
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+}
+
+div#content
+{
+ top: 70px;
+position:absolute;
+width:100%;
+height: auto;
+}
+
+/* ------------------- Menu bar -------------------------------- */
+
+div .menu {
+    top: 30px;
+    position:absolute;
+    color: white ;
+    font: 20px/1.4em "fredericka the great",fantasy;
+}
+
+ul.chevronbar {list-style-type: none; margin: 0; padding: 0; height:auto; width:auto; overflow:hidden;}
+ul.chevronbar li {margin: 0; padding: 1em; height:1.3em; width:auto; border:1px solid #01B1AF; position:relative; float:left; background:#01B1AF;  margin-right: 1em; padding: 0 0.7em; }
+ul.chevronbar li a {display:block;}
+ul.chevronbar li:before, ul.chevronbar li:after {content: ' '; height: 0; width: 0; position: absolute; top:-10px; border: 1.2em solid transparent; border-left-width: 0.55em; border-right-width: 0.55em;}
+ul.chevronbar li:before {border-top-color: #01B1AF; border-bottom-color: #01B1AF; border-right-color: #01B1AF; right: 100%;}
+ul.chevronbar li:after {border-left-color: #01B1AF; left: 100%; margin-left: -0.02em;}
+ul.chevronbar li:first-child {padding-left:1.5em; border-radius:10px 0 0 10px;}
+ul.chevronbar li:last-child {padding-right:1.5em; border-radius:0 10px 10px 0;}
+ul.chevronbar li:first-child:before {border:none;}
+/* ul.chevronbar li.first:before {border: none !important ;} */
+ul.chevronbar li:last-child:after {border: none !important;}
+
+ul.chevronbar li a{
+  cursor: pointer ;
+  color : white;
+  text-decoration: none;
+}
+
+/* ------------------------- Font sizes and headings ----------------------- */
+span.special_font a {
+  cursor: pointer ;
+  font-style: italic ;
+  text-decoration: none;
+}
+
+.large {
+    font-size: 40px;
+    line-height: 44px ;
+}
+
+.medium {
+    font-size: 30px;
+    line-height: 33px ;
+}
+
+.medium {
+    font-size: 24px;
+    line-height:26px ;
+}
+
+.normal {
+    font-size: 18px;
+    line-height: 20px ;
+}
+.small
+{
+    font-size: 16px ;
+    line-height: 18px ;
+}
+
+.vsmall
+{
+    font-size: 14px;
+    line-height: 15px ;
+}
+
+
+h1 {
+    margin: -0.25em 0 0 0;
+    padding: 0;
+    color: white ;
+    font: 140px/1.4em "fredericka the great",fantasy;
+    line-spacing:normal;
+}
+
+h2 {
+    margin: -0.25em 0 0 0;
+    padding: 0;
+    color: white ;
+    font: 116px/1.4em "fredericka the great",fantasy;
+    line-spacing:normal;
+}
+
+h3 {
+    margin: 0px;
+    padding: 0px;
+    color: white ;
+    font: 80px/1.4em "fredericka the great",fantasy;
+    line-spacing:normal;
+}
+
+h4 {
+    margin: 0px;
+    padding: 0px;
+    color: white ;
+    font: 50px/1.4em "fredericka the great",fantasy;
+    line-spacing:normal;
+    line-height:45px;
+}
+
+div.BigBtnOuter {
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	position:absolute;
+	width:322px;
+	height:100px;
+	min-height:70px;
+}
+
+a.BigBtn {
+	border-radius: 10px;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	position:absolute;
+	width:322px;
+	height:100px;
+	min-height:70px;
+	background-color: #333;
+	border: 6px solid #333;
+	box-shadow: 1px 1px #1A1A1A, 3px 3px #1A1A1A, 5px 5px #1A1A1A, 7px 7px #1A1A1A, 9px 9px #1A1A1A;
+	text-align: center;
+}
+
+div.BtnStrip {
+    position:absolute;
+    height:100px;
+}
+
+div.BtnBar {
+	position: absolute;
+	background-color: #000;
+	width: 980;
+	height: 5px;
+	top: 50px;
+}
+
+span.BigBtnTxt {
+    font: 50px/1.4em "Fredericka the Great",fantasy;
+    color: white ;
+    align: center;
+    height:100px;
+    position: relative;
+    border:6px;
+    line-height: 100px;
+    display: inline-block ;
+}
+
+div.ShapeBtnOuter {
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	position:absolute;
+	width:200px;
+	height:50px;
+	min-height:50px;
+}
+
+a.ShapedButton
+{
+	border-radius: 40px 0px;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	background-color: #67CFCB;
+	transition: border-color 0.4s ease 0s, background-color 0.4s ease 0s;
+	box-shadow: 4.6px 3.86px 9px 2px rgba(0, 0, 0, 0.6);
+	border: 0px solid #004D4E;
+	cursor: pointer !important;
+	text-align:center;
+}
+
+
+span.ShapeBtnTxt {
+    font: 30px/1.4em "Fredericka the Great",fantasy;
+    color: white ;
+    align: center;
+    height:50px;
+    position: relative;
+    border:6px;
+    line-height: 50px;
+    width:auto;
+    display: inline-block ;
+}
+
+div.strip {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	width: 1397px;
+	left: -220px;
+}
+
+div.whitebackground {
+background-color: white
+}
+
+.errorlist {
+    color: orange ;
+    font-weight: bold ;
+}
