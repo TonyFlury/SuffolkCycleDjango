@@ -34,7 +34,7 @@ INSTALLED_APPS = [
     'SuffolkCycleRide.apps.SuffolkCycleRideConfig',
     'RegisteredUsers.apps.RegisteredUsersConfig',
     'cyclists.apps.cyclistsConfig',
-    'newsletter.apps.newsletterConfig'
+    'newsletter.apps.newsletterConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
