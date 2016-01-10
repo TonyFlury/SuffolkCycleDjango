@@ -23,10 +23,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '5l#-+r+1&g2apy^fj7ck14c_-g#8p_jx1llt(-27+n37i^(d$@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = []
 
+if os.environ.get('PYTHON_ANYWHERE','False') == 'True':
+    BASE_URL = 'http://suffolkcycleride.pythonanywhere.com/'
+    DEBUG = False
+    ALLOWED_HOSTS = ['suffolkcycleride.pythonanywhere.com']
+else:
+    BASE_URL = 'http://192.168.1.78:8000/'
+    DEBUG = True
+    ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -125,3 +131,13 @@ USE_TZ = True
 # Changed to support collectstatic
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
+
+# Gmail SMTP settings
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = "suffolkcycleride2016@gmail.com"
+EMAIL_HOST_PASSWORD = "Ball00M0wgl1"
+EMAIL_USE_SSL = True
+EMAIL_USE_TLS = False
+
+DEFAULT_FROM_EMAIL = "suffolkcyclerid2016@gmail.com"
