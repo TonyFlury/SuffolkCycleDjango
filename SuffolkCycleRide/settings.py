@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'RegisteredUsers.apps.RegisteredUsersConfig',
     'cyclists.apps.cyclistsConfig',
     'newsletter.apps.newsletterConfig',
+    'EmailPlus.apps.EmailplusConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -114,9 +115,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en-uk'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'GMT'
 
 USE_I18N = True
 
@@ -141,3 +142,12 @@ EMAIL_USE_SSL = True
 EMAIL_USE_TLS = False
 
 DEFAULT_FROM_EMAIL = "suffolkcyclerid2016@gmail.com"
+
+if os.environ.get('PYTHON_ANYWHERE','False') == 'True':
+    EMAIL_VOLUME_LIMIT = 99
+    EMAIL_LIMIT_PERIOD = 24*60*60
+    EMAIL_SCHEDULER_PERIOD = 1200 # Allow a 20 scheduler period - mail will be delayed at least 20 mins.
+else:
+    EMAIL_VOLUME_LIMIT = 99
+    EMAIL_LIMIT_PERIOD = 24*60*60
+    EMAIL_SCHEDULER_PERIOD = 120 # Allow a 2 scheduler period - mail will be delayed at least 2 mins.

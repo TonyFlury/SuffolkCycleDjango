@@ -52,11 +52,13 @@ class GetInvolved(View):
         if this_form.is_valid():
             this_form.save()
 
-            if  u'Sign In' in request.POST:
+            print request.POST
+
+            if  u'Sign In' in request.POST[u'submit'] :
                 return HttpResponse("Signed In")
-            if u'Send me the newsletter':
+            if u'Send me the newsletter' in request.POST[u'submit'] :
                 return HttpResponse("Signed up for the newsletter")
-            elif u'Register':
+            elif u'Register' in request.POST[u'submit'] :
                 return HttpResponse("New User Created")
 
         return render(request, "SuffolkCycleRide/base/VerticalForm.html", context=context)

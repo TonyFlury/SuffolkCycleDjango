@@ -1,23 +1,23 @@
-from django.shortcuts import render
-
-from django.forms import ModelForm, PasswordInput, Form, CharField
 from django.contrib.auth.models import User
 from django.http import HttpResponse
+from django.template.loader import render_to_string
+from django.shortcuts import render
 from django.views.generic import View
-from newsletter.models import NewsletterSignUp
 
-from email import EmailTypes, Email
+from django.conf import settings
+
+from EmailPlus.email import Email
+from forms import NewUserForm
+
 
 # Simple View for User Registration - maybe never used on it's own.
 class NewUser(View):
     def get(self, request):
         form = NewUserForm()
-        return render(request, "RegisteredUsers/RegisterUser.html", {'FormContent': form,})
+        return render(request, "EmailPlus/RegisterUser.html", {'FormContent': form,})
 
     def post(self, request):
         form = NewUserForm(request.POST)
-
-        print form
 
         # If data is valid, proceeds to create a new post and redirect the user
         if form.is_valid():
@@ -25,9 +25,15 @@ class NewUser(View):
             print d
             user = User.objects.create_user( **d )
 
-            Email(EmailTypes.NewUserConfirmation).send(user)
+            Email( subject="Welcome to the Great Suffolk Cycle Ride1",
+                   body = render_to_string("RegisteredUsers/Email/NewUserConfirmation.txt",
+                           context = {'first_name': user.first_name,
+                              'base_url':settings.BASE_URL,
+                              'username': user.username
+                                    } )
+                   ).send(user.email)
 
             return HttpResponse("Saved")
             # return HttpResponseRedirect(reverse('post_detail', kwargs={'post_id': post.id}))
         else:
-            return render(request, "RegisteredUsers/RegisterUser.html", {'FormContent': form,})
+            return render(request, "EmailPlus/RegisterUser.html", {'FormContent': form,})

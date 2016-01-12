@@ -16,21 +16,27 @@ __version__ = "0.1"
 __author__ = 'Tony Flury : anthony.flury@btinternet.com'
 __created__ = '07 Jan 2016'
 
-from django.forms import ModelForm, PasswordInput, Form, CharField, forms
-from django.contrib.auth.models import User
-from email import EmailTypes, Email
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
+from django.forms import ModelForm, PasswordInput, TextInput, Form, CharField, forms
 from django.utils.translation import gettext_lazy as _
+from django.template.loader import render_to_string
+from django.conf import settings
+
+from EmailPlus.email import Email
+
 
 #
 # Simple form for the registration - override the default widget for the Password field
 #
 class NewUserForm(ModelForm):
     """Form to create a new User - used in conjunction with the NewUserView class view"""
+
     class Meta:
         model = User
-        fields = ['first_name','last_name','username','email','password']
-        widgets = {'password': PasswordInput()}
+        fields = ['first_name', 'last_name', 'username', 'email', 'password']
+        widgets = {'password': PasswordInput(attrs={'required':True}),
+                   'email' : TextInput( attrs={'required':True}) }
 
     def __init__(self, *args, **kwargs):
         """Disable the help text"""
@@ -41,12 +47,15 @@ class NewUserForm(ModelForm):
         """ Customised save on the form, so that we can separate control and view """
         # If data is valid, proceeds to create a new post and redirect the user
         if self.is_valid():
-            d = dict([(k,v) for k,v in self.cleaned_data.iteritems()])
-            print d
-            user = User.objects.create_user( **d )
+            d = dict([(k, v) for k, v in self.cleaned_data.iteritems()])
+            user = User.objects.create_user(**d)
 
-            Email(EmailTypes.NewUserConfirmation).send(user)
-
+            Email( subject="Welcome to the Great Suffolk Cycle Ride",
+                   body=render_to_string("RegisteredUsers/Email/NewUserConfirmation.txt",
+                          context={'first_name': user.first_name,
+                                   'base_url': settings.BASE_URL,
+                                   'username': user.username
+                                   } ) ).send(user.email)
             return user
         else:
             return None
@@ -54,13 +63,12 @@ class NewUserForm(ModelForm):
 
 class SignInForm(Form):
     """ Sign in form """
-    username = CharField(strip=True, label=_('Username'), max_length = 30, required=True)
-    password = CharField(strip=True, label=_('Password'), widget=PasswordInput(), required=True )
+    username = CharField(strip=True, label=_('Username'), max_length=30, required=True)
+    password = CharField(strip=True, label=_('Password'), widget=PasswordInput(), required=True)
 
-    def __init__(self, request=None, *args,**kwargs ):
-        super(SignInForm,self).__init__(request, *args,**kwargs)
+    def __init__(self, request=None, *args, **kwargs):
+        super(SignInForm, self).__init__(request, *args, **kwargs)
         self._request = request
-
 
     def clean(self):
         """Sub class cleaning to authenticate credentials"""
@@ -69,7 +77,7 @@ class SignInForm(Form):
         pword = self.cleaned_data['password']
         user = authenticate(username=uname, password=pword)
         if not user:
-            raise forms.ValidationError(_("Unrecognised Username/Password combination - please correct and try again") )
+            raise forms.ValidationError(_("Unrecognised Username/Password combination - please correct and try again"))
         else:
             return self.cleaned_data
 
@@ -81,7 +89,8 @@ class SignInForm(Form):
 
             user = authenticate(username=uname, password=pword)
             if not user:
-                raise forms.ValidationError(_("Unrecognised Username/Password combination - please correct and try again") )
+                raise forms.ValidationError(
+                    _("Unrecognised Username/Password combination - please correct and try again"))
             else:
                 login(self._request, user)
                 return user

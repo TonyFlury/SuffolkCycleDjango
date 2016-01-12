@@ -1,0 +1,20 @@
+Dear {{ first_name }},
+
+    Welcome to The Great Suffolk Cycle Ride.
+
+    Thank you for registering with our website at {{ base_url }} .
+
+    Your username is {{ username }}, and you will need this to login.
+
+    You can now sign in using the username and password you have provided, and be able to sign up to participate
+    in the various cycle ride legs, or to support the cyclists at the various venues and routes.
+
+    We hope you find everything you need on the website - if something is missing, please let us know.
+
+    If you need to reset your password - click to {{ base_url }}/user/passwordReset and follow the prompts.
+
+    Thanks again, and we look forward to meeting you as the event progresses.
+    --
+    The Suffolk Cycle Ride Organisation team
+    www : {{ base_url }}
+    email : suffolkcycleride2016@gmail.com
