@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'RegisteredUsers.apps.RegisteredUsersConfig',
     'cyclists.apps.cyclistsConfig',
     'newsletter.apps.newsletterConfig',
+    'stats.apps.StatsConfig',
     'EmailPlus.apps.EmailplusConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -133,15 +134,20 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 
+# Defined to collect uploaded Newsletters
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+FILE_UPLOAD_HANDLERS = ['django.core.files.uploadhandler.TemporaryFileUploadHandler']
+MEDIA_URL = '/media/'
+
 # Gmail SMTP settings
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'smtp.mail.yahoo.com'
 EMAIL_PORT = 465
-EMAIL_HOST_USER = "suffolkcycleride2016@gmail.com"
+EMAIL_HOST_USER = "suffolkcycleride@btinternet.com"
 EMAIL_HOST_PASSWORD = "Ball00M0wgl1"
 EMAIL_USE_SSL = True
-EMAIL_USE_TLS = False
+EMAIL_USE_TLS = True
 
-DEFAULT_FROM_EMAIL = "suffolkcyclerid2016@gmail.com"
+DEFAULT_FROM_EMAIL = "suffolkcycleride@btinternet.com"
 
 if os.environ.get('PYTHON_ANYWHERE','False') == 'True':
     EMAIL_VOLUME_LIMIT = 99
