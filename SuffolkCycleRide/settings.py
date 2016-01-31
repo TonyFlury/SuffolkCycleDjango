@@ -41,15 +41,24 @@ INSTALLED_APPS = [
     'RegisteredUsers.apps.RegisteredUsersConfig',
     'cyclists.apps.cyclistsConfig',
     'newsletter.apps.newsletterConfig',
+    'dashboard.apps.DashboardConfig',
     'stats.apps.StatsConfig',
     'EmailPlus.apps.EmailplusConfig',
+    'blog.apps.BlogConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'markitup',
+    'markdown',
 ]
+
+# JQUERY_URL = None # Prevent Markitup reloading the JQUERY library
+MARKITIUP_AUTO_PREVIEW = True
+MARKITUP_FILTER = ('markdown.markdown', {'safe_mode': True})
+MARKITUP_SET = 'markitup/sets/markdown/'
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
@@ -71,6 +80,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'SuffolkCycleRide.context_processor.settings_base_url',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -145,15 +155,16 @@ EMAIL_PORT = 465
 EMAIL_HOST_USER = "suffolkcycleride@btinternet.com"
 EMAIL_HOST_PASSWORD = "Ball00M0wgl1"
 EMAIL_USE_SSL = True
-EMAIL_USE_TLS = True
+EMAIL_USE_TLS = False
 
 DEFAULT_FROM_EMAIL = "suffolkcycleride@btinternet.com"
 
-if os.environ.get('PYTHON_ANYWHERE','False') == 'True':
-    EMAIL_VOLUME_LIMIT = 99
-    EMAIL_LIMIT_PERIOD = 24*60*60
-    EMAIL_SCHEDULER_PERIOD = 1200 # Allow a 20 scheduler period - mail will be delayed at least 20 mins.
-else:
-    EMAIL_VOLUME_LIMIT = 99
-    EMAIL_LIMIT_PERIOD = 24*60*60
-    EMAIL_SCHEDULER_PERIOD = 120 # Allow a 2 scheduler period - mail will be delayed at least 2 mins.
+
+#if os.environ.get('PYTHON_ANYWHERE','False') == 'True':
+#    EMAIL_VOLUME_LIMIT = 99
+#    EMAIL_LIMIT_PERIOD = 24*60*60
+#    EMAIL_SCHEDULER_PERIOD = 1200 # Allow a 20 scheduler period - mail will be delayed at least 20 mins.
+#else:
+#    EMAIL_VOLUME_LIMIT = 99
+#    EMAIL_LIMIT_PERIOD = 24*60*60
+#    EMAIL_SCHEDULER_PERIOD = 120 # Allow a 2 scheduler period - mail will be delayed at least 2 mins.

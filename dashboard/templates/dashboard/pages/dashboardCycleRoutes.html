@@ -1,0 +1,110 @@
+{% extends "dashboard/base/dashboard_form.html" %}
+
+{% load staticfiles %}
+
+{% block page_styles %}
+
+td { text-align: center;}
+
+td.distance, td#totalDistance {text-align:right; padding-right:2em;}
+
+{% endblock %}
+
+{% block page_scripts %}
+
+<!-- JQuery Magic to help the checkbox select/deselect all functions to work -->
+
+    function TotalDistance() {
+        // Calculate the Total Distance over all the selected Legs
+        var _totalDistance = 0;
+
+        // Look for each leg Row - and sum the distance cell to the total if the check is selected
+        $.each( $('tr.leg'), function(){
+            if ($(this).children('td.check').children('input.checkbox').is(':checked') )
+            {
+                 _totalDistance += parseInt($(this).children('.distance').text(), 10);
+            };
+        });
+
+        // Dump the result to the totals box
+        $('td#totalDistance').text(_totalDistance.toString());
+    }
+
+    function SyncSelectAll() {
+        var _totalChecked = $('tr.leg').length ;
+        var _total = $('tr.leg').children('td.check').children('input.checkbox:checked').length;
+
+        TotalDistance();
+
+        if(_totalChecked == _total){
+         $("input.selectAll").prop("checked", true);
+        }else{
+         $("input.selectAll").prop("checked", false);
+        }
+    }
+
+$(document).ready(function(){
+
+    // Bind a simple JQuery Function to ensure that SelectAll checkbox - set all boxes to the same state
+    $('input.selectAll').bind( 'click', function(){
+      $('input.checkbox').prop("checked", this.checked);
+      TotalDistance();
+    });
+
+    //  ensure that the Selectall checkbox is kept in sync with the other checkboxes
+    $('input.checkbox').bind( 'click', function() { SyncSelectAll() });
+
+    SyncSelectAll(); // Synchronise selectAll and Total Distance for the first time
+});
+{% endblock %}
+
+
+{% block title %}
+Great Suffolk Bike Ride 2016 : My Details
+{% endblock %}
+
+{% block dashboard-form %}
+    <thead>
+        <tr>
+            <th class='cell check'>
+                <input type="checkbox" class="selectAll" name="selectAll" id="selectAll"/>
+                <label class="click selectAll" for="selectAll" name="selectAll" id="selectAll"/></th>
+            <th class='cell name'>Name</th>
+            <th class='cell date'>Date</th>
+            <th class='cell start'>Start</th>
+            <th class='cell end'>End</th>
+            <th class='cell distance'>Distance (Km)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for leg in legs %}
+        <tr class="row {% cycle 'row1' 'row2' %} leg">
+            <td class='cell check' >
+                <input  id='check_{{ leg.id }}' type="checkbox" class='checkbox' name="selected" value="{{ leg.id }}"
+                {% if leg.cyclist_on_leg %}
+                     checked
+                {% endif %}
+                /><label class="click checkbox" for="check_{{ leg.id }}" />
+            </td>
+            <td class='cell name' >{{ leg.name }}</td>
+            <td class='cell date' >{{ leg.date }}</td>
+            <td class='cell start' >{{ leg.start }}</td>
+            <td class='cell end' >{{ leg.end }}</td>
+            <td class='cell distance' >{{ leg.distanceKM }}</td>
+        </tr>
+        {% endfor %}
+        </div>
+        <tfoot>
+            <tr class='row'>
+                <td class='cell check' >&nbsp;</td>
+                <td class='cell' >&nbsp;</td>
+                <td class='cell' >&nbsp;</td>
+                <td class='cell' >&nbsp;</td>
+                <td class='cell' >&nbsp;</td>
+                <td class='cell' id="totalDistance" >&nbsp;</td>
+            </tr>
+        </tfoot>
+{% endblock %}
+
+{% block post-form %}
+        {% endblock %}

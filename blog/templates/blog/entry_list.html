@@ -1,0 +1,28 @@
+{% extends "blog/base.html" %}
+
+{% load markitup_tags %}
+
+{% block blog_meta %}
+    <meta name="description" content="Latest blog entries">
+    {% markitup_media %}
+{% endblock %}
+
+    {% block blog_page_title %}
+    {% endblock %}
+
+    {% block blog-content %}
+        {% for entry in entries %}
+            <div class="blog-post">
+                <div class="blog-title"><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a>{% if not entry.is_published %} <span class="label label-default">Draft</span>{% endif %}</div>
+                <p class="blog-post-meta">{{ entry.pub_date|date:"DATE_FORMAT" }}{% if entry.author %} by {{ entry.author }}{% endif %}</p>
+                <div class="blog-content">
+                    {{ entry.content }}
+                </div>
+            </div><!-- /.blog-post -->
+        {% endfor %}
+    {% endblock %}
+
+    {%block blog-sidebar %}
+            {% include "blog/tag_sub_list.html" %}
+            {% include "blog/archive_sub_list.html" %}
+    {% endblock %}

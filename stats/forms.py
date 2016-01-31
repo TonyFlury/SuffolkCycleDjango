@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-# SuffolkCycleDjango : Implementation of __init__.py
+# SuffolkCycleDjango : Implementation of forms.py
 
 Summary : 
     <summary of module/class being implemented>
@@ -14,7 +14,9 @@ Testable Statements :
 
 __version__ = "0.1"
 __author__ = 'Tony Flury : anthony.flury@btinternet.com'
-__created__ = '10 Jan 2016'
+__created__ = '16 Jan 2016'
 
 
-
+# Todo - implement a set of Forms so that the stats can be viewed
+# Todo - will need a graph to view by document/date
+# Todo - need to gather stats to record  on downloads

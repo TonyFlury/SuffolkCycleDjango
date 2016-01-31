@@ -1,0 +1,18 @@
+{% extends "base/base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}
+Newsletter Subscription - Confirmed
+{% endblock %}
+
+{% block content %}
+<h4>Newsletter Subscription - Confirmed</h4>
+
+<div class="white">
+The email '{{ email }}' has been subscribed to the newsletter. The next newsletter will be sent to this email
+address once it is published. To see previous newsletters look at the <a href="{{ readmore_url }}">Read More</a> page.
+Otherwise use the navigation menu above to explore the rest of the site.
+</div>
+
+{% endblock %}

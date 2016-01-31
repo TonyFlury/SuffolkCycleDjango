@@ -11,15 +11,15 @@
 }
 
 .blue {
-    color:00B7B1
+    color:00B7B1;
     }
 
 .black {
-    color:000000
+    color:000000;
     }
 
 .lightblue {
-    color:9AE7E4
+    color:9AE7E4;
 }
 
 .bluebackground
@@ -35,5 +35,5 @@
     }
 
 .whitebackground {
-background-color: white
+background-color: white;
 }

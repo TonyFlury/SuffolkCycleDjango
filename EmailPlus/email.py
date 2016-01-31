@@ -36,8 +36,8 @@ class Email(object):
         """ Try to send the email immediately if we are able"""
         if (scheduler._scheduler_inst is None) or (scheduler._scheduler_inst.immediate_dispatch()):
             send_mail(subject=self._subject,
-                      from_email="suffolkcycleride2016@gmail.com",
-                      recipient_list=[destination_email, "suffolkcycleride2016@gmail.com"],
+                      from_email=settings.DEFAULT_FROM_EMAIL,
+                      recipient_list=[destination_email, settings.DEFAULT_FROM_EMAIL],
                       message=self._body)
             # Even if we can send immediately - we still need to record so that the volume sent is recorded.
             if scheduler._scheduler_inst is not None:

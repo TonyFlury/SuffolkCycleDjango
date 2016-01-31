@@ -2,12 +2,24 @@
 
 body {
     background-color: #00B7B1;
-    font: 24px/1.4em "Open Sans",sans-serif;
+    font-family: "Open Sans",sans-serif;
 }
 
 .special_font {
     font-family: "fredericka the great",fantasy;
 }
+
+a {
+    text-decoration: none;
+    color:inherit;
+    font-style:italic;
+    font-weight: bold;
+    }
+
+a:hover {
+    cursor:pointer;
+}
+
 
 #Site_Background
 {
@@ -17,12 +29,12 @@ body {
 	width: 1397px;
 }
 
-#Site_Root  /* Centered Box */
+.Site_Root  /* Centered Box */
 {
 	min-height: 100%;
 	position: relative;
 	margin: 0px auto;
-	width: 980px;
+	width: 1000px;
 	padding-bottom: 41px;
 }
 
@@ -87,6 +99,8 @@ div#content
 position:absolute;
 width:100%;
 height: auto;
+padding:0;
+margin: 0;
 }
 
 /* ------------------- Menu bar -------------------------------- */
@@ -99,7 +113,7 @@ div .menu {
 }
 
 ul.chevronbar {list-style-type: none; margin: 0; padding: 0; height:auto; width:auto; overflow:hidden;}
-ul.chevronbar li {margin: 0; padding: 1em; height:1.3em; width:auto; border:1px solid #01B1AF; position:relative; float:left; background:#01B1AF;  margin-right: 1em; padding: 0 0.7em; }
+ul.chevronbar li {margin: 0; padding: 0.5em; height:1.3em; width:auto; border:1px solid #01B1AF; position:relative; float:left; background:#01B1AF;  margin-right: 1.0em; padding: 0 0.5em; }
 ul.chevronbar li a {display:block;}
 ul.chevronbar li:before, ul.chevronbar li:after {content: ' '; height: 0; width: 0; position: absolute; top:-10px; border: 1.2em solid transparent; border-left-width: 0.55em; border-right-width: 0.55em;}
 ul.chevronbar li:before {border-top-color: #01B1AF; border-bottom-color: #01B1AF; border-right-color: #01B1AF; right: 100%;}
@@ -114,6 +128,8 @@ ul.chevronbar li a{
   cursor: pointer ;
   color : white;
   text-decoration: none;
+  font-style:normal;
+    font-weight: unset;
 }
 
 /* ------------------------- Font sizes and headings ----------------------- */
@@ -123,12 +139,12 @@ span.special_font a {
   text-decoration: none;
 }
 
-.large {
+.xlarge {
     font-size: 40px;
     line-height: 44px ;
 }
 
-.medium {
+.large {
     font-size: 30px;
     line-height: 33px ;
 }
@@ -139,8 +155,8 @@ span.special_font a {
 }
 
 .normal {
-    font-size: 18px;
-    line-height: 20px ;
+    font-size: 20px;
+    line-height: 24px ;
 }
 .small
 {
@@ -160,7 +176,7 @@ h1 {
     padding: 0;
     color: white ;
     font: 140px/1.4em "fredericka the great",fantasy;
-    line-spacing:normal;
+    line-height:normal;
 }
 
 h2 {
@@ -168,7 +184,7 @@ h2 {
     padding: 0;
     color: white ;
     font: 116px/1.4em "fredericka the great",fantasy;
-    line-spacing:normal;
+    line-height:normal;
 }
 
 h3 {
@@ -176,15 +192,15 @@ h3 {
     padding: 0px;
     color: white ;
     font: 80px/1.4em "fredericka the great",fantasy;
-    line-spacing:normal;
+    line-height:normal;
 }
 
 h4 {
-    margin: 0px;
+    margin: 5px 0px 10px 0px;
     padding: 0px;
     color: white ;
     font: 50px/1.4em "fredericka the great",fantasy;
-    line-spacing:normal;
+    line-height:normal;
     line-height:45px;
 }
 
@@ -231,7 +247,7 @@ div.BtnBar {
 span.BigBtnTxt {
     font: 50px/1.4em "Fredericka the Great",fantasy;
     color: white ;
-    align: center;
+    text-align: center;
     height:100px;
     position: relative;
     border:6px;
@@ -270,7 +286,7 @@ a.ShapedButton
 span.ShapeBtnTxt {
     font: 30px/1.4em "Fredericka the Great",fantasy;
     color: white ;
-    align: center;
+    text-align: center;
     height:50px;
     position: relative;
     border:6px;
@@ -296,4 +312,70 @@ background-color: white
 .errorlist {
     color: orange ;
     font-weight: bold ;
+}
+
+hr {
+margin-left:auto;
+margin-right:auto;
+margin-top: 0.75em;
+margin-bottom:0.75em;
+width:75%}
+
+
+ul.vertical {
+display:inline-block;
+}
+
+div#Dashboard {
+display:inline-block;
+overflow:auto;
+/* border: dotted white ;*/
+width:1000px;
+margin-left:0% ;/* Outdent the main dashboard - so we have more horizontal space */
+margin-right:0%;
+
+}
+
+div#DashboardMenu {
+ float:left;
+/* border: dashed red ; */
+ padding-right: 1em;
+}
+
+div#DashboardDetails {
+   margin-left:0.25em;
+   padding: 0.25em;
+   float:left;
+   width:70%;
+   margin-right:0.1em;
+}
+
+div#heading {
+    margin-top: 0.25em;
+    margin-bottom: 0.25em ;
+}
+
+div.fb-like-pos {
+    top:0;
+    left:85%;
+    vertical-align: middle;
+    position:absolute;
+}
+
+ul.vertical_menu {
+list-style-type:none;
+}
+
+div.appendix {
+    text-align: center;
+}
+
+div.confirm {
+    background-color: yellow ;
+    color: black ;
+    text-align: center;
+}
+
+table, th, td {
+/*    border:1px solid grey; */
 }

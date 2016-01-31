@@ -1,0 +1,121 @@
+{% load staticfiles %}
+
+<html lang="{{ LANGUAGE_CODE }}">
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <head profile="http://www.w3.org/2005/10/profile">
+    <link rel="icon"
+      type="image/gig"
+      href="{% static 'SuffolkCycleRide/images/favicon.gif' %}">
+
+    <title>{% block title %}{{ title }}{% block subtitle %}{% endblock %}{% endblock %}</title>
+
+    <!-- Load site specific style sheets -->
+
+    <link rel="stylesheet" href="{% static 'base/style/colours.css' %}">
+    <link rel="stylesheet" href="{% static 'base/style/main-style.css' %}">
+    <link rel="stylesheet" href="{% static 'base/style/newforms.css' %}">
+    <link rel="stylesheet" href="{% static 'base/style/table.css' %}">
+
+    <!-- Data for the Facebook like button https://developers.facebook.com/tools/debug/og/object/ -->
+    <meta property="og:url"           content="{{ HOST }}" />
+	<meta property="og:type"          content="website" />
+	<meta property="og:title"         content="The Great Suffolk Cycle Ride" />
+	<meta property="og:description"   content="A multi-day charity cycle ride across Suffolk in Summer 2016. Get involved as a cyclist, organiser, or part of the support team." />
+	<meta property="og:image"         content="{{ HOST }}{% static 'SuffolkCycleRide/images/suffolk09s.gif' %}" />
+
+    {% block head_meta %}
+    {% endblock %}
+
+    <!-- Allow pages to load their own page specific styles -->
+    {% block page_styles_links %}
+    {% endblock %}
+
+    <style>
+    {% block page_styles %}
+    {% endblock %}
+    </style>
+
+    <!-- Load JQuery library - used on the dashboard pages primarily -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js" ></script>
+
+    <!-- Allow page specific scripts -->
+    <script type="text/javascript">
+        {% block page_scripts %}
+        {% endblock %}
+    </script>
+
+</head>
+<body>
+<div id="fb-root"></div>
+
+<!-- Script for Facebook like button https://developers.facebook.com/tools/debug/og/object/ -->
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.5";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
+<div id="Site_Background">
+    <div class="Site_Root"> <!-- Centered central vertical section -->
+
+        <div id='header'> <!-- Horizontal menu bar -->
+            <div id='header_bg'></div>  <!-- Darker bar extending across the viewport -->
+                <div class='menu centered'>
+                    {% block menu %}
+                    <ul class='chevronbar'>
+                        <li><a href="{% url 'Home' %}">Home</a></li>
+                        <li><a href="{% url 'Readmore' %}">Read More</a></li>
+                        {% if user.is_authenticated %}
+                        <li><a href="{% url 'Dashboard:Home' %}">My Dashboard</a></li>
+                        {% else %}
+                        <li><a href="{% url 'GetInvolved' %}">Get Involved</a></li>
+                        {% endif %}
+                        {% if user.is_authenticated %}
+                        <li><a href="{% url 'User:SignOut' %}">Sign Out</a></li>
+                        {% else %}
+                        <li><a href="{% url 'User:SignIn' %}">Sign In</a></li>
+                        {% endif %}
+                        <li><a>Sponsor Us</a></li>
+                        <li><a href="{% url 'blog:Main' %}">Blog</a></li>
+                    </ul>
+                    {% endblock %}
+                    <!-- Facebook like button -->
+                    <div class="fb-like fb-like-pos" data-href="{{ HOST }}" data-width="200"
+                         data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
+                </div>
+        </div>
+
+        <div id="content">
+
+            {% block content %}
+            {{ content }}
+            {% endblock %}
+
+            <div style="height:41px"></div> <!-- Spacer for footer -->
+        </div>
+
+        <!-- The footer information - copyright info -->
+        <div id='footer'>
+            <div id='footer_bg'></div>
+            <div align='center' class="white centered vsmall" style="top:10px">
+                <div style="float:left">
+                    {% now "Y" as year %}
+                Created by Tony Flury &copy; {{ year }} - The Great Suffolk Cycle Ride</div>
+                <div style="float:right">{% now " D d M Y h:i A" %}</div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

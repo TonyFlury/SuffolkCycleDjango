@@ -3,6 +3,7 @@ import os
 import sys
 
 if __name__ == "__main__":
+
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "SuffolkCycleRide.settings")
     if sys.argv[1] != "runserver":
         os.environ.setdefault("DJANGO_MANAGEMENT", "True")

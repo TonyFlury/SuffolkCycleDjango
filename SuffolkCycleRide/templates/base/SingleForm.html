@@ -1,0 +1,24 @@
+{% extends "base/base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+    <div >
+        <div class="form" style="margin-left: 15%; margin-right:15%;">
+            <h4>{{ heading }}</h4>
+            <div class="description small">{{ description }}</div>
+                <form method="post" action="{{ action }}" {{ enctype | safe }}>
+                    {% csrf_token %}
+                    <table>
+                        {{ form }}
+                    </table>
+                    <input type='submit' name='submit' value='{{submit}}'/>
+                </form>
+            <div class="appendix small">{% block appendix %}{{ appendix }}{% endblock %}</div>
+        </div>
+    </div>
+{% endblock %}

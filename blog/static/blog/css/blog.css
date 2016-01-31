@@ -1,0 +1,207 @@
+/*
+ * Blog name and description
+ */
+
+ /*
+ * Page Layout
+ */
+div.blog-main-area {
+    display:inline-block;
+    width: 100%;
+}
+
+div.blog-posts-area {
+	float: left;
+	width: 69%;
+	padding-right:1.0em;
+	border-right: thin solid grey ;
+	padding-top:0.5em;
+}
+
+div.blog-sidebar {
+	float: right;
+	width: 25%;
+	padding-left: 1em;
+	padding-right:1em;
+    border: thin inset grey;
+}
+
+div.sidebar-module {
+    padding: 0.1em 0.25em;
+    margin: 0.1em auto;
+    padding-bottom: 0.5em;
+}
+
+div.sidebar-module:not(:last-child) {
+    margin-bottom : 0.2em;
+    border-bottom: dotted 1px #333;
+}
+
+h5.sidebar-title {
+    text-align: center ;
+    color: white ;
+    font-size: 1.2em;
+    margin: 0.5em;
+    padding-bottom: 0.2em;
+    border-bottom: thin dashed grey
+}
+
+/*
+Formats within the blog post
+*/
+.blog-post {            /* Each blog post has it's own div */
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+  border-bottom: thin dashed #333;
+}
+
+div.blog-post:first-child {
+    margin-top: 1em;
+ }
+
+.blog-post .blog-title {
+    font-family: "fredericka the great",fantasy;
+    font-size:2.6em;
+    text-align: center;
+    color: white;
+}
+
+.blog-post .blog-post-meta {
+    font-family: "Open Sans",sans-serif;
+    font-size: 1em;
+    font-style: italic ;
+    font-weight: bold ;
+    color: #633;
+    text-align: right;
+    margin-top: 0.1em;
+    padding-top: 0.1em;
+}
+
+.blog-post .blog-content {
+    font-family: "Open Sans",sans-serif;
+    font-size: 1em;
+    line-height: 1.1em;
+    border: thin inset grey;
+    padding: 0.5em;
+    padding-top: 1em;
+    color: #F8F8F8;
+    }
+
+.blog-posts-area h1 {
+    font-family: "Open Sans",sans-serif;
+    font-size: 2.0em;
+    font-weight: bold;
+    text-decoration: underline;
+    }
+
+.blog-posts-area h2 {
+    font-family: "Open Sans",sans-serif;
+    font-size: 1.8em;
+    }
+
+.blog-posts-area h3 {
+    font-family: "Open Sans",sans-serif;
+    font-size: 1.6em;
+    }
+
+.blog-posts-area h4 {
+    font-family: "Open Sans",sans-serif;
+    font-size: 1.4em;
+    font-style: italic
+    }
+
+
+
+
+
+/*
+ * Main column and sidebar layout
+ */
+
+.
+
+
+/* Pagination */
+.pager {
+  margin-bottom: 60px;
+  text-align: left;
+}
+.pager > li > a {
+  width: 140px;
+  padding: 10px 20px;
+  text-align: center;
+  border-radius: 30px;
+}
+
+
+/*
+ * Blog posts
+ */
+
+.blog-archive-entry {
+  margin-bottom: 5px;
+  font-size: 1em;
+  color:white
+}
+
+.blog-archive-entry-meta {
+  margin-bottom: 20px;
+  color: #FFF;
+  font-size:0.8em;
+  font-style: italic ;
+  line-height: normal ;
+  margin: 0.1em 0.3em;
+  text-align: center;
+}
+
+
+
+h2.blog-archive-list {
+    font-size: 40px ;
+}
+
+span.blog-archive-list {
+    font-size: 1.0em;
+    color: white ;
+}
+
+
+h5.blog-archive-title {
+    text-align: center ;
+    color: white ;
+    font-size: 1.2em;
+    margin: 0.5em;
+    padding-bottom: 0.2em;
+    border-bottom: thin dashed grey
+}
+
+ul.archive-list {
+    list-style: none ;
+    margin: 0.3em 0.1em;
+    padding: 0.1em;
+}
+
+/*
+* Tag Cloud
+*/
+.blog_tag_list {
+}
+
+.tag {
+}
+
+.tag.lower {
+    font-size : 0.5em;
+    color : #AAA;
+}
+
+.tag.avg {
+    font-size : 0.75em;
+    color : #CCC;
+}
+
+.tag.upper {
+    font-size : 1em;
+    font-weight: bold;
+    color : #FFF;
+}

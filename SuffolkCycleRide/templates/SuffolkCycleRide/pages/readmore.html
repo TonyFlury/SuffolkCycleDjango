@@ -1,4 +1,4 @@
-{% extends "SuffolkCycleRide/base/base.html" %}
+{% extends "base/base.html" %}
 
 {% load staticfiles %}
 
@@ -7,10 +7,36 @@ Great Suffolk Bike Ride 2016 = Home Page
 {% endblock %}
 
 {% block content %}
-<h2>Read More</h2>
-<div class="white">
-The Great Suffolk Cycle Ride 2016 is in the very early stages of planning. We don't have definitive dates or a route for the event, but we do have the will and determination to make it happen.
+<h4 align="center">Read More</h4>
+<div class="white normal">
+    The Great Suffolk Cycle Ride 2016 is in the very early stages of planning.
+    <br>
+    We publish a short newsletter, to keep you informed of everything we plan to do - you can download them below.
+    You can also signup to the newsletter on our <a href="{% url 'GetInvolved' %}">Get Involved</a> page.
+    <hr>
+    <div class="table">
+        <div class="header row">
+            <span id="title" class="cell">Title</span>
+            <span id="pub_date" class="cell">Publication&nbsp;Date</span>
+        </div>
+        <div class="hr" ></div>
+        <div class="tbody">
+            {% for ns in newsletter %}
+            <div class="{% cycle 'row1' 'row2' %} row">
+                 <a href="{{ dl_base }}{{ ns.id }}">
+                     <img src="{% static 'SuffolkCycleRide/images/file_extension_pdf.png' %}"/></a>
+                    <span id="title" class="cell">
+                        <a href="{{ dl_base }}{{ ns.id }}">{{ ns.title }}</a>
+                    </span>
+                    <span id="pub_date" class="cell">
+                        {{ ns.pub_date }}
+                    </span>
+            </div>
 
-Keep in touch with us and these pages to discover how we are progressing with the planning and how you can get involved.
+        {% empty %}
+        <!--- Empty List -->
+        {% endfor %}
+        </div>
+    </div> <!-- End of Table div -->
 </div>
 {% endblock %}

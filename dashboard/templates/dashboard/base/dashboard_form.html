@@ -1,0 +1,33 @@
+{% extends "dashboard/base/dashboard.html" %}
+
+{% load staticfiles %}
+
+{% block title %}
+Great Suffolk Bike Ride 2016 = Home Page
+{% endblock %}
+
+{% block dashboard-detail %}
+    <div id='heading' align='center' class="white medium special_font">{{ heading }}</div>
+    <div class="white small {{ description_class }}">{{ description }}</div>
+        <form method="post" action="">
+            <div align="center">
+                {% for btn in top_submit %}
+                    <input type='submit' name='submit' value='{{btn}}'/>
+                {% endfor %}
+            </div>
+            {% csrf_token %}
+            <table width="100%">
+                {% block dashboard-form %}
+                {{ form }}
+                {% endblock %}
+            </table>
+            <div align="center">
+                {% for btn in submit %}
+                    <input type='submit' name='submit' value='{{btn}}'/>
+                {% endfor %}
+            </div>
+        </form>
+        <div align="center" class="white small" >
+            {% block post-form %}{{ post_form_info }}{% endblock %}
+        </div>
+{% endblock %}

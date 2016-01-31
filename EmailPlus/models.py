@@ -13,14 +13,10 @@ Testable Statements :
 """
 
 from __future__ import unicode_literals
-from django.utils.timezone import now
-
 
 from django.contrib import admin
 from django.db import models
-from datetime import datetime
-
-from fields import DictField
+from django.utils.timezone import now
 
 
 class EmailQueue(models.Model):
@@ -29,7 +25,6 @@ class EmailQueue(models.Model):
     subject = models.CharField( max_length=160, default="" )
     sent = models.BooleanField(default=False)
     sent_time = models.DateTimeField(default=now, db_index=True)
- #   context = DictField()
     destination = models.EmailField(default="")
 
 

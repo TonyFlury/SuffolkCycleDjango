@@ -1,0 +1,9 @@
+<div class="sidebar-module" id="archive-list">
+    <h5 class="sidebar-title">Post Archive</h5>
+<ul class="archive-list">
+{% for entry in archive %}
+   <li><span><span class="blog-archive-entry vsmall"><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a>{% if not entry.is_published %} <span class="label label-default">Draft</span>{% endif %}</span>
+    <p class="blog-archive-entry-meta">{{ entry.published_timestamp|date:"DATE_FORMAT" }}{% if entry.author %} by {{ entry.author }}{% endif %}</p></span></li>
+{% endfor %}
+</ul>
+</div>
