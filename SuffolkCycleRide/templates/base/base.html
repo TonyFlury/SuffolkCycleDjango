@@ -48,7 +48,51 @@
     <script type="text/javascript">
         {% block page_scripts %}
         {% endblock %}
+
+        function resetHeaderFooterWidths() {
+            var width = window.innerWidth
+                            || document.documentElement.clientWidth
+                            || document.body.clientWidth ;
+            var gap = (width - 1000)/2;
+
+            $('#Site_Background').css('width', (width).toString() + "px" );
+
+            $.each( $('.Site_Root'), function(){
+                    $( this ).css('margin-left', gap.toString() + "px");
+                    $( this ).css('margin-right', gap.toString() + "px");
+            });
+
+            $.each( $('.strip'), function(){
+                    $( this).css('left', (-gap).toString() + "px" );
+                    $( this).css('width', (width).toString() + "px" );
+                });
+
+            $.each( $('#header_bg'), function(){
+                    $( this).css('left', (-gap).toString() + "px" );
+                    $( this).css('width', (width).toString() + "px" );
+                });
+
+
+            $.each( $('#footer_bg'), function (){
+                    $( this).css('left', (-gap).toString() + "px" );
+                    $( this).css('width', (width).toString() + "px" );
+                });
+        }
+
+        $(document).ready(function(){
+                    resetHeaderFooterWidths();
+                });
+
+        $(window).resize(function(){
+                    resetHeaderFooterWidths();
+         });
+
     </script>
+
+    <noscript>
+        {% block no_page_scripts %}
+        {% endblock %}
+    </noscript>
 
 </head>
 <body>
@@ -100,21 +144,28 @@
             {{ content }}
             {% endblock %}
 
-            <div style="height:41px"></div> <!-- Spacer for footer -->
         </div>
 
         <!-- The footer information - copyright info -->
         <div id='footer'>
             <div id='footer_bg'></div>
-            <div align='center' class="white centered vsmall" style="top:10px">
-                <div style="float:left">
+            <div class="white centered vsmall" style="top:10px">
+                <table class="white vsmall">
+                    <tr>
+                <td align="left" class="white">
                     {% now "Y" as year %}
-                Created by Tony Flury &copy; {{ year }} - The Great Suffolk Cycle Ride</div>
-                <div style="float:right">{% now " D d M Y h:i A" %}</div>
+                Created by Tony Flury &copy; {{ year }} - The Great Suffolk Cycle Ride</td>
+                <td align="right" class="white">{% now " D d M Y h:i A" %}</td>
+                        </tr>
+                    <tr>
+                <td align="left" class="white">Credits</td><td align="right" class="white">Contact Us</td>
+                    </tr>
+                </table>
             </div>
         </div>
 
     </div>
+
 </div>
 
 </body>
