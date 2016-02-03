@@ -10,7 +10,8 @@ app_name = "blog"
 urlpatterns = [
 
     # Main view with optional page
-    url(r'^(page/(?P<page>\d+)/)?$', Main.as_view(), name="Main"),
+    url(r'^$', Main.as_view(), name="Main"),
+    url(r'^page/(?P<page>\d+)$', Main.as_view(), name="Main"),
 
     # Direct access by slug (one article - no paging)
     url(r'^article/(?P<slug>\w+)$', Detail.as_view(), name="Detail"),
@@ -24,6 +25,4 @@ urlpatterns = [
     url(r'^archive/(?P<year>\d{4})/page/(?P<page>\d+)$', Main.as_view(), name="Archive"),
     url(r'^archive/(?P<year>\d{4})/(?P<month>\d{2})$', Main.as_view(), name="Archive"),
     url(r'^archive/(?P<year>\d{4})/(?P<month>\d{2})/page/(?P<page>\d+)$', Main.as_view(), name="Archive"),
-    url(r'^archive/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d+)$', Main.as_view(), name="Archive"),
-    url(r'^archive/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d+)/page/(?P<page>\d+)$', Main.as_view(), name="Archive"),
 ]

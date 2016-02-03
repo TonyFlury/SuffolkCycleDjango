@@ -18,6 +18,15 @@ div.blog-posts-area {
 	padding-top:0.5em;
 }
 
+div.blog-posts-area div.blog-post:first-child {
+    margin-top: 0.5em;
+ }
+
+div.blog-posts-area div.blog-post:last-child {
+    margin-bottom: 2em;
+    padding-bottom: 4em;
+}
+
 div.blog-sidebar {
 	float: right;
 	width: 25%;
@@ -46,35 +55,33 @@ h5.sidebar-title {
     border-bottom: thin dashed grey
 }
 
+.sub-header {
+	text-align: center;
+	width: 100%;
+	margin: 1em 0em 2em;
+	background: rgb(7, 230, 222) none repeat scroll 0% 0%;
+	padding: 1em 0em;
+}
+
+.sub-header a {
+    font-weight:normal;
+    color: grey;
+}
+
 /*
 Formats within the blog post
 */
 .blog-post {            /* Each blog post has it's own div */
-  padding-bottom: 1em;
+  padding-bottom: 0.5em;
   margin-bottom: 1em;
   border-bottom: thin dashed #333;
 }
-
-div.blog-post:first-child {
-    margin-top: 1em;
- }
 
 .blog-post .blog-title {
     font-family: "fredericka the great",fantasy;
     font-size:2.6em;
     text-align: center;
     color: white;
-}
-
-.blog-post .blog-post-meta {
-    font-family: "Open Sans",sans-serif;
-    font-size: 1em;
-    font-style: italic ;
-    font-weight: bold ;
-    color: #633;
-    text-align: right;
-    margin-top: 0.1em;
-    padding-top: 0.1em;
 }
 
 .blog-post .blog-content {
@@ -84,6 +91,7 @@ div.blog-post:first-child {
     border: thin inset grey;
     padding: 0.5em;
     padding-top: 1em;
+    margin-bottom: 0.2em;
     color: #F8F8F8;
     }
 
@@ -110,38 +118,57 @@ div.blog-post:first-child {
     font-style: italic
     }
 
+.blog-post .post-extra {
+    margin-top:0.5em;
+    background: #00CFC8;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+}
 
+.blog-post .blog-post-meta {
+    font-style: italic ;
+    font-weight: bold ;
+    float:right;
+    display: inline;
+}
 
+.blog-post .post-tags {
+    margin-top:0.5em;
+    display: inline;
+}
 
+.blog-post .post-tags .tag {
+    display: inline;
+    margin-left: 0.3em;
+    margin-right: 0.3em;
+}
 
-/*
- * Main column and sidebar layout
- */
-
-.
+.blog-post .post-tags .tag:not(:last-child) ::after {
+    content: ",";
+}
 
 
 /* Pagination */
-.pager {
-  margin-bottom: 60px;
-  text-align: left;
-}
-.pager > li > a {
-  width: 140px;
-  padding: 10px 20px;
-  text-align: center;
-  border-radius: 30px;
+
+table#pagination {
+    width:100%;
+    margin-bottom:4em;
 }
 
 
 /*
- * Blog posts
+ * Blog Archive
  */
 
 .blog-archive-entry {
+  margin-left: 0.5em;
   margin-bottom: 5px;
-  font-size: 1em;
-  color:white
+  color:white;
+
+}
+
+.blog-archive-entry a {
+    font-weight: normal;
 }
 
 .blog-archive-entry-meta {
@@ -153,7 +180,6 @@ div.blog-post:first-child {
   margin: 0.1em 0.3em;
   text-align: center;
 }
-
 
 
 h2.blog-archive-list {
@@ -175,19 +201,97 @@ h5.blog-archive-title {
     border-bottom: thin dashed grey
 }
 
-ul.archive-list {
-    list-style: none ;
+div.archive-list {
     margin: 0.3em 0.1em;
     padding: 0.1em;
+    position: relative;
 }
+
+div.archive-year {
+    padding-left: 0em;
+    position:relative;
+}
+
+span.archive-year {
+    font-size:0.75em;
+}
+
+span.archive-year:hover {
+    cursor:pointer;
+}
+
+div.archive-year-content {
+    padding-left: 1em;
+    display: None ;
+    position:relative;
+}
+
+div.archive-month {
+    padding-left: 0.2em;
+    position:relative;
+}
+
+span.archive-month {
+    font-size:0.75em;}
+
+span.archive-month:hover {
+    cursor:pointer;
+}
+
+
+div.archive-month-content {
+    padding-left: 1em;
+    display: None ;
+    position:relative;
+}
+
+/*
+* Arrows before the Year and Month
+*/
+
+/* Down arrow when span is marked as 'visible' */
+span.archive-year.archive-visible::before,
+span.archive-month.archive-visible::before {
+content: '\A';
+position:relative;
+left:-0.5em;
+top: -0.2em;
+width: 0;
+height: 0;
+border-style: solid;
+border-width: 6.9px 4px 0 4px;
+border-color: #000000 transparent transparent transparent;
+display:inline-block;
+}
+
+/* Down arrow when span is marked as 'visible' */
+span.archive-year:not(.archive-visible)::before,
+span.archive-month:not(.archive-visible)::before {
+content: '\A';
+position:relative;
+left:-0.5em;
+top: -0.2em;
+width: 0;
+height: 0;
+border-style: solid;
+border-width: 4px 0 4px 6.9px;
+border-color: transparent transparent transparent #000;
+display:inline-block;
+}
+
+/* The Archive visible makes the block visible - doesn't do anything on spans (so Years are always visible) */
+div.archive-visible {
+    display:block;
+}
+
 
 /*
 * Tag Cloud
 */
-.blog_tag_list {
+.blog_tag_cloud {
 }
 
-.tag {
+.blog_tag_cloud .tag {
 }
 
 .tag.lower {
@@ -201,7 +305,7 @@ ul.archive-list {
 }
 
 .tag.upper {
-    font-size : 1em;
+    font-size : 1.0em;
     font-weight: bold;
     color : #FFF;
 }

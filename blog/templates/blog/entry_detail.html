@@ -1,41 +1,23 @@
 {% extends "blog/base.html" %}
 
-{% block blog_meta %}
-    <meta name="description" content="Latest blog entries">
+{% block description %}
+{{ entry.title }}
 {% endblock %}
 
-{% block content %}
 
-    <div style="display:inline-block">
+    {% block blog-sub-title %}{{ entry.title }}{% endblock %}
 
-        <div class="blog-main-content">
-        {% block blogEntries %}
-            <div class="col-sm-10 blog-main">
-                <div class="blog-post">
-                    <h4 class="blog-post-title"><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a>{% if not entry.is_published %} <span class="label label-default">Draft</span>{% endif %}</h4>
-                    <p class="blog-post-meta">{{ entry.published_timestamp|date:"DATE_FORMAT" }}{% if entry.author %} by {{ entry.author|authordisplay }}{% endif %}</p>
-                    <div class="white small" style="margin-left:10%; margin-right:10%;">
-                        {{ entry.content }}
-                    </div>
-                </div><!-- /.blog-post -->
-            </div>
+    {% block blog_page_title %}
+    {% endblock %}
+
+        {% block blog-content %}
+            {% include "blog/single_post.html" %}
         {% endblock %}
-        </div>
 
-        <div class="blog-sidebar">
-            <div class="blog-entry-list">
-                <h5 class="blog-post-list-title">Blog Post List</h5>
-                <ul class="post-list">
-                {% for entry in entries %}
-                   <li><span><span class="blog-post-title vsmall"><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a>{% if not entry.is_published %} <span class="label label-default">Draft</span>{% endif %}</span>
-                    <p class="blog-post-meta">{{ entry.published_timestamp|date:"DATE_FORMAT" }}{% if entry.author %} by {{ entry.author|authordisplay }}{% endif %}</p></span></li>
-                {% endfor %}
-                </ul>
-            </div>
-        </div>
-
-    </div>
-{% endblock %}
+    {%block blog-sidebar %}
+            {% include "blog/tag_sub_list.html" %}
+            {% include "blog/archive_sub_list.html" %}
+    {% endblock %}
 <!--
 {% include "andablog/pagination_snippet.html" with page_obj=page_obj %}
 -->

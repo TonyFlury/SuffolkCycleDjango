@@ -2,23 +2,28 @@
 
 {% load markitup_tags %}
 
-{% block blog_meta %}
-    <meta name="description" content="Latest blog entries">
-    {% markitup_media %}
+{% block description %}
+Latest blog entries
 {% endblock %}
+
+{% block blog-sub-title %}Latest blog entries{% endblock %}
 
     {% block blog_page_title %}
     {% endblock %}
 
     {% block blog-content %}
+        {% if args.tag %}
+            <div class="sub-header">
+                <span style="margin-right:1em;">Displaying all posts labelled <strong>{{ args.tag }}</strong>.</span><a href="{% url 'blog:Main' %}">Show all posts</a>.
+            </div>
+        {% endif %}
+        {% if args.year %}
+            <div class="sub-header">
+                <span style="margin-right:1em;">Displaying all posts dated from {{ args.month_name }} {{ args.year }}.</span><a href="{% url 'blog:Main' %}">Show all posts</a>.
+            </div>
+        {% endif %}
         {% for entry in entries %}
-            <div class="blog-post">
-                <div class="blog-title"><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a>{% if not entry.is_published %} <span class="label label-default">Draft</span>{% endif %}</div>
-                <p class="blog-post-meta">{{ entry.pub_date|date:"DATE_FORMAT" }}{% if entry.author %} by {{ entry.author }}{% endif %}</p>
-                <div class="blog-content">
-                    {{ entry.content }}
-                </div>
-            </div><!-- /.blog-post -->
+            {% include "blog/single_post.html" %}
         {% endfor %}
     {% endblock %}
 

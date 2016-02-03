@@ -46,7 +46,7 @@ def validate(model, field, value):
 
 class Tag(models.Model):
     name = models.CharField(max_length=20, blank=False)
-    slug = models.CharField(max_length=20, primary_key=True, editable=False)
+    slug = models.CharField(max_length=20, db_index=True, editable=False)
     is_permanent = models.BooleanField(default=False, null=False)
 
     @classmethod
