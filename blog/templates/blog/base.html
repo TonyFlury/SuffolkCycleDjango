@@ -2,24 +2,77 @@
 
 {% load staticfiles %}
 
+{% block head_meta %}
+    {% load markitup_tags %}
+    <meta name="description" content="{% block description %}Latest Blog Entries{% endblock %}">
+    {% markitup_media %}
+{% endblock %}
+
 {% block title %}
 {%block blog-title %}Suffolk Cycle Ride 2016{% endblock %}-{% block blog-sub-title %}{% endblock %}
+{% endblock %}
+
+
+{% block page_scripts %}
+$(document).ready(function(){
+
+    /*
+    * When a year is clicked on need to either open (or close) the content below it.
+    */
+    $('span.archive-year').bind('click', function(){
+        $( this ).toggleClass('archive-visible');
+
+        /* Collapse all of the content below what was clicked on */
+        if ($( this ).hasClass('archive-visible')) {
+            $( this ).parent().children('div.archive-year-content').addClass('archive-visible');
+        }
+        else {
+            $( this ).parent().find('div.archive-visible').removeClass('archive-visible');
+            $( this ).parent().find('span.archive-visible').removeClass('archive-visible');
+        }
+    });
+
+    $('span.archive-month').bind('click', function(){
+        $( this ).parent().children('div.archive-month-content').toggleClass('archive-visible');
+        $( this ).toggleClass('archive-visible');
+    });
+
+});
 {% endblock %}
 
 {% block page_styles_links %}
         <link rel="stylesheet" href="{% static 'blog/css/blog.css' %}">
 {% endblock %}
 
+{% block no_page_scripts %}
+<!-- Make sure that all blocks display when javascript is enabled -->
+<style>
+    div.archive-year-content {
+        display: block; }
+
+    div.archive-month-content {
+        display: block; }
+
+    span.archive-year:hover {
+        cursor:auto; }
+
+    span.archive-month:hover {
+        cursor:auto; }
+
+</style>
+{% endblock %}
+
 {% block content %}
 
     {% block blog_page_title %}
     {% endblock %}
-
     <div class="blog-main-area">
 
         <div class="blog-posts-area">
             {% block blog-content %}
             {% endblock %}
+
+            {% include 'blog/blog_pagination.html' %}
         </div>
 
         <div class="blog-sidebar">
@@ -28,3 +81,4 @@
         </div>
     </div>
 {% endblock %}
+
