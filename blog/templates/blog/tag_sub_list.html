@@ -2,7 +2,9 @@
     <div class="blog_tag_cloud">
     <h5 class="sidebar-title">Labels</h5>
 {% for tag in tags %}
-   <span class="tag {{ tag.category }}"><a href="{{ tag.get_absolute_url }}">{{ tag.name }}</a></span>&nbsp;
+   <span class="tag {{ tag.category }}">
+       <a class='' href="{{ tag.get_absolute_url }}">{{ tag.name }}</a>
+   </span>
 {% endfor %}
     </div>
 </div>

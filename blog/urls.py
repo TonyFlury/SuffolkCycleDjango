@@ -14,11 +14,11 @@ urlpatterns = [
     url(r'^page/(?P<page>\d+)$', Main.as_view(), name="Main"),
 
     # Direct access by slug (one article - no paging)
-    url(r'^article/(?P<slug>\w+)$', Detail.as_view(), name="Detail"),
+    url(r'^article/(?P<slug>[\w-]+)$', Detail.as_view(), name="Detail"),
 
     # Search by tag (main article - supports paging)
-    url(r'^search/(?P<tag_slug>\w+)$', Main.as_view(), name="Search"),
-    url(r'^search/(?P<tag_slug>\w+)/page/(?P<page>\d+)$', Main.as_view(), name="Search"),
+    url(r'^search/(?P<tag_slug>[\w-]+)$', Main.as_view(), name="Search"),
+    url(r'^search/(?P<tag_slug>[\w-]+)/page/(?P<page>\d+)$', Main.as_view(), name="Search"),
 
     # Search by date with paging
     url(r'^archive/(?P<year>\d{4})/$', Main.as_view(), name="Archive"),

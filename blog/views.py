@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
 from django.views.generic import View
-from django.db.models import Q, F, Count, Case, When, Avg, Value, CharField
-
+from django.db.models import Q, F, Count, Case, When, Avg, StdDev, Value, CharField
+from aggregates import StdDev
 import calendar
 from collections import Counter
+from math import sqrt
+
 
 # Create your views here.
 
@@ -14,6 +16,21 @@ import models
 class BlogMixin(object):
 
     def get_archive(self, request, display_year=None, display_month=None):
+        """ Generate a structured list which described the calendarised archive
+
+            This has to :
+                Have a list of years to display and within each list, have a list of months
+                Indicate whch year and which month should be displayed initially
+                                        (based on which entry is being displayed -if any)
+
+                Note : It might be possible to refactor this so that the raw data is passed to the template and
+                using regroup etc the template displays the data, but this works - and there is no compelling reason
+                to change this.
+
+            :param request : The WSGI request which triggers this archive display, used to identify if draft documents should be displayed.
+            :param display_year : The year (integer or None) which should be opened by default when this archive is displayed
+            :param display_month : The month (integer or None) which should be opened by default when this archive is displayed
+        """
 
         if not request.user.is_anonymous():
             archive = models.Entry.objects.filter( Q(is_published = True) | Q( is_published=False, author = request.user )).order_by("-pub_date")
@@ -35,7 +52,7 @@ class BlogMixin(object):
         # Within each month, the entries are presented as a list of Entry Instances
         # This nested structure year -> months -> Entries makes display of Archive simple - a set of nested lists.
         organised_archive = []
-        this_year, this_month = 1970, 0 # Use silly data to start to keep track of new years and months
+        this_year, this_month = None, None # Use silly data to start to keep track of new years and months
         for entry in archive:
             # Has the year changed ? If so, buid a new year dictionary.
             if entry.pub_date.year != this_year:
@@ -46,7 +63,7 @@ class BlogMixin(object):
                                           'visible': (this_year == display_year),})
                 year_archive = organised_archive[-1]['content']
                 # Use an invalid month number so we always build at least one month entry.
-                this_month = 0
+                this_month = None
 
             # Has the month changed ? If so, build a new month dictionary.
             if entry.pub_date.month != this_month:
@@ -70,25 +87,27 @@ class BlogMixin(object):
             Maybe better to use MODE - i.e. the most frequent count.
             Using mode ensures that the largest number of labels are in the 'average' category
         """
-        average = models.Tag.objects.\
+        data = models.Tag.objects.\
             annotate(num_entries = Count('entries')).\
-            filter(num_entries__gt = 0).\
-            aggregate(Avg('num_entries'))['num_entries__avg']
+            filter(num_entries__gt = 0).aggregate(mean=Avg('num_entries'), std_dev=StdDev('num_entries'))
+
+        mean, std_dev = data['mean'], data['std_dev']
 
         counts = models.Tag.objects.\
             annotate(num_entries = Count('entries')).\
             filter(num_entries__gt = 0).values_list('num_entries')
         mode = Counter([f[0] for f in counts]).most_common(1)[0][0]
 
-        # Fetch all the relevant tags, filtering out Tags with no entries, and recording categories based on the Average
+        # Fetch all the relevant tags, filtering out Tags with no entries,
+        # and recording categories based on the Average & std_dev
+        # Scope for category above upper (mean + 2*std_dev) etc
         return models.Tag.objects.\
                     annotate(num_entries = Count('entries')).\
                     filter(num_entries__gt = 0).\
                     annotate(average=Avg('entries')).\
                     annotate(category=Case(
-                                When(num_entries__gt = mode, then=Value('upper')),
-                                When(num_entries = mode, then=Value('avg')),
-                                When(num_entries__lt = mode, then=Value('lower')),
+                                When(num_entries__gt = mean+std_dev, then=Value('upper')),
+                                When(num_entries__lt = mean-std_dev, then=Value('lower')),
                                 default=Value('avg'),
                                 output_field = CharField() ) )
 

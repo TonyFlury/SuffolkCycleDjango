@@ -11,7 +11,7 @@
                         <div class="archive-month-content {% if month.visible %}archive-visible{% endif %}">
                             {% for entry in month.content %}
                                 <div class="archive-entry">
-                                    <span class="blog-archive-entry vsmall">
+                                    <span class="blog-archive-entry small">
                                         <a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a>
                                         {% if not entry.is_published %}
                                          <span class="label label-default">Draft</span>
