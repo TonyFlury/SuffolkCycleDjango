@@ -27,8 +27,9 @@ class BlogMixin(object):
         """
         # Archive list consists of every published post - regardless of filtering
         archive = models.Entry.objects.filter(is_published = True).order_by("-pub_date")
+
         if not archive:
-            return archive
+            return {'list': archive, 'display_year': None, 'display_month' : None }
 
         # Normalise display_year and display_month arguments if not given : default to the most recent entry
         if display_year is None and display_month is None:
