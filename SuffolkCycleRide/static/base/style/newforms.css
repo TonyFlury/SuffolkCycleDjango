@@ -1,16 +1,19 @@
 div.form {
-    background-color: 005551;
+    background-color: #005551;
     display: block ;
-    color : 9AE7E4 ;
+    color : #9AE7E4 ;
     border-radius: 25px;
     width:auto;
     padding: 1em;
     margin: .01em ;
 }
 
+div.form th {
+    background-color: inherit;
+    }
+
 form {
     margin-bottom : 0.1em;
-
 }
 
 form td {
@@ -33,7 +36,7 @@ div.description {
 /* ----------------------------------------------  Inputs, textareas and selects  ---------------------------------------------- */
 
     label {
-        font-size: 0.8em;
+        font-size: 1em;
         color: white;
         font-weight: bold;
     }

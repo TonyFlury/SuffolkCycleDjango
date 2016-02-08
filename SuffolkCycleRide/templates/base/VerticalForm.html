@@ -10,8 +10,8 @@
     <div >
         {% for form in forms %}
             <div class="form" style="margin-left: 25%; margin-right:25%;">
-                <span class="special_font large">{% block form-name %}{{ form.name }}{% endblock %}</span>
-                <div class="description small">{% block description %}{{ form.description }}{% endblock %}</div>
+                <span class="special_font xlarge">{% block form-name %}{{ form.name }}{% endblock %}</span>
+                <div class="description">{% block description %}{{ form.description }}{% endblock %}</div>
                 {% block form-content %}
                 <form method="post" action="">
                     {% csrf_token %}

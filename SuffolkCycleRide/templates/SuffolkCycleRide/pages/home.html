@@ -9,10 +9,10 @@ Great Suffolk Bike Ride 2016 = Home Page
 {% block content %}
 <!-- Intro -->
     <div class="content-section">
-        <h4>Help Fight Cancer with the</h4>
-        <h2>Great Suffolk</h2>
-        <h2>Cycle Ride</h2>
-        <h2>2016</h2>
+        <h2 style="font-size:300%;margin-top:0px;">Help Fight Cancer with the</h2>
+        <h1 style="font-size:600%;margin-top:0px;">Great Suffolk</h1>
+        <h1 style="font-size:600%;margin-top:0px;">Cycle Ride</h1>
+        <h1 style="font-size:600%;margin-top:0px;">2016</h1>
         <div style="position:absolute; top:150px; left:600px">
             <img width="329" height="229" src="{% static 'SuffolkCycleRide/images/suffolk09s.gif' %}">
         </div>
@@ -26,81 +26,81 @@ Great Suffolk Bike Ride 2016 = Home Page
     <div class="content-section">
     <div class="BtnStrip">
         <div class="BtnBar"></div>
-        <div class='BigBtnOuter' style='left:100px;'>
-            <a class='BigBtn'>
-                <span class='BigBtnTxt'>Get Involved</span>
-            </a>
-        </div>
-        <div class='BigBtnOuter' style='left:200px;'>
-            <a class='BigBtn'>
-                <span class='BigBtnTxt'>Sponsor Us</span>
-            </a>
+        <div class="Btns">
+            <div class='BigBtnOuter'style="float:left;"'>
+                <a class='BigBtn' >
+                    <span class='BigBtnTxt'>Get Involved</span>
+                </a>
+            </div>
+            <div class='BigBtnOuter' style="float:right;">
+                <a class='BigBtn'>
+                    <span class='BigBtnTxt'>Sponsor Us</span>
+                </a>
+            </div>
         </div>
     </div>
     </div>
     <!-- Read More -->
 
-    <div class="content-section" style="margin-top:100px; padding-bottom:80px;">
+    <div class="content-section" style="margin-top:100px; padding-bottom:70px;">
         <img style="position:absolute; top:-70px" src="{% static 'SuffolkCycleRide/images/hands.png' %}"/>
-        <div class="strip whitebackground" style="height:310px;"></div>
-        <div class="blue small" style="position:relative">
+        <div class="strip whitebackground"></div>
+        <div class="blue" style="position:relative">
             <div align="center">
-                <h4 class="red">About</h4>
+                <h1 class="red">About</h1>
                 Planned for Summer 2016, the Great Suffolk Cycle Ride is a multi stage charity cycling event, either passing
                 through or near every major population center in Suffolk, from Lowestoft to Ipswich, Felixstowe to Sudbury
                 and many more.<br>
             </div>
-            <div style="align:left;">
+            <div style="align:left;margin:10px;">
                 <a>
-                    <span class="blue medium special_font">Read More
+                    <span class="blue large special_font">Read More
                         <img style="vertical-align:bottom;" src="{% static 'SuffolkCycleRide/images/arrow.png' %}"/>
                     </span>
                 </a>
             </div>
             <div id="SponsorBar">
-                <div style="margin: 20px 0px 0px; border-bottom: 2px dashed rgb(0, 183, 177);"></div>
-                <div style="position:relative;">
-                    <span style="vertical-align:middle;" class="blue large special_font">Sponsors:</span>
+                <div style="float:left">
+                    <span style="vertical-align:middle;" class="blue xxlarge special_font">Sponsors:</span>
                     <span style="margin-left:50px; vertical-align:middle;" class="small">Your Company Logo Here ?</span>
-                    <div class='ShapeBtnOuter' style='left:400px;'>
-                        <span class='ShapeBtnTxt'>
-                            <a class='ShapedButton' style="text-align:center;">
-                                Sponsor&nbsp;Us
-                            </a>
-                        </span>
-                    </div>
                 </div>
-                <div style="margin: 10px 0px 0px; border-bottom: 2px dashed rgb(0, 183, 177);"></div>
-            </div>
+                <div class='ShapeBtnOuter' style='float:right;margin-right:10px;'>
+                    <span class='ShapeBtnTxt'>
+                        <a class='ShapedButton' style="text-align:center;">
+                            Sponsor&nbsp;Us
+                        </a>
+                    </span>
+                </div>
+           </div>
         </div>
     </div>
 
     <div class="content-section" style="padding-bottom:20px">
         <img style="position:absolute; top:-50px" src="{% static 'SuffolkCycleRide/images/binding.png' %}"/>
-        <div class="strip redbackground" style="height:240px;"></div>
-        <div class="white small">
-                <h3 style="position:relative;display:inline;" class="lightblue">Blog</h3>
-                <img style="position:absolute; left:150px;" src="{% static 'SuffolkCycleRide/images/clock.png' %}"/>
-                <div align="left" style="position:relative;margin-top:2em;">
-                    As we make our plans for the Great Suffolk Cycle Ride 2016 - We will keep our blog up to date. Take a read,
-                    you might discover some way that you can be involved and inspired.
-                </div>
+        <div class="strip redbackground"></div>
 
-                <div class='ShapeBtnOuter' style='left:400px;'>
-                    <span class='ShapeBtnTxt'>
-                        <a class='ShapedButton' style="text-align:center;">
-                        Our&nbsp;Blog
-                        </a>
-                    </span>
-                </div>
+        <h1 style="position:relative;display:inline;font-size:400%;top:10px;" class="lightblue">Blog</h1>
+        <img style="position:absolute; left:150px;" src="{% static 'SuffolkCycleRide/images/clock.png' %}"/>
+        <div align="left" class="white" style="position:relative;margin-top:2em;">
+            As we make our plans for the Great Suffolk Cycle Ride 2016 - We will keep our blog up to date. Take a read,
+            you might discover some way that you can be involved and inspired.
+        </div>
+        <div style="position:relative;margin:auto;width:30%;margin:auto;padding:10px 0;">
+            <div class='ShapeBtnOuter' style='align;center;'>
+                <span class='ShapeBtnTxt'>
+                    <a class='ShapedButton' style="text-align:center;">
+                    Our&nbsp;Blog
+                    </a>
+                </span>
+            </div>
         </div>
     </div>
 
-    <div class="content-section" style="margin-bottom:65px" >
+    <div class="content-section" style="margin-bottom:75px" >
         <img  style="display:inline" src="{% static 'SuffolkCycleRide/images/stamp.png' %}"/>
-        <h2 style="position:absolute; top:20px; display:inline">Thank&nbsp;<span class="red">You</span></h2>
+        <h1 style="font-size:400%;position:absolute; top:20px; display:inline">Thank&nbsp;<span class="red">You</span></h1>
         <div align="center">
-                <span class="medium special_font"><span class="normal">Follow us on</span>
+                <span class="xlarge special_font"><span class="normal">Follow us on</span>
                     <a class="black"
                        href="https://www.facebook.com/groups/GreatSuffolkCycleRide">Facebook</a>&nbsp;|&nbsp;<a
                             class="black" href="https://twitter.com/SuffolkCycle16">Twitter</a>

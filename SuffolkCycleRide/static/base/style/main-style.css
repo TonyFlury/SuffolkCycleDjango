@@ -3,6 +3,7 @@
 body {
     background-color: #00B7B1;
     font-family: "Open Sans",sans-serif;
+    font-size: 14pt;
 }
 
 .special_font {
@@ -110,7 +111,7 @@ margin: 0;
 
 div.content-section {
     position: relative;
-    margin-top:10px;
+    margin-top:0px;
 }
 
 div.strip {
@@ -121,10 +122,17 @@ div.strip {
 	left: 0px;
 	width: 1397px;
 	left: -220px;
+	height:100%
 }
 
 #SponsorBar {
-top: 220px; width:100%;
+    width:100%;
+    height:100%;
+    margin: 20px 0px;
+    padding:5px 5px;
+    border-bottom: 2px dashed rgb(0, 183, 177);
+    border-top: 2px dashed rgb(0, 183, 177);
+    overflow:auto;
 }
 
 /* ------------------- Menu bar -------------------------------- */
@@ -163,35 +171,33 @@ span.special_font a {
   text-decoration: none;
 }
 
+.xxlarge {
+    font-size: xx-large;
+}
+
 .xlarge {
-    font-size: 40px;
-    line-height: 44px ;
+    font-size: x-large;
 }
 
 .large {
-    font-size: 30px;
-    line-height: 33px ;
+    font-size: large;
 }
 
 .medium {
-    font-size: 24px;
-    line-height:26px ;
+    font-size: medium;
 }
 
 .normal {
-    font-size: 20px;
-    line-height: 24px ;
+    font-size: 1em;
 }
 .small
 {
-    font-size: 16px ;
-    line-height: 18px ;
+    font-size: small ;
 }
 
 .vsmall
 {
-    font-size: 14px;
-    line-height: 15px ;
+    font-size: x-small;
 }
 
 
@@ -199,15 +205,16 @@ h1 {
     margin: -0.25em 0 0 0;
     padding: 0;
     color: white ;
-    font: 140px/1.4em "fredericka the great",fantasy;
+    font: 300% "fredericka the great",fantasy;
     line-height:normal;
+    margin-top:0.2em;
 }
 
 h2 {
     margin: -0.25em 0 0 0;
     padding: 0;
     color: white ;
-    font: 116px/1.4em "fredericka the great",fantasy;
+    font: 250% "fredericka the great",fantasy;
     line-height:normal;
 }
 
@@ -215,17 +222,15 @@ h3 {
     margin: 0px;
     padding: 0px;
     color: white ;
-    font: 80px/1.4em "fredericka the great",fantasy;
-    line-height:normal;
+    font: 150% "fredericka the great",fantasy;
 }
 
 h4 {
     margin: 5px 0px 10px 0px;
     padding: 0px;
     color: white ;
-    font: 50px/1.4em "fredericka the great",fantasy;
-    line-height:normal;
-    line-height:45px;
+    font: 150% "fredericka the great",fantasy;
+    font-style: italic;
 }
 
 div.BigBtnOuter {
@@ -243,13 +248,18 @@ div.BigBtnOuter {
 div.BtnStrip {
     height:100px;
     margin-top:25px;
-    margin-bottom:25px;
+    padding-bottom:50px;
+}
+
+div.Btns {
+padding-left:75px;
+padding-right:75px;
 }
 
 div.BtnBar {
 	position: relative;
 	background-color: #000;
-	width: 980;
+	width: 100%;
 	height: 5px;
 	top: 50px
 }
@@ -269,20 +279,6 @@ a.BigBtn {
 	box-shadow: 1px 1px #1A1A1A, 3px 3px #1A1A1A, 5px 5px #1A1A1A, 7px 7px #1A1A1A, 9px 9px #1A1A1A;
 	text-align: center;
 }
-
-div.ShapeBtnOuter {
-    display: inline;
-    position: relative;
-	top: 0px;
-	right: 0px;
-	bottom: 0px;
-	left: 0px;
-	width:200px;
-	height:50px;
-	min-height:50px;
-
-}
-
 span.BigBtnTxt {
     font: 50px/1.4em "Fredericka the Great",fantasy;
     color: white ;
@@ -294,13 +290,15 @@ span.BigBtnTxt {
     display: inline-block ;
 }
 
+
+div.ShapeBtnOuter {
+    display: inline;
+    position: relative;
+}
+
 a.ShapedButton
 {
 	border-radius: 40px 0px;
-	top: 0px;
-	right: 0px;
-	bottom: 0px;
-	left: 0px;
 	background-color: #67CFCB;
 	transition: border-color 0.4s ease 0s, background-color 0.4s ease 0s;
 	box-shadow: 4.6px 3.86px 9px 2px rgba(0, 0, 0, 0.6);
@@ -323,8 +321,6 @@ span.ShapeBtnTxt {
     width:auto;
     display: inline-block ;
 }
-
-
 
 div.whitebackground {
 background-color: white
