@@ -5,7 +5,8 @@ from django.db.models import Q, F, Count, Case, When, Avg, StdDev, Value, CharFi
 from aggregates import StdDev
 import calendar
 from collections import Counter
-from math import sqrt
+
+from aggregates import StdDev, Mode
 
 
 # Create your views here.
@@ -14,72 +15,27 @@ import models
 
 
 class BlogMixin(object):
+    max_per_page = 10            # Number normally allowed per page
+    pagination_orphans = 5       # Minimum allowed per page
 
     def get_archive(self, request, display_year=None, display_month=None):
-        """ Generate a structured list which described the calendarised archive
-
-            This has to :
-                Have a list of years to display and within each list, have a list of months
-                Indicate whch year and which month should be displayed initially
-                                        (based on which entry is being displayed -if any)
-
-                Note : It might be possible to refactor this so that the raw data is passed to the template and
-                using regroup etc the template displays the data, but this works - and there is no compelling reason
-                to change this.
+        """ Generate a query set which list which provides a calendarised archive
 
             :param request : The WSGI request which triggers this archive display, used to identify if draft documents should be displayed.
             :param display_year : The year (integer or None) which should be opened by default when this archive is displayed
             :param display_month : The month (integer or None) which should be opened by default when this archive is displayed
         """
+        # Archive list consists of every published post - regardless of filtering
+        archive = models.Entry.objects.filter(is_published = True).order_by("-pub_date")
 
-        if not request.user.is_anonymous():
-            archive = models.Entry.objects.filter( Q(is_published = True) | Q( is_published=False, author = request.user )).order_by("-pub_date")
-        else:
-            archive = models.Entry.objects.filter(is_published = True).order_by("-pub_date")
-
-        # Use year and month arguments to identify which entry in the Archive to display
-        # If neither is set - ensure that the year/month with the latest entry is used.
-        # If year is set and month is not - ensure that the latest entry in that year is used
+        # Normalise display_year and display_month arguments if not given : default to the most recent entry
         if display_year is None and display_month is None:
             display_year, display_month = archive[0].pub_date.year, archive[0].pub_date.month
         elif display_year is not None and display_month is None:
-            qs = archive.filter(pub_date__year = display_year).order_by("-pub_date")
-            display_month = qs[0].pub_date.month
+            # If displaying a year only - get the latest entry in that year to determine the month.
+            display_month =  archive.filter(pub_date__year = display_year).order_by("-pub_date")[0].pub_date.month
 
-        # Construct the archive list in date order.
-        # The archive is sent to the template as a list of dictionaries, one dictionary per year
-        # Within each year,  the months are a list of dictionaries, one dictionary per month.
-        # Within each month, the entries are presented as a list of Entry Instances
-        # This nested structure year -> months -> Entries makes display of Archive simple - a set of nested lists.
-        organised_archive = []
-        this_year, this_month = None, None # Use silly data to start to keep track of new years and months
-        for entry in archive:
-            # Has the year changed ? If so, buid a new year dictionary.
-            if entry.pub_date.year != this_year:
-                this_year = entry.pub_date.year
-                organised_archive.append({'name':this_year,
-                                          'content':[],
-                                          'url':reverse('blog:Archive', kwargs={'year':'{:4d}'.format(this_year)} ),
-                                          'visible': (this_year == display_year),})
-                year_archive = organised_archive[-1]['content']
-                # Use an invalid month number so we always build at least one month entry.
-                this_month = None
-
-            # Has the month changed ? If so, build a new month dictionary.
-            if entry.pub_date.month != this_month:
-                this_month = entry.pub_date.month
-                year_archive.append( {'name':calendar.month_name[this_month],
-                                      'number': "{:02d}".format(this_month), 'content':[],
-                                      'url':reverse('blog:Archive',
-                                                    kwargs={'year':'{:4d}'.format(entry.pub_date.year),
-                                                            'month':'{:02d}'.format(entry.pub_date.month) } ),
-                                      'visible': (this_year == display_year) and (this_month == display_month),
-                                      })
-                month_archive = year_archive[-1]['content']
-
-            month_archive.append(entry)
-
-        return organised_archive
+        return {'list':archive, 'display_year':display_year, 'display_month':display_month}
 
     def get_tag_cloud(self):
         """ Fetch the tag cloud data - categorise the Tags as upper, Average or lower
@@ -89,9 +45,9 @@ class BlogMixin(object):
         """
         data = models.Tag.objects.\
             annotate(num_entries = Count('entries')).\
-            filter(num_entries__gt = 0).aggregate(mean=Avg('num_entries'), std_dev=StdDev('num_entries'))
+            filter(num_entries__gt = 0).aggregate(mode=Mode('num_entries'), mean=Avg('num_entries'), std_dev=StdDev('num_entries'))
 
-        mean, std_dev = data['mean'], data['std_dev']
+        mode, mean, std_dev = data['mode'], data['mean'], data['std_dev']
 
         counts = models.Tag.objects.\
             annotate(num_entries = Count('entries')).\
@@ -111,44 +67,56 @@ class BlogMixin(object):
                                 default=Value('avg'),
                                 output_field = CharField() ) )
 
+    def pagination(self, query_set, page, url_args):
+        """  Split the query set into pages based on the instance paging attributes
+        :param query_set : The fully ordered query set of all the posts filtered by Tag or date
+        :param page : The page being requested
+        :param url_args : The set of arguments required to create the url
+        :return A tuple of the query_set, the url for the previous page, and a url for the next page
+        """
+        # Calculate all the pagination settings
+        total = query_set.count()
+
+        # How many complete pages - and how many left over (potentially)
+        total_pages, orphans = divmod(total, self.max_per_page)
+
+        # Work out where we need to start - it will only ever be the last page which will have orphans
+        start_elem = (page-1)*self.max_per_page
+        remaining = total - (page-1) * self.max_per_page  # How many entries are left to display from this page on
+
+        if remaining >= (self.max_per_page + self.pagination_orphans):
+            query_set, next_page, prev_page = (query_set[start_elem:start_elem + self.max_per_page], page+1, page-1 if page > 1 else None)
+        else:
+            query_set, next_page, prev_page = (query_set[start_elem:], None, page-1 if page > 1 else None)
+
+        return query_set, prev_page, next_page, total_pages if orphans < self.pagination_orphans else total_pages + 1
+
+
 class Main(BlogMixin,View):
     template = "blog/entry_list.html"
-    pagination = 2              # Number normally allowed per page
+    max_per_page = 2              # Number normally allowed per page
     pagination_orphans = 1      # Minimum allowed per page
 
-    def get(self, request, page=0, tag_slug=None, year=None, month=None, day=None):
+    def get(self, request, page=0, tag_slug=None, year=None, month=None):
 
-        page = int(page) if page else 0
+        # Dictionary for arguments to be passed to queryset and pages - need two distinct dictionaries
+        query_args, page_args = {}, {}
 
-        qs = models.Entry.objects.all()
-
-        query_args = {}
-        url_args = {}
-        page_args = {}
-
-        name = "blog:Archive" if (year,month,day) != (None,None,None) else ("blog:Search" if tag_slug else 'blog:Main' )
+        # Normalise the current page
+        page = int(page) if page else 1
 
         if tag_slug:
-            query_args = {'tags__slug': tag_slug}
-            url_args = {'tag_slug': tag_slug}
-            page_args = {'tag': models.Tag.objects.get(slug=tag_slug)}
+            query_args['tags__slug'] = page_args['tag_slug'] = tag_slug
         else:
             if year:
-                query_args['pub_date__year']=year
-                url_args['year'] = year
-                page_args['year'] = year
+                query_args['pub_date__year'] = page_args['year'] = year
                 if month :
-                    query_args['pub_date__month']=month
-                    url_args['month'] = month
-                    page_args['month'] = month
-                    page_args['month_name'] = calendar.month_name[int(month)]
-                    if day :
-                        query_args['pub_date__day']=day
-                        url_args['day'] = day
-                        page_args['day'] = day
+                    query_args['pub_date__month'] =  page_args['month'] = month
 
-        qs = qs.filter(**query_args)
+        # Build the queryset - filter by the relevant arguments,
+        qs = models.Entry.objects.filter(**query_args)
 
+        # furthering filtering  depends on whether this user has their own unpublished posts
         if not request.user.is_anonymous():
             qs = qs.filter( Q(is_published = True) | Q( is_published=False, author = request.user ))
         else:
@@ -156,33 +124,14 @@ class Main(BlogMixin,View):
 
         qs = qs.order_by( "is_published", "-pub_date")
 
-        total = qs.count()
-
-        start_elem = page*self.pagination
-        qs = qs[start_elem:]
-
-        remaining = qs.count() # Count from the start of this page to the end of the list
-
-        if remaining >= (self.pagination + self.pagination_orphans):
-            qs = qs[:start_elem + self.pagination]
-            next_page = True
-        else:
-            next_page = False
-
-        next_url = reverse(name, kwargs=dict([('page', str(page+1))], **url_args) ) if next_page else None
-        prev_url = reverse(name, kwargs=dict([('page', str(page-1))], **url_args) ) if page > 0 else None
-
-        pages, orphans = divmod(page, self.pagination)
-
-        page_args['page'] = page
-        page_args['num_pages'] = pages if orphans < self.pagination_orphans else pages +1
+        # Split the query set into pages : discard the page_count information for now.
+        qs, page_args['prev_page'], page_args['next_page'], _ = self.pagination(qs, page, page_args)
 
         return render(request,self.template, context={
                                     'entries': qs,
-                                    'archive': self.get_archive(request, int(year) if year else None, int(month) if month else None ),
+                                    'archive': self.get_archive( request, int(year) if year else None,
+                                                                          int(month) if month else None ),
                                     'tags': self.get_tag_cloud(),
-                                    'next_url': next_url,
-                                    'prev_url': prev_url,
                                     'args': page_args })
 
 
@@ -201,4 +150,5 @@ class Detail(BlogMixin,View):
                                     'archive': self.get_archive(request, entry.pub_date.year,entry.pub_date.month),
                                     'tags': self.get_tag_cloud(),
                                     'next_url': None,
-                                    'prev_url': None })
+                                    'prev_url': None,
+                                    'args': {} })

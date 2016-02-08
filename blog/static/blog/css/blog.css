@@ -301,17 +301,17 @@ div.archive-visible {
     }
 
 .tag.lower {
-    font-size : 0.5em;
-    color : #AAA;
+    font-size : small;
+    color : #D0D0D0;
 }
 
 .tag.avg {
-    font-size : 0.8em;
-    color : #CCC;
+    font-size : 1.0em;
+    color : #D7D7D7;
 }
 
 .tag.upper {
-    font-size : 1.0em;
+    font-size : 115%;
     font-weight: bold;
     color : #FFF;
 }
