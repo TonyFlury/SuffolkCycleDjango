@@ -71,6 +71,9 @@ class BlogMixin(object):
         :param url_args : The set of arguments required to create the url
         :return A tuple of the query_set, the url for the previous page, and a url for the next page
         """
+        if not query_set:
+            return query_set, None, None, 0
+
         # Calculate all the pagination settings
         total = query_set.count()
 
