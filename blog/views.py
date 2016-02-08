@@ -27,6 +27,8 @@ class BlogMixin(object):
         """
         # Archive list consists of every published post - regardless of filtering
         archive = models.Entry.objects.filter(is_published = True).order_by("-pub_date")
+        if not archive:
+            return archive
 
         # Normalise display_year and display_month arguments if not given : default to the most recent entry
         if display_year is None and display_month is None:
@@ -48,11 +50,6 @@ class BlogMixin(object):
             filter(num_entries__gt = 0).aggregate(mode=Mode('num_entries'), mean=Avg('num_entries'), std_dev=StdDev('num_entries'))
 
         mode, mean, std_dev = data['mode'], data['mean'], data['std_dev']
-
-        counts = models.Tag.objects.\
-            annotate(num_entries = Count('entries')).\
-            filter(num_entries__gt = 0).values_list('num_entries')
-        mode = Counter([f[0] for f in counts]).most_common(1)[0][0]
 
         # Fetch all the relevant tags, filtering out Tags with no entries,
         # and recording categories based on the Average & std_dev
