@@ -51,6 +51,8 @@ class BlogMixin(object):
             filter(num_entries__gt = 0).aggregate(mode=Mode('num_entries'), mean=Avg('num_entries'), std_dev=StdDev('num_entries'))
 
         mode, mean, std_dev = data['mode'], data['mean'], data['std_dev']
+        if not mode or not mean or not std_dev:
+            return []
 
         # Fetch all the relevant tags, filtering out Tags with no entries,
         # and recording categories based on the Average & std_dev
