@@ -1,0 +1,18 @@
+<div class="blog-post">
+    <div class="blog-title"><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a>{% if not entry.is_published %} <span class="label label-default">Draft</span>{% endif %}</div>
+
+    <div class="blog-content">
+        {{ entry.content }}
+    </div>
+    <div class="post-extra">
+        <div class='post-tags white small' >
+            <strong>Labels :</strong>
+        {% for tag in entry.tags.all %}
+            <div class="tag small">
+            <a href="{{ tag.get_absolute_url }}">{{ tag.name }}</a>
+            </div>
+        {% endfor %}
+        </div>
+        <div class="blog-post-meta white small">{{ entry.pub_date|date:"DATE_FORMAT" }}{% if entry.author %} by {{ entry.author }}{% endif %}</div>
+    </div>
+</div><!-- /.blog-post -->

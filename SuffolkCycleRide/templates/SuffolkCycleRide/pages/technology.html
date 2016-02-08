@@ -1,0 +1,62 @@
+{% extends "base/base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}
+Great Suffolk Bike Ride 2016 = Home Page
+{% endblock %}
+
+    {% block page_styles %}
+    table#technology {
+        border-spacing:5px;
+        margin-top: 1em;
+        width:60%;
+    }
+
+    table#technology td {
+        padding: 0.5em ;
+    }
+    {% endblock %}
+
+{% block content %}
+<!-- Intro -->
+    <div class="content-section">
+        <h3 align="center">Technology</h3>
+
+        This website consists of originally written software; designed and developed by Tony Flury.
+
+        The web site would not be possible without the following other technologies :
+
+        <table id='technology'>
+            <tr>
+                <td style="text-align:center;">
+                    <img src="{% static 'SuffolkCycleRide/images/Python400x400.png' %}" width="64" height="64"/>
+                </td>
+                <td style="text-align:center;">
+                    <img src="{% static 'SuffolkCycleRide/images/Django400x400.png' %}" width="64" height="64"/>
+                </td>
+                <td style="text-align:center;">
+                    <img src="{% static 'SuffolkCycleRide/images/jquery400x400.png' %}" width="64" height="64"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Python is an easy to learn, powerful programming language</td>
+                <td>DJango is a very easy to use framework for websites and databases</td>
+                <td>JQuey is a library to make interactive web pages easy </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="text-align:center;">
+                    <img src="{% static 'SuffolkCycleRide/images/PythonAnywhere200x200.png' %}" width="64" height="64"/>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    The Website is hosted by PythonAnywhere - A hosting service dedicated to hosting webservices
+                    written in python; perfect for projects implemented using Django.
+                </td>
+            </tr>
+
+        </table>
+
+    </div>
+{% endblock %}
