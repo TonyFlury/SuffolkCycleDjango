@@ -38,7 +38,6 @@ else:
 
 INSTALLED_APPS = [
     'SuffolkCycleRide.apps.SuffolkCycleRideConfig',
-    'RegisteredUsers.apps.RegisteredUsersConfig',
     'cyclists.apps.cyclistsConfig',
     'newsletter.apps.newsletterConfig',
     'dashboard.apps.DashboardConfig',
@@ -51,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'RegisteredUsers.apps.RegisteredUsersConfig',
     'markitup',
     'markdown',
 ]
