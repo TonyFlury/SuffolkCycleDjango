@@ -20,5 +20,6 @@ from django.conf import settings
 from django.http import HttpRequest
 
 def settings_base_url(request):
-    return {"BASE_URL": settings.BASE_URL,
-            "HOST": request.get_host() }
+    return {"BASE_URL": settings.BASE_URL,          # Derived from settings - not ideal
+            "HOST": request.get_host(),             # The actually requested URL
+            "HOST_URL": 'http://{}/'.format(request.get_host()) }
