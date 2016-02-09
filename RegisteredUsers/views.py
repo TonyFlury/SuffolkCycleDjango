@@ -164,4 +164,4 @@ class Reset(View):
         else:
             c = self.context.copy()
             c['form'] = form
-            return render(request, "pages/Incorrect.html", context=c)
+            return render(request,  "base/SingleForm.html", context=c)

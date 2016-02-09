@@ -109,6 +109,25 @@ padding:0;
 margin: 0;
 }
 
+div.popup {
+	margin: auto;
+	background-color: #005551;
+	padding: 7px;
+	border-radius: 10px;
+	display: inline-block;
+}
+
+div.popup-inner {
+	background-color: #008781;
+	padding: 10px;
+	margin: auto;
+	z-index: 99;
+	border: thin solid white;
+	border-radius: 10px;
+	display: inline-block;
+}
+
+
 div.content-section {
     position: relative;
     margin-top:0px;

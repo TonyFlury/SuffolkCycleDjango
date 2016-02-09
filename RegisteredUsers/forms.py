@@ -149,7 +149,7 @@ class PasswordResetRequest(forms.Form):
 
 class PasswordReset(forms.Form):
     newPassword = forms.fields.CharField(strip=True, label=_('New Password'), widget=forms.PasswordInput(), required=True)
-    confirmPassword = forms.fields.CharField(strip=True, label=_('New Password'), widget=forms.PasswordInput(), required=True)
+    confirmPassword = forms.fields.CharField(strip=True, label=_('Confirm Password'), widget=forms.PasswordInput(), required=True)
     uuid = forms.fields.UUIDField()
 
     def __init__(self, *args, **kwargs):
@@ -157,8 +157,8 @@ class PasswordReset(forms.Form):
         self.fields['uuid'].widget = self.fields['uuid'].hidden_widget()
 
     def clean(self):
-        if self.cleaned_data.get('newPassword','') != self.cleaned_data.get('confirmPassword','') :
-            self.add_error('email', _('Passwords don''t match'))
+        if self.cleaned_data['newPassword'] != self.cleaned_data['confirmPassword'] :
+            self.add_error('newPassword', _('Passwords don''t match'))
         else:
             return self.cleaned_data
 

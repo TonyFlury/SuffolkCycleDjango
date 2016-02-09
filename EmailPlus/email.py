@@ -24,6 +24,12 @@ __version__ = "0.1"
 __author__ = 'Tony Flury : anthony.flury@btinternet.com'
 __created__ = '06 Jan 2016'
 
+#-----------------------------------------------------------------------------
+#                               Change Log
+#                               ----------
+#
+# 09-02-2016 : Issue 8: Process fails with exception if smtp connection fails..
+#-----------------------------------------------------------------------------
 
 # TODO Support for BCC
 # TODO Support for other email arguments

@@ -15,13 +15,12 @@ Testable Statements :
 from datetime import date, timedelta
 from pprint import pprint
 
-from django.http import HttpResponseServerError
+from django.http import HttpResponseServerError,HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.contrib.auth import login, authenticate
-from django.db.models import F
 
 from stats.models import PageVisit
 
@@ -30,7 +29,8 @@ import forms
 # Reuse the models and forms from the RegisteredUsers app to make password reset available
 import RegisteredUsers.models
 import RegisteredUsers.forms
-
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 import cyclists.models
 
 __version__ = "0.1"
@@ -50,9 +50,9 @@ class UserDashboard(LoginRequiredMixin, View):
 class MyDetails(LoginRequiredMixin, View):
     login_url = reverse_lazy("GetInvolved")
 
-    context = { 'heading': 'My Details',
-                'description': 'Update your personal details here',
-                'submit': ['Save','Change Password']}
+    context = {'heading': 'My Details',
+               'description': 'Update your personal details here',
+               'submit': ['Save', 'Change Password']}
 
     def get(self, request):
 
@@ -63,9 +63,9 @@ class MyDetails(LoginRequiredMixin, View):
         me = request.user
         form = forms.UserDetails(instance=me)
 
-        context.update( {'form':form } )
+        context.update({'form': form})
 
-        return render(request, 'dashboard/pages/dashboardPeople.html', context=context )
+        return render(request, 'dashboard/pages/dashboardPeople.html', context=context)
 
     def post(self, request):
 
@@ -83,34 +83,38 @@ class MyDetails(LoginRequiredMixin, View):
 
             me.save()
 
-            context.update( {'description': 'Personal details saved',
-                                                    'description_class':'confirm',
-                                                    'form': form } )
+            context.update({'description': 'Personal details saved',
+                            'description_class': 'confirm',
+                            'form': form})
 
-            return render(request, 'dashboard/pages/dashboardPeople.html', context= context )
+            return render(request, 'dashboard/pages/dashboardPeople.html', context=context)
 
-        context.update( {'form':form} )
-        return render(request, 'dashboard/pages/dashboardPeople.html', context= context)
+        context.update({'form': form})
+        return render(request, 'dashboard/pages/dashboardPeople.html', context=context)
 
 
-class PasswordReset(LoginRequiredMixin,View):
-    context = { 'heading' : 'Change Password',
-                'description': ' Enter your new password, and confirm',
-                'submit':['Change Now'] }
+class PasswordReset(LoginRequiredMixin, View):
+    context = {'heading': 'Change Password',
+               'description': ' Enter your new password, and confirm',
+               'submit': ['Change Now']}
 
     login_url = reverse_lazy("GetInvolved")
 
     def get(self, request):
-
-        prr = RegisteredUsers.models.PasswordResetRequest.objects.create(user=request.user, expiry=date.today() + timedelta(days=1))
-        form = RegisteredUsers.forms.PasswordReset( initial={'uuid':prr.uuid} )
+        # Use the same mechanism as a 'forgotten password', but only have a 24 hour expiry period
+        prr = RegisteredUsers.models.PasswordResetRequest.objects.create(user=request.user,
+                                                                         expiry=date.today() + timedelta(days=1))
+        form = RegisteredUsers.forms.PasswordReset(initial={'uuid': prr.uuid})
 
         context = self.context.copy()
         context['form'] = form
 
-        return render(request, 'dashboard/base/dashboard_form.html', context = context )
+        return render(request, 'dashboard/pages/dashboard_PasswordChange.html', context=context)
 
     def post(self, request):
+
+        if request.POST.get('confirmation','') == "True":
+            return redirect('Dashboard:Home')
 
         form = RegisteredUsers.forms.PasswordReset(request.POST)
 
@@ -119,23 +123,24 @@ class PasswordReset(LoginRequiredMixin,View):
 
             user = authenticate(username=user.username, password=pwd)
             if user and user.is_active:
-                    login(request, user)
+                login(request, user)
             else:
                 return HttpResponseServerError("unable to re-authenticate user !!!!")
 
             PageVisit.record(request)
 
-            return redirect("Dashboard:MyDetails")
+            return render(request, 'dashboard/pages/dashboard_PasswordChange.html', context={'confirmation':True})
+        else:
+            context = self.context.copy()
+            context['form'] = form
+            return render(request, 'dashboard/pages/dashboard_PasswordChange.html', context=context)
 
-        context = self.context.copy()
-        context['form'] = form
-        return render(request, 'dashboard/pages/dashboard_form.html', context = context )
 
-class CycleRoutes(LoginRequiredMixin,View):
-    context = { 'heading' : 'Cycle Legs',
-                'description': 'Click the tick box to choose the legs you are going to cycle',
-                'top_submit':['Save'],
-                'submit':['Save'] }
+class CycleRoutes(LoginRequiredMixin, View):
+    context = {'heading': 'Cycle Legs',
+               'description': 'Click the tick box to choose the legs you are going to cycle',
+               'top_submit': ['Save'],
+               'submit': ['Save']}
 
     login_url = reverse_lazy("GetInvolved")
 
@@ -149,10 +154,10 @@ class CycleRoutes(LoginRequiredMixin,View):
           AND `cyclists_cyclist_legs`.`cyclist_id` = %s)" % cyclist.id})
 
         context.update({'cyclists': cyclists,
-                        'legs': legs })
+                        'legs': legs})
 
         return render(request, 'dashboard/pages/dashboardCycleRoutes.html',
-                      context = context)
+                      context=context)
 
     def post(self, request):
         pprint(request.POST)
@@ -162,10 +167,9 @@ class CycleRoutes(LoginRequiredMixin,View):
         cyclist = cyclists.models.Cyclist.objects.get(user=request.user)
         legs = cyclists.models.Leg.objects.order_by('date')
 
-
         for l in legs:
             if str(l.id) in request.POST.getlist('selected') and not cyclist.legs.filter(id=l.id).exists():
-                cyclist.legs.add( l )
+                cyclist.legs.add(l)
             elif str(l.id) not in request.POST.getlist('selected') and cyclist.legs.filter(id=l.id).exists():
                 cyclist.legs.remove(l)
 
@@ -177,10 +181,11 @@ class CycleRoutes(LoginRequiredMixin,View):
                         AND `cyclists_cyclist_legs`.`cyclist_id` = %s)" % cyclist.id})
 
         context.update({'cyclists': cyclists,
-                        'legs': legs })
+                        'legs': legs})
 
         return render(request, 'dashboard/pages/dashboardCycleRoutes.html',
-                      context = context)
+                      context=context)
+
 
 class OtherVolunteering(View):
     pass
