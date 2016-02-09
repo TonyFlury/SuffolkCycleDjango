@@ -1,5 +1,3 @@
-
-
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import login, authenticate
 from django.http import HttpResponseRedirect
@@ -18,6 +16,18 @@ import models
 
 from datetime import date as dt
 import uuid
+
+__version__ = "0.1"
+__author__ = 'Tony Flury : anthony.flury@btinternet.com'
+__created__ = '09 Feb 2016'
+
+#-----------------------------------------------------------------------------
+#                               Change Log
+#                               ----------
+#
+# 09-02-2016 : Issue 1: Signin (and SignOut) fails due to incorrect URL resolution.
+#-----------------------------------------------------------------------------
+
 
 
 class SignIn(View):
@@ -50,7 +60,7 @@ class SignIn(View):
             form.save(request=request)
 
             PageVisit.record(request)
-            return HttpResponseRedirect(reverse("home"))
+            return HttpResponseRedirect(reverse("Home"))
 
         # If we get here we have errors
         c['form'] = form
@@ -61,7 +71,7 @@ class SignIn(View):
 def SignOut(request):
     """ A simple view - No form, no complexity - just logout and pop the user back home """
     logout(request=request)
-    return HttpResponseRedirect(reverse("home"), {})
+    return HttpResponseRedirect(reverse("Home"), {})
 
 
 class ResetRequestView(View):
