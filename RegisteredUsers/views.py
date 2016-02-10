@@ -2,11 +2,10 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import login, authenticate
 from django.http import HttpResponseRedirect
 from django.template.loader import render_to_string
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.contrib.auth import logout
-from django.template import RequestContext
 
 from stats.models import PageVisit
 from EmailPlus.email import Email
@@ -21,12 +20,14 @@ __version__ = "0.1"
 __author__ = 'Tony Flury : anthony.flury@btinternet.com'
 __created__ = '09 Feb 2016'
 
-#-----------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------
 #                               Change Log
 #                               ----------
 #
 # 09-02-2016 : Issue 1: Signin (and SignOut) fails due to incorrect URL resolution.
-#-----------------------------------------------------------------------------
+# 09-02-2016 : Issue 12 : Password Reset form fails due to incorrect response page.
+# -----------------------------------------------------------------------------
 
 
 
@@ -55,7 +56,6 @@ class SignIn(View):
 
         # Is the form filled in correctly - including is it a valid username/password combo
         if form.is_valid():
-
             # This form.save logs the user in, and therefore needs the request as well as the form, and record this
             form.save(request=request)
 
@@ -87,7 +87,7 @@ class ResetRequestView(View):
     def get(self, request):
         c = self.context.copy()
         c['form'] = forms.PasswordResetRequest()
-        return render(request, "base/SingleForm.html", context=c )
+        return render(request, "base/SingleForm.html", context=c)
 
     def post(self, request):
         c = self.context.copy()
@@ -96,17 +96,17 @@ class ResetRequestView(View):
 
             # The save form creates an instance of the PasswordResetRequestModel: expiry date is 14 days from 'today'
             reset = form.save()
-            reset_local = reverse('User:Reset', args=[str(reset.uuid)] )
+            reset_local = reverse('User:Reset', args=[str(reset.uuid)])
 
             # Send the email to the identified user: Email contains a URL unique to that reset (128 bit UUID)
-            Email( subject="Great Suffolk Cycle Ride : Password reset",
-                   body=render_to_string("RegisteredUsers/Email/PasswordResetRequest.txt",
-                                            context={'user': reset.user,
-                                                     'ResetUrl': request.build_absolute_uri( reset_local ),
-                                                     'ExpireBy': reset.expiry,
-                                                     'HOST': request.get_host()
-                                                    } )
-                ).send(reset.user.email)
+            Email(subject="Great Suffolk Cycle Ride : Password reset",
+                  body=render_to_string("RegisteredUsers/Email/PasswordResetRequest.txt",
+                                        context={'user': reset.user,
+                                                 'ResetUrl': request.build_absolute_uri(reset_local),
+                                                 'ExpireBy': reset.expiry,
+                                                 'HOST': request.get_host()
+                                                 })
+                  ).send(reset.user.email)
 
             # This will record the page visit - but not who requested the reset - only record a successful attempt
             # Pop the user to the ResetConfirmation page
@@ -115,7 +115,7 @@ class ResetRequestView(View):
                           context={
                               'email': reset.user.email,
                               'expiry': dt.strftime(reset.expiry, "%d %b %Y")
-                          } )
+                          })
         else:
             # Remder the form with any errors
             c['form'] = form
@@ -139,16 +139,20 @@ class Reset(View):
         if prr.expiry < dt.today():
             return render(request, "RegisteredUsers/pages/UnknownReset.html")
 
-        form = forms.PasswordReset(initial={'uuid':reset_uuid})
+        form = forms.PasswordReset(initial={'uuid': reset_uuid})
 
         c = self.context.copy()
         c['form'] = form
 
         return render(request,
-                      "base/SingleForm.html",
+                      "RegisteredUsers/pages/PasswordChange.html",
                       context=c)
 
     def post(self, request, reset_uuid):
+
+        if request.POST.get('confirmation','') == "True":
+            return redirect('Home')
+
         form = forms.PasswordReset(request.POST)
         if form.is_valid():
             user, pwd = form.save()
@@ -156,7 +160,9 @@ class Reset(View):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return render(request, "SuffolkCycleRide/pages/entry_list.html")
+                    return render(request,
+                            "RegisteredUsers/pages/PasswordChange.html",
+                            context={'confirmation':True})
                 else:
                     return render(request, "pages/Invalid.html")
             else:
@@ -164,4 +170,6 @@ class Reset(View):
         else:
             c = self.context.copy()
             c['form'] = form
-            return render(request,  "base/SingleForm.html", context=c)
+            return render(request,
+                          "RegisteredUsers/pages/PasswordChange.html",
+                          context=c)

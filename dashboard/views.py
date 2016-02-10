@@ -37,6 +37,13 @@ __version__ = "0.1"
 __author__ = 'Tony Flury : anthony.flury@btinternet.com'
 __created__ = '23 Jan 2016'
 
+# -----------------------------------------------------------------------------
+#                               Change Log
+#                               ----------
+#
+# 09-02-2016 : Issue 5: Change Password fails when passwords are different.
+# -----------------------------------------------------------------------------
+
 
 class UserDashboard(LoginRequiredMixin, View):
     """The Dashboard Page - will get a lot more complex - might need its own .py"""
