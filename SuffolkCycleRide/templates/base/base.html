@@ -1,7 +1,7 @@
 {% load staticfiles %}
 {% load helper_tags %}
 
-<html lang="{{ LANGUAGE_CODE }}">
+<html lang="{{ LANGUAGE_CODE }}" xmlns="http://www.w3.org/1999/html">
 
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
@@ -14,7 +14,7 @@
       type="image/gig"
       href="{% static 'SuffolkCycleRide/images/favicon.gif' %}">
 
-    <title>{% block title %}{{ title }}{% block subtitle %}{% endblock %}{% endblock %}</title>
+    <title>{% block title %}Suffolk Great Cycle Ride 2016{% endblock %}{% block subtitle %}{% endblock %}</title>
 
     <!-- Load site specific style sheets -->
 
@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="{% static 'base/style/main-style.css' %}">
     <link rel="stylesheet" href="{% static 'base/style/newforms.css' %}">
     <link rel="stylesheet" href="{% static 'base/style/table.css' %}">
+    <link rel="stylesheet" href="http://cdn.jsdelivr.net/jquery.mcustomscrollbar/3.0.6/jquery.mCustomScrollbar.min.css">
 
     <!-- Data for the Facebook like button https://developers.facebook.com/tools/debug/og/object/ -->
     <meta property="og:url"           content="{{ HOST_URL }}" />
@@ -44,6 +45,7 @@
 
     <!-- Load JQuery library - used on the dashboard pages primarily -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js" ></script>
+    <script type="text/javascript" src="http://cdn.jsdelivr.net/jquery.mcustomscrollbar/3.0.6/jquery.mCustomScrollbar.concat.min.js"></script>
 
     <!-- Allow page specific scripts -->
     <script type="text/javascript">
@@ -92,9 +94,6 @@
                 });
         }
 
-        $(document).ready(function(){
-                    resetHeaderFooterWidths();
-                });
 
         $(window).resize(function(){
                     resetHeaderFooterWidths();
@@ -141,12 +140,12 @@
                         {% else %}
                         <li><a href="{% url 'User:SignIn' %}">Sign In</a></li>
                         {% endif %}
-                        <li><a>Sponsor Us</a></li>
-                        <li><a href="{% url 'blog:Main' %}">Blog</a></li>
+                        <li><a href="{% url 'Sponsorship:Main' %}">Sponsor Us</a></li>
+                        <li><a href="{% url 'Blog:Main' %}">Blog</a></li>
                     </ul>
                     {% endblock %}
                     <!-- Facebook like button -->
-                    <div class="fb-like fb-like-pos" data-href="{{ HOST }}" data-width="200"
+                    <div class="fb-like fb-like-pos" data-href="{{ HOST_URL }}" data-width="200"
                          data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
                 </div>
         </div>
