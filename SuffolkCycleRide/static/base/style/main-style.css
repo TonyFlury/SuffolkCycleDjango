@@ -152,6 +152,7 @@ div.strip {
     border-bottom: 2px dashed rgb(0, 183, 177);
     border-top: 2px dashed rgb(0, 183, 177);
     overflow:auto;
+    position:relative;
 }
 
 /* ------------------- Menu bar -------------------------------- */
@@ -219,6 +220,9 @@ span.special_font a {
     font-size: x-small;
 }
 
+.reduced {
+    font-size:80%;
+    }
 
 h1 {
     margin: -0.25em 0 0 0;
@@ -250,6 +254,14 @@ h4 {
     color: white ;
     font: 150% "fredericka the great",fantasy;
     font-style: italic;
+}
+
+.bold {
+    font-weight:strong;
+}
+
+.italic {
+    font-style:italic;
 }
 
 div.BigBtnOuter {
