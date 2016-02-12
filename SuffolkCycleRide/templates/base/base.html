@@ -45,7 +45,6 @@
 
     <!-- Load JQuery library - used on the dashboard pages primarily -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js" ></script>
-    <script type="text/javascript" src="http://cdn.jsdelivr.net/jquery.mcustomscrollbar/3.0.6/jquery.mCustomScrollbar.concat.min.js"></script>
 
     <!-- Allow page specific scripts -->
     <script type="text/javascript">
@@ -140,7 +139,7 @@
                         {% else %}
                         <li><a href="{% url 'User:SignIn' %}">Sign In</a></li>
                         {% endif %}
-                        <li><a href="{% url 'Sponsorship:Main' %}">Sponsor Us</a></li>
+                        <li><a ">Sponsor Us</a></li>
                         <li><a href="{% url 'Blog:Main' %}">Blog</a></li>
                     </ul>
                     {% endblock %}
