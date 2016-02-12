@@ -28,7 +28,7 @@ Great Suffolk Bike Ride 2016 = Home Page
         <div class="BtnBar"></div>
         <div class="Btns">
             <div class='BigBtnOuter'style="float:left;">
-                <a class='BigBtn' >
+                <a class='BigBtn' href="{% url 'GetInvolved' %}">
                     <span class='BigBtnTxt'>Get Involved</span>
                 </a>
             </div>
@@ -57,7 +57,7 @@ Great Suffolk Bike Ride 2016 = Home Page
             </div>
         </div>
         <div style="align:left;margin:10px;position:relative;">
-            <a>
+            <a href="{% url 'Readmore' %}">
                 <span class="blue large special_font">Read More
                     <img style="vertical-align:bottom;" src="{% static 'SuffolkCycleRide/images/arrow.png' %}"/>
                 </span>
@@ -91,7 +91,7 @@ Great Suffolk Bike Ride 2016 = Home Page
         <div style="position:relative;margin:auto;width:30%;margin:auto;padding:10px 0;">
             <div class='ShapeBtnOuter' style='align;center;'>
                 <span class='ShapeBtnTxt'>
-                    <a class='ShapedButton' style="text-align:center;">
+                    <a class='ShapedButton' style="text-align:center;" href="{% url 'Blog:Main' %}">
                     Our&nbsp;Blog
                     </a>
                 </span>
