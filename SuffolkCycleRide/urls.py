@@ -16,7 +16,7 @@ urlpatterns = [
     url(r'^RegisteredUsers/', include("RegisteredUsers.urls", namespace='User')),
     url(r'^newsletter/', include("newsletter.urls", namespace="newsletter") ),
     url(r'^dashboard/', include("dashboard.urls", namespace="Dashboard")),
-    url(r'^blog/', include('blog.urls', namespace='blog')),
+    url(r'^blog/', include('blog.urls', namespace='Blog')),
 
     url(r'^markitup/', include('markitup.urls')),
 
