@@ -2,23 +2,23 @@
 
 {% load staticfiles %}
 
-{% block title %}
-{{ title }}
-{% endblock %}
-
 {% block content %}
     <div >
         <div class="form" style="margin-left: 15%; margin-right:15%;">
             <h4>{{ heading }}</h4>
-            <div class="description small">{{ description }}</div>
+            <div class="description reduce">{{ description|linebreaks }}</div>
                 <form method="post" action="{{ action }}" {{ enctype | safe }}>
                     {% csrf_token %}
+                    {% block form-content-no-table %}
                     <table>
+                        {% block form-content %}
                         {{ form }}
+                        {% endblock %}
                     </table>
                     <input type='submit' name='submit' value='{{submit}}'/>
+                    {% endblock %}
                 </form>
-            <div class="appendix small">{% block appendix %}{{ appendix }}{% endblock %}</div>
+            <div class="appendix small">{% block appendix %}{{ appendix|linebreaks }}{% endblock %}</div>
         </div>
     </div>
 {% endblock %}

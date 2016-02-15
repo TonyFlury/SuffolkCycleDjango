@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'stats.apps.StatsConfig',
     'EmailPlus.apps.EmailplusConfig',
     'blog.apps.BlogConfig',
+    'Sponsors.apps.SponsorsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

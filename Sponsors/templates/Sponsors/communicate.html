@@ -1,0 +1,152 @@
+{% extends "base/SingleForm.html" %}
+
+{% load staticfiles %}
+
+{% block subtitle %} - Sponsors{% endblock %}
+
+{% block page_styles %}
+
+div.form table ul,
+div.form table ul li {
+    display: inline-block ;
+}
+
+{% endblock %}
+
+{% block page_scripts %}
+
+function set_first() {
+    /* count how many non disabled checkboxes */
+    var count_enabled  = $('input[type="radio"] + label:not([disabled="disabled"])').length
+    var count_checked  = $('input[type="radio"]:checked + label:not([disabled="disabled"])').length
+
+    /* If we have no enabled radio boxes - then we can stop here */
+    if (count_enabled == 0)
+        return ;
+
+    /* If there is already an enabled and checked radio box - we can stop here */
+    if (count_checked == 1)
+        return ;
+
+    /*  There is no CSS select that allows us to select element a only if followed by element b
+        We can only select based on the preceeding element (+ or ~)
+        So need a function to explicit check each radio button to see if next elem is enabled */
+
+    $('input[type="radio"]').each( function() {
+        /* Function is run for every radio - even though we know there is only one which is followed by an enabled label */
+
+        /* If the next item isn't an enabled label - ignore */
+        if (! $(this).next().is("label:not([disabled='disabled'])"))
+            return ;
+
+        $(this).prop('checked', true)
+    });
+
+}
+
+function set_prefs( object ) {
+    /* Called when the 'object' is changed -
+        check if the object is empty and enables/disables the radio button as appropriate */
+    if ( object.val())
+        $('label.click#' + object.attr('name') ).removeAttr('disabled', false);
+    else
+        $('label.click#' + object.attr('name') ).attr('disabled', true);
+}
+
+$(document).ready(function(){
+    /* Once the document is loaded - with any base data - set the radio buttons */
+
+    var fields = ['email','telephone', 'mobile'];
+    var i;
+
+    /* Enable/Disable radio buttons based on what data exists on the form */
+    for (i = 0 ; i < fields.length ; i++) {
+
+        set_prefs(  $('input#id_'+fields[i]) );
+
+        /* Ensure that the radio buttons are reset when something changes */
+        $('input#id_'+fields[i]).change(function(){
+            set_prefs( $(this) );
+            set_first();
+        });
+    }
+
+    /* Set the first enabled radio button - if required */
+    set_first();
+});
+
+{% endblock %}
+
+{% block form-content-no-table %}
+    {% if confirmation %}
+            <div class="popup" >
+                <div class="popup-inner ">
+                    <h2>Thank you</h2>
+                    <span align="center">Your details have been recorded, and we will be in touch shortly</span>
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        <div>
+                        <input type="hidden" value="True" name="confirmation">
+                        <input type="submit" value="OK" name="OK">
+                        </div>
+                    </form>
+                </div>
+            </div>
+    {% else %}
+        {{ form.opportunity }}
+        <table>
+            <tbody>
+                <tr>
+                    <td colspan="2">{{ form.non_field_errors }}</td>
+                </tr>
+                <tr><td colspan="2">{{ form.name.errors }} </td></tr>
+                <tr>
+                    <td><span class="white">*&nbsp;<span>{{ form.name.label_tag }}</td><td>{{form.name}}</td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">{{ form.website.errors }} </td></tr>
+                <tr>
+                    <td>{{ form.website.label_tag }}</td><td>{{form.website}}</td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">{{ form.email.errors }} </td></tr>
+                <tr>
+                    <td>{{ form.email.label_tag }}</td><td>{{form.email}}</td>
+                </tr>
+                <tr>
+                    <td colspan="2">{{ form.telephone.errors }} </td></tr>
+                <tr>
+                    <td colspan="2" class="white reduced">{{ form.telephone.help_text }} </td></tr>
+                <tr>
+                    <td>{{ form.telephone.label_tag }}</td><td>{{form.telephone}}</td>
+                </tr>
+                <tr>
+                    <td colspan="2">{{ form.mobile.errors }} </td></tr>
+                <tr>
+                    <td colspan="2" class="white reduced">{{ form.mobile.help_text }} </td></tr>
+                <tr>
+                    <td>{{ form.mobile.label_tag }}</td><td>{{form.mobile}}</td>
+                </tr>
+                <tr>
+                    <td colspan="2">{{ form.communication_preference.errors }} </td></tr>
+                <tr>
+                    <td>{{ form.communication_preference.label_tag }}</td>
+                    <td>
+                        <ul>
+                            {% for comms in form.communication_preference %}
+                            <li>{{ comms.tag }}
+                                <label class='click' id='{{ comms.choice_label }}' for='{{ comms.id_for_label }}'>
+                                    {{ comms.choice_label }}
+                                </label>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <input type='submit' name='submit' value='{{submit}}'/>
+    {% endif %}
+{% endblock %}

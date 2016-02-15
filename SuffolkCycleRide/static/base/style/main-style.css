@@ -17,26 +17,28 @@ a {
     font-weight: bold;
     }
 
-a:hover {
-    cursor:pointer;
-}
-
-
 #Site_Background
 {
 	position: absolute;
 	top: 0px;
-	height: 100%;
-	width: 1397px;
+	width: 1400px;
+	display: inline-block;
+	float: left;
+	height: auto ;
 }
 
 .Site_Root  /* Centered Box */
 {
-	min-height: 100%;
-	position: relative;
+    display: inline-block;
+    float:left;
+	position: absolute;
 	margin: 0px auto;
 	width: 1000px;
 	padding-bottom:4em;
+	height: auto ;
+	min-height:100%;
+	margin-left:200px;
+	margin-right:200px;
 }
 
 
@@ -51,8 +53,8 @@ a:hover {
 	box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.7);
 	border-top: 0px solid #9AE7E4;
 	border-bottom: 0px solid #9AE7E4;
-	width: 2000px;
-	left: -220px;
+	width: 1400px;
+	left: -200px;
 }
 
 #footer_bg { /* Extra wide box for the header strip */
@@ -65,14 +67,14 @@ a:hover {
 	box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.7);
 	border-top: 0px solid #9AE7E4;
 	border-bottom: 0px solid #9AE7E4;
-	width: 2000px;
-	left: -220px;
+	width: 1400px;
+	left: -200px;
 }
 
 #header /* Box for the header menu */
 {
 	top: 0px;
-	width: 980px;
+	width: 1000px;
 	height: 66px;
 	position: absolute;
 	left: 0px;
@@ -81,7 +83,7 @@ a:hover {
 #footer /* Box for the footer info menu */
 {
 	bottom: 0px;
-	width: 980px;
+	width: 1000px;
 	height: 3em;
 	position: fixed;
 	margin-top:50px;
@@ -101,12 +103,16 @@ div .centered
 
 div#content
 {
- top: 70px;
+top: 70px;
 position:absolute;
-width:100%;
+width:1000px;
 height: auto;
 padding:0;
 margin: 0;
+}
+
+div#content > :last-child {
+    margin-bottom: 4em;
 }
 
 div.popup {
@@ -139,8 +145,8 @@ div.strip {
 	right: 0px;
 	bottom: 0px;
 	left: 0px;
-	width: 1397px;
-	left: -220px;
+	width: 1400px;
+	left: -200px;
 	height:100%
 }
 
@@ -183,11 +189,23 @@ ul.chevronbar li a{
     font-weight: unset;
 }
 
+ul.chevronbar li a:hover {
+}
+
 /* ------------------------- Font sizes and headings ----------------------- */
 span.special_font a {
   cursor: pointer ;
   font-style: italic ;
   text-decoration: none;
+}
+
+div#content a:hover {
+    cursor:pointer;
+    font-size:120%;
+}
+
+.strong {
+    font-weight: bold ;
 }
 
 .xxlarge {
@@ -208,6 +226,10 @@ span.special_font a {
 
 .normal {
     font-size: 1em;
+}
+
+.reduced {
+    font-size: 80%;
 }
 .small
 {
@@ -311,7 +333,7 @@ span.BigBtnTxt {
 
 
 div.ShapeBtnOuter {
-    display: inline;
+    display: inline-block;
     position: relative;
 }
 
@@ -324,8 +346,8 @@ a.ShapedButton
 	border: 0px solid #004D4E;
 	cursor: pointer !important;
 	text-align:center;
-	padding-left: 15px;
-	padding-right: 15px ;
+	padding-left: 30px;
+	padding-right: 30px ;
 }
 
 
@@ -338,6 +360,7 @@ span.ShapeBtnTxt {
     border:6px;
     line-height: 50px;
     width:auto;
+    padding: 0 10px;
     display: inline-block ;
 }
 
@@ -392,8 +415,7 @@ div#heading {
 }
 
 div.fb-like-pos {
-    top:0;
-    left:85%;
+    top:-23px;
     vertical-align: middle;
     position:absolute;
 }
@@ -403,7 +425,7 @@ list-style-type:none;
 }
 
 div.appendix {
-    text-align: center;
+    font-style:italic ;
 }
 
 div.confirm {
