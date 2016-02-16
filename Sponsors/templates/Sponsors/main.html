@@ -1,0 +1,127 @@
+{% extends "base/base.html" %}
+
+{% load staticfiles %}
+
+
+{% block subtitle %} - Sponsors{% endblock %}
+
+
+{% block page_styles %}
+
+div#content a:hover {
+    font-size:inherit;
+}
+
+div.opportunity {
+display:inline-block;
+border-radius:20px;
+padding:10px 10px;
+width:97%;
+margin-top:5px;
+margin-right:15px;
+}
+
+div.opportunity:last-of-type {
+}
+
+div.opportunity div.info {
+float:left;
+width:70%;
+display:inline-block;
+}
+
+div.opportunity div.value {
+float:right;
+width:25%;
+text-align:right;
+display:inline-block;
+margin-right:5px;
+}
+
+div.opportunity-list {
+    margin-top:10px;
+    height:450px;
+    padding:10px 20px 10px 15px;
+    position: relative ;
+    margin-left:auto;
+    margin-right:auto;
+    display: block;
+    margin-bottom:75px;
+    border-radius: 10px;
+    border: thin solid rgb(128,128,128);
+}
+
+div.opportunity div.description {
+    margin-left:2em;
+    margin-bottom:5px;
+    font-style:italic;
+}
+div.opportunity div.description p {
+    margin:5px 0px;
+}
+
+div.opportunity a {
+    font-weight : normal ;
+}
+
+div.opportunity a:hover div.opportunity_name {
+    font-weight:bold ;
+    text-decoration:underline;
+}
+
+div.opportunity a:hover div.description {
+    font-weight:normal ;
+}
+
+div.opportunity a:hover div.value {
+    font-weight:normal ;
+    font-size: inherit;
+}
+
+
+{% endblock %}
+
+{% block content %}
+
+<h2 align="center" style="margin-top:0.5em; margin-bottom:0.5em;">Sponsorship</h2>
+<div style="display:inline-block;position:relative;top:0px;width:105%;margin-left:-5%;">
+    <div class="white reduced" style="position:relative;display:inline-block;float:left;top:0px;width:30%">
+        <div style="position:relative;top:0px;">
+        <span class="normal strong special_font">The&nbsp;Great&nbsp;Suffolk&nbsp;Cycle&nbsp;Ride</span> is a complex undertaking, and we want to ensure that every penny raised by our cyclists goes to our good causes. We are therefore seeking sponsors willing to sponsor us to cover some specific costs associated with the event.<br>
+        If you or your business feel able to sponsor any of the items please select the relevant item from the list and fill in the form. We will be in touch with you within a few working days.
+        </div>
+        <div class="small" style="position:relative; bottom:0px;margin-top:4em;">
+        All sponsors will get full recognition on this website, including on the home page, as well as mentions in all press releases published for the event. In addition, we are happy to carry the sponsors name/logo on specfic printed media which is sponsored (e.g. business cards, flyers etc).
+        </div>
+    </div>
+    <div style="display:inline-block;float:right;width:65%">
+    {% if sponsor %}
+
+    {% endif %}
+
+    {% if available %}
+        <div class="opportunity-list white mCustomScrollbar" data-mcs-theme="rounded-dots">
+            {% for opportunity in available %}
+                <div class="opportunity {% cycle 'row1' 'row2' %}" >
+                    <a href="{% url 'Sponsorship:interest' opportunity_slug=opportunity.slug %}">
+                        <div class="info">
+                            <div class="opportunity_name">{{ opportunity.name}}</div>
+                            <div class='description reduced'>{{ opportunity.description }}</div>
+                        </div>
+                        <div class="value">
+                            {% if opportunity.value %}
+                             £{{ opportunity.value }}
+                            {% else %}
+                                {% if opportunity.max_value %}
+                                    Up&nbsp;to&nbsp;£{{ opportunity.max_value }}
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+        </div>
+</div>
+{% endblock %}

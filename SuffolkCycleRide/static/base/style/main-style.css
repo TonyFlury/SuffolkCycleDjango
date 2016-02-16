@@ -26,17 +26,24 @@ a:hover {
 {
 	position: absolute;
 	top: 0px;
-	height: 100%;
-	width: 1397px;
+	width: 1400px;
+	display: inline-block;
+	float: left;
+	height: auto ;
 }
 
 .Site_Root  /* Centered Box */
 {
-	min-height: 100%;
-	position: relative;
+    display: inline-block;
+    float:left;
+	position: absolute;
 	margin: 0px auto;
 	width: 1000px;
 	padding-bottom:4em;
+	height: auto ;
+	min-height:100%;
+	margin-left:200px;
+	margin-right:200px;
 }
 
 
@@ -51,8 +58,8 @@ a:hover {
 	box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.7);
 	border-top: 0px solid #9AE7E4;
 	border-bottom: 0px solid #9AE7E4;
-	width: 2000px;
-	left: -220px;
+	width: 1400px;
+	left: -200px;
 }
 
 #footer_bg { /* Extra wide box for the header strip */
@@ -109,6 +116,10 @@ padding:0;
 margin: 0;
 }
 
+div#content > :last-child {
+    margin-bottom: 4em;
+}
+
 div.popup {
 	margin: auto;
 	background-color: #005551;
@@ -152,7 +163,6 @@ div.strip {
     border-bottom: 2px dashed rgb(0, 183, 177);
     border-top: 2px dashed rgb(0, 183, 177);
     overflow:auto;
-    position:relative;
 }
 
 /* ------------------- Menu bar -------------------------------- */
@@ -184,11 +194,23 @@ ul.chevronbar li a{
     font-weight: unset;
 }
 
+ul.chevronbar li a:hover {
+}
+
 /* ------------------------- Font sizes and headings ----------------------- */
 span.special_font a {
   cursor: pointer ;
   font-style: italic ;
   text-decoration: none;
+}
+
+div#content a:hover {
+    cursor:pointer;
+    font-size:120%;
+}
+
+.strong {
+    font-weight: bold ;
 }
 
 .xxlarge {
@@ -210,6 +232,10 @@ span.special_font a {
 .normal {
     font-size: 1em;
 }
+
+.reduced {
+    font-size: 80%;
+}
 .small
 {
     font-size: small ;
@@ -220,9 +246,6 @@ span.special_font a {
     font-size: x-small;
 }
 
-.reduced {
-    font-size:80%;
-    }
 
 h1 {
     margin: -0.25em 0 0 0;
@@ -350,6 +373,7 @@ span.ShapeBtnTxt {
     border:6px;
     line-height: 50px;
     width:auto;
+    padding: 0 10px;
     display: inline-block ;
 }
 

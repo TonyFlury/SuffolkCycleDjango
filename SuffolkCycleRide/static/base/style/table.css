@@ -31,13 +31,13 @@ thead th {
 div.row,
  tr {
     overflow:initial;
-    border-radius:0.3em;
     height: auto ;
     margin: 1px;
     line-height: 1.2em;
 }
 
 div.row {
+    border-radius:0.3em;
     display:table-row;
     }
 

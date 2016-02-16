@@ -14,7 +14,7 @@
       type="image/gig"
       href="{% static 'SuffolkCycleRide/images/favicon.gif' %}">
 
-    <title>{% block title %}Suffolk Great Cycle Ride 2016{% endblock %}{% block subtitle %}{% endblock %}</title>
+    <title>{% block title %}Suffolk Suffolk Cycle Ride 2016{% endblock %}{% block subtitle %}{% endblock %}</title>
 
     <!-- Load site specific style sheets -->
 
@@ -45,6 +45,7 @@
 
     <!-- Load JQuery library - used on the dashboard pages primarily -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js" ></script>
+    <script type="text/javascript" src="http://cdn.jsdelivr.net/jquery.mcustomscrollbar/3.0.6/jquery.mCustomScrollbar.concat.min.js"></script>
 
     <!-- Allow page specific scripts -->
     <script type="text/javascript">
@@ -62,6 +63,10 @@
             var gap = (width - content_width)/2;
 
             $('#Site_Background').css('width', (width).toString() + "px" );
+
+            $.each( $('div#content'), function(){
+                    $( this ).css('width', content_width.toString()+"px");
+            });
 
             $.each( $('.Site_Root'), function(){
                     $( this ).css('width', content_width.toString()+"px");
@@ -93,6 +98,9 @@
                 });
         }
 
+        $(document).ready(function(){
+                    resetHeaderFooterWidths();
+                });
 
         $(window).resize(function(){
                     resetHeaderFooterWidths();
@@ -139,7 +147,7 @@
                         {% else %}
                         <li><a href="{% url 'User:SignIn' %}">Sign In</a></li>
                         {% endif %}
-                        <li><a ">Sponsor Us</a></li>
+                        <li><a href="{% url 'Sponsorship:Main' %}">Sponsor Us</a></li>
                         <li><a href="{% url 'Blog:Main' %}">Blog</a></li>
                     </ul>
                     {% endblock %}
