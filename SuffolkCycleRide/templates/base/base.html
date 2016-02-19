@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="{% static 'base/style/main-style.css' %}">
     <link rel="stylesheet" href="{% static 'base/style/newforms.css' %}">
     <link rel="stylesheet" href="{% static 'base/style/table.css' %}">
-    <link rel="stylesheet" href="http://cdn.jsdelivr.net/jquery.mcustomscrollbar/3.0.6/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="(% static 'base/style/jquery.mCustomScrollbar.min.css' %}">
 
     <!-- Data for the Facebook like button https://developers.facebook.com/tools/debug/og/object/ -->
     <meta property="og:url"           content="{{ HOST_URL }}" />
@@ -43,9 +43,9 @@
     {% endblock %}
     </style>
 
-    <!-- Load JQuery library - used on the dashboard pages primarily -->
-    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js" ></script>
-    <script type="text/javascript" src="http://cdn.jsdelivr.net/jquery.mcustomscrollbar/3.0.6/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script type="text/javascript" src="{% static 'base/js/jquery-latest.min.js' %}" ></script>
+    <script type="text/javascript" src="{% static 'base/js/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+
 
     <!-- Allow page specific scripts -->
     <script type="text/javascript">
