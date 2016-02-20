@@ -248,7 +248,7 @@ div#content a:hover {
 }
 
 
-h1:not[.normal] {
+h1 {
     margin: -0.25em 0 0 0;
     padding: 0;
     color: white ;
@@ -258,7 +258,7 @@ h1:not[.normal] {
 }
 
 
-h2:not[.normal] {
+h2 {
     margin: -0.25em 0 0 0;
     padding: 0;
     color: white ;
@@ -266,14 +266,14 @@ h2:not[.normal] {
     line-height:normal;
 }
 
-h3:not[.normal] {
+h3 {
     margin: 0px;
     padding: 0px;
     color: white ;
     font: 150% "fredericka the great",fantasy;
 }
 
-h4:not[.normal] {
+h4 {
     margin: 5px 0px 10px 0px;
     padding: 0px;
     color: white ;
