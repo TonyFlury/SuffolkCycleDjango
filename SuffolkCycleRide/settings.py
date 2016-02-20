@@ -29,10 +29,12 @@ if os.environ.get('PYTHON_ANYWHERE','False') == 'True':
     BASE_URL = 'http://suffolkcycleride.pythonanywhere.com/'
     DEBUG = False
     ALLOWED_HOSTS = ['suffolkcycleride.pythonanywhere.com']
+    TEMPLATE_DEBUG = False
 else:
     BASE_URL = 'http://192.168.1.78:8000/'
     DEBUG = True
     ALLOWED_HOSTS = []
+    TEMPLATE_DEBUG = True
 
 # Application definition
 
@@ -80,6 +82,7 @@ TEMPLATES = [
         'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
+            'debug':TEMPLATE_DEBUG,
             'context_processors': [
                 'SuffolkCycleRide.context_processor.settings_base_url',
                 'django.template.context_processors.debug',
@@ -104,6 +107,7 @@ DATABASES = {
     }
 }
 
+TEST_RUNNER = 'SuffolkCycleRide.tests.testrunner.LayeredTestRunner'
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators

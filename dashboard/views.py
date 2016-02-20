@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-# SuffolkCycleDjango : Implementation of views.py - separate for compartmentalisation
+# SuffolkCycleDjango : Implementation of test_03_views.py - separate for compartmentalisation
 
 Summary : 
     <summary of module/class being implemented>

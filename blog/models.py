@@ -1,7 +1,5 @@
 from __future__ import unicode_literals
 
-import re
-
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.db import models
@@ -15,35 +13,6 @@ from django.db.models import Count
 
 from django.utils.text import slugify
 
-#slug_re = re.compile(r'\s')
-
-
-#def slugify(text):
-#    """ Remove whitespace from the text so it can be used as a slug
-#    :param text: The text to be slugified - implemented as a compiled re for efficiency
-#    :return : None
-#    """
-#    return (slug_re.sub("_", text)).lower()
-
-
-# noinspection PyProtectedMember
-def validate(model, field, value):
-    """Generic basic validation function
-    :param model: The Model class being validated
-    :param field: The name of the field to be validated
-    :param value: The value being set on this field
-    :raise ValueError : Raised if any validation test fails
-    :return None:
-    """
-    model_field = model._meta.get_field(field)
-
-    if isinstance(model_field, models.CharField):
-        if not model_field.blank and not value:
-            raise ValueError('{} name cannot be blank/None'.format(model.__name__))
-
-        if model_field.max_length and (len(value) > model_field.max_length):
-            raise ValueError('{} {} too long; cannot be more than {} characters'.format(model.__name__, field,
-                                                                                        model_field.max_length))
 
 class Tag(models.Model):
     name = models.CharField(max_length=20, blank=False)
@@ -51,31 +20,10 @@ class Tag(models.Model):
     is_permanent = models.BooleanField(default=False, null=False)
     description = models.TextField(null=True)
 
-    @classmethod
-    def create(cls, name, is_permanent = False, *args, **kwargs):
-        """Override create so that we can slugify the tag name
-        :param name: The name for this Tag
-        :param is_permanent : Whether this Tag should be deleted if the ref_count drops to zero
-        """
-        validate(cls, 'name', name)
-
-        tag = cls(name=name, *args, **kwargs)
-
-# Tags are added via the Admin - and the slugify is
-#         tag.slug = slugify(name)
-
-        return tag
-
     def __str__(self):
         """Human readable name"""
         return self.name
 
-    def save(self, *args, **kwargs):
-        """ Re slugify the name when saved """
-        validate(self.__class__, 'name', self.name)
-#       Probably don't need this for the moment - since Tags are added through admin (which pre-populates
-#        self.slug = slugify(self.name)
-        super(Tag, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         """ Generate An Absolute URL for this tag"""
@@ -98,20 +46,6 @@ class Entry(models.Model):
     def __str__(self):
         return self.title
 
-    @classmethod
-    def create(cls, title, **kwargs):
-        validate(cls, 'title', title)
-
-        entry = cls(title=title, **kwargs)
-#       Don't need to manually create the slug, as blog posts are created through the Admin page
-#        entry.slug = slugify(title)
-        return entry
-
-    def save(self, *args, **kwargs):
-        """Validate the title of the instance"""
-        validate(self.__class__, 'title', self.title)
-        super(Entry, self).save(*args, **kwargs)
-
     def get_absolute_url(self):
         return reverse("blog:Detail", kwargs={'slug': self.slug})
 
@@ -127,28 +61,26 @@ class Entry(models.Model):
 
         self.tags = proposed
 
-        self.save()
 
-# Since we add Entries via the Admin page - we don't need to auto add the slug when the titile changes.
-#
-#@receiver(pre_save, sender=Entry)
-#def set_slug(sender, instance, **kwargs):
-#    if (sender != Entry):
-#        return
+@receiver(pre_save, sender=Tag)
+@receiver(pre_save, sender=Entry)
+def set_slug(sender, instance, **kwargs):
 
-#    print "bing"
-#    try:
-#        i = Entry.objects.get(pk = instance.pk)
-#    except ObjectDoesNotExist:
-#        print "bong"
-#        instance.slug = slugify(instance.title)
-#        return
-#
-#    if i.title == instance.title:
-#        return
-#
-#    instance.slug = slugify(instance.title)
-#    print "bong"
+    key = 'name' if sender == Tag else 'title'
+
+
+    try:
+        i = sender.objects.get(pk = instance.pk)
+    except ObjectDoesNotExist:
+        instance.slug = slugify(getattr(instance,key))
+        return
+
+    # Only set the slug if this instances title/name has changed.
+    if getattr(i, key) == getattr(instance, key):
+        return
+
+    instance.slug = slugify( getattr(instance, key) )
+
 
 @receiver(m2m_changed, sender=Entry.tags.through)
 def clear_up(sender, action, **kwargs):

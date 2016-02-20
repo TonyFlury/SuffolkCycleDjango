@@ -24,9 +24,6 @@ from pprint import pprint
 
 register = template.Library()
 
-print "Loading...."
-
-
 @register.simple_tag(name='ellipsis')
 def add_ellipsis(string, length=30, center=False):
     if not isinstance(string, basestring):

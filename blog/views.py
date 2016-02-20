@@ -1,13 +1,11 @@
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
 from django.views.generic import View
-from django.db.models import Q, F, Count, Case, When, Avg, StdDev, Value, CharField
-from aggregates import StdDev
+from django.db.models import Q, F, Count, Case, When, Avg, Value, CharField
 import calendar
 from collections import Counter
 
 from aggregates import StdDev, Mode
-
 
 # Create your views here.
 
@@ -51,16 +49,16 @@ class BlogMixin(object):
             filter(num_entries__gt = 0).aggregate(mode=Mode('num_entries'), mean=Avg('num_entries'), std_dev=StdDev('num_entries'))
 
         mode, mean, std_dev = data['mode'], data['mean'], data['std_dev']
-        if not mode or not mean or not std_dev:
+        if not mode and not mean and not std_dev:
             return []
 
         # Fetch all the relevant tags, filtering out Tags with no entries,
         # and recording categories based on the Average & std_dev
         # Scope for category above upper (mean + 2*std_dev) etc
+
         return models.Tag.objects.\
                     annotate(num_entries = Count('entries')).\
                     filter(num_entries__gt = 0).\
-                    annotate(average=Avg('entries')).\
                     annotate(category=Case(
                                 When(num_entries__gt = mean+std_dev, then=Value('upper')),
                                 When(num_entries__lt = mean-std_dev, then=Value('lower')),
@@ -97,8 +95,8 @@ class BlogMixin(object):
 
 class Main(BlogMixin,View):
     template = "blog/entry_list.html"
-    max_per_page = 2              # Number normally allowed per page
-    pagination_orphans = 1      # Minimum allowed per page
+    max_per_page = 10              # Number normally allowed per page
+    pagination_orphans = 5         # Minimum allowed per page
 
     def get(self, request, page=0, tag_slug=None, year=None, month=None):
 

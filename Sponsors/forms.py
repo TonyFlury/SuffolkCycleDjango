@@ -27,8 +27,9 @@ class Communications(forms.ModelForm):
     opportunity = forms.IntegerField()
     class Meta:
         model = models.Sponsor
-        fields = ['name','website', 'email','telephone','mobile', 'communication_preference']
-        labels = {'communication_preference': 'Pref. contact method',
+        fields = ['name','company_name', 'email','telephone','mobile', 'communication_preference']
+        labels = { 'company_name':'Company Name',
+                   'communication_preference': 'Pref. contact method',
                   'telephone':'Tel number',
                   'mobile':'Mobile number'}
         widgets = {'communication_preference': forms.RadioSelect(),
@@ -36,6 +37,8 @@ class Communications(forms.ModelForm):
                                                         'pattern':'[0-9]{11}'} ),
                    'telephone':forms.TextInput(attrs={ 'type':'tel',
                                                         'pattern':'[0-9]{11}'} ) }
+        error_messages = {'name':{'required':'Please provide your name'},
+                          'communication_preference':{'required':'You must select your preferred communication method'}}
 
     def __init__(self, *args, **kwargs):
         super(Communications, self).__init__(*args, **kwargs)
@@ -55,7 +58,7 @@ class Communications(forms.ModelForm):
         # Next two checks will only fail on browsers without Javascript enabled
         if not preference:
             raise exceptions.ValidationError(
-                            "You must select your preffered communication method",
+                            "You must select your preferred communication method",
                             code='invalid',)
 
         if not self.cleaned_data.get(preference,None):
