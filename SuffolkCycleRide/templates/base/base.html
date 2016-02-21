@@ -174,11 +174,12 @@
                 <td align="left" class="white">
                     {% now "Y" as year %}
                 &copy; {{ year }} - The Great Suffolk Cycle Ride</td>
+                        <td>&nbsp;</td>
                 <td align="right" class="white">{% now " D d M Y h:i A" %}</td>
                         </tr>
                     <tr>
                 <td align="left" class="white">Credits</td>
-                        <td align="center"><a href="{% url 'privacy' %}" target="_new">Privacy Policy</a></td>
+                        <td align="center" class="white"><a href="{% url 'privacy' %}" target="_new">Privacy Policy</a></td>
                         <td align="right" class="white">Contact Us</td>
                     </tr>
                 </table>
