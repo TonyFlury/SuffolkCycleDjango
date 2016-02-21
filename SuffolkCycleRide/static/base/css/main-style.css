@@ -230,7 +230,7 @@ div#content a:hover {
     font-size: medium;
 }
 
-.normal {
+div.normal, p.normal, span.norma {
     font-size: 1em;
 }
 
@@ -248,7 +248,7 @@ div#content a:hover {
 }
 
 
-h1 {
+h1:not(.normal) {
     margin: -0.25em 0 0 0;
     padding: 0;
     color: white ;
@@ -258,7 +258,7 @@ h1 {
 }
 
 
-h2 {
+.h2:not(.normal){
     margin: -0.25em 0 0 0;
     padding: 0;
     color: white ;
@@ -266,14 +266,14 @@ h2 {
     line-height:normal;
 }
 
-h3 {
+.h3:not(.normal){
     margin: 0px;
     padding: 0px;
     color: white ;
     font: 150% "fredericka the great",fantasy;
 }
 
-h4 {
+.h4:not(.normal){
     margin: 5px 0px 10px 0px;
     padding: 0px;
     color: white ;

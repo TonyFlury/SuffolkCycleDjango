@@ -12,7 +12,9 @@ urlpatterns = [
     url(r'^$', home, name='Home'),
     url(r'^readmore$',readmore, name='Readmore'),
     url(r'^getinvolved$', GetInvolved.as_view(), name="GetInvolved"),
-    url(r'^technology$', TemplateView.as_view(template_name='SuffolkCycleRide/pages/technology.html'), name='Technology' ),
+    url(r'^privacy$', TemplateView.as_view(template_name='SuffolkCycleRide/pages/privacy.html'), name='privacy' ),
+
+#    url(r'^technology$', TemplateView.as_view(template_name='SuffolkCycleRide/pages/technology.html'), name='Technology' ),
 
     url(r'^sponsorship/', include('Sponsors.urls', namespace='Sponsorship')),
     url(r'^RegisteredUsers/', include("RegisteredUsers.urls", namespace='User')),
