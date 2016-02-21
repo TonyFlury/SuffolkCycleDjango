@@ -205,7 +205,8 @@ span.special_font a {
   text-decoration: none;
 }
 
-div#content a:hover {
+div#content p a:hover,
+div#content span:not(.ShapeBtnTxt) a:hover {
     cursor:pointer;
     font-size:120%;
 }
@@ -258,7 +259,7 @@ h1:not(.normal) {
 }
 
 
-.h2:not(.normal){
+h2:not(.normal) {
     margin: -0.25em 0 0 0;
     padding: 0;
     color: white ;
@@ -266,14 +267,14 @@ h1:not(.normal) {
     line-height:normal;
 }
 
-.h3:not(.normal){
+h3:not(.normal) {
     margin: 0px;
     padding: 0px;
     color: white ;
     font: 150% "fredericka the great",fantasy;
 }
 
-.h4:not(.normal){
+h4:not(.normal) {
     margin: 5px 0px 10px 0px;
     padding: 0px;
     color: white ;
@@ -357,14 +358,19 @@ a.ShapedButton
 	border-radius: 40px 0px;
 	background-color: #67CFCB;
 	transition: border-color 0.4s ease 0s, background-color 0.4s ease 0s;
-	box-shadow: 4.6px 3.86px 9px 2px rgba(0, 0, 0, 0.6);
+	box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.6);
 	border: 0px solid #004D4E;
 	cursor: pointer !important;
 	text-align:center;
-	padding-left: 15px;
-	padding-right: 15px ;
+	padding-left: 0.75em;
+	padding-right: 0.75em ;
 }
 
+
+a.ShapedButton:hover {
+	box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.6) inset;
+
+}
 
 span.ShapeBtnTxt {
     font: 30px/1.4em "Fredericka the Great",fantasy;
