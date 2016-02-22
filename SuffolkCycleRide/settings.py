@@ -26,9 +26,9 @@ SECRET_KEY = '5l#-+r+1&g2apy^fj7ck14c_-g#8p_jx1llt(-27+n37i^(d$@'
 
 
 if os.environ.get('PYTHON_ANYWHERE','False') == 'True':
-    BASE_URL = 'http://suffolkcycleride.pythonanywhere.com/'
+    BASE_URL = 'http://www.suffolkcycleride.org.uk/'
     DEBUG = False
-    ALLOWED_HOSTS = ['suffolkcycleride.pythonanywhere.com']
+    ALLOWED_HOSTS = ['www.suffolkcycleride.org.uk']
     TEMPLATE_DEBUG = False
 else:
     BASE_URL = 'http://192.168.1.78:8000/'

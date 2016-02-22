@@ -31,9 +31,9 @@ def add_ellipsis(string, length=30, center=False):
     if len(string) <= length:
         return string
 
+    # Make sure that we never exceed designated length and that our two 'halves' don't overlap
     if center:
         stride = min((len(string) - 3) / 2, (length - 3) / 2)
-        print "{} : stride {}".format(string, stride)
         return string[:stride] + '...' + string[-stride:]
     else:
         return string[:length - 3] + '...'
@@ -43,6 +43,8 @@ def add_ellipsis(string, length=30, center=False):
 def year_visible(context):
     if int(context['archive']['display_year']) == int(context['year']['grouper']):
         return mark_safe("archive-visible")
+    else:
+        return mark_safe('')
 
 
 @register.simple_tag(name='month_visible', takes_context=True)
@@ -50,6 +52,8 @@ def month_visible(context):
     if (int(context['archive']['display_year']) == int(context['year']['grouper'])) and (
                 int(context['archive']['display_month']) == int(context['month']['grouper'])):
         return mark_safe("archive-visible")
+    else:
+        return mark_safe('')
 
 
 @register.simple_tag(name='year_url', takes_context=True)
@@ -59,7 +63,7 @@ def year_url(context):
 
 
 @register.simple_tag(name='month_url', takes_context=True)
-def year_url(context):
+def month_url(context):
     year = "{:4d}".format(int(context['year']['grouper']))
     month = "{:02d}".format(int(context['month']['grouper']))
     return reverse('blog:Archive', kwargs={'year': year, 'month': month})

@@ -27,7 +27,7 @@ from django.utils.timezone import now
 from datetime import timedelta
 
 
-class C001_TestStaticUrls(TestCase):
+class C010_TestStaticUrls(TestCase):
     def setUp(self):
         self.client = Client()
         pass
@@ -35,7 +35,7 @@ class C001_TestStaticUrls(TestCase):
     def tearDown(self):
         pass
 
-    def test_001_010_homepage(self):
+    def test_010_010_homepage(self):
         ts = now()
         r = self.client.get(reverse('Home'))
         self.assertEqual(r.status_code, 200)
@@ -43,7 +43,7 @@ class C001_TestStaticUrls(TestCase):
         self.assertEqual(r.templates[0].name, 'SuffolkCycleRide/pages/home.html')
         self.assertAlmostEqual(PageVisit.most_recent('Home').timestamp, ts, delta=timedelta(milliseconds=100))
 
-    def test_001_011_readmore(self):
+    def test_010_011_readmore(self):
         ts = now()
         r = self.client.get(reverse('Readmore'))
         self.assertEqual(r.status_code, 200)
@@ -51,7 +51,7 @@ class C001_TestStaticUrls(TestCase):
         self.assertEqual(r.templates[0].name, 'SuffolkCycleRide/pages/readmore.html')
         self.assertAlmostEqual(PageVisit.most_recent('Readmore').timestamp, ts, delta=timedelta(milliseconds=100))
 
-    def test_001_011_privacy(self):
+    def test_010_011_privacy(self):
         ts = now()
         r = self.client.get(reverse('Privacy'))
         self.assertEqual(r.status_code, 200)
@@ -60,7 +60,7 @@ class C001_TestStaticUrls(TestCase):
         self.assertAlmostEqual(PageVisit.most_recent('Privacy').timestamp, ts, delta=timedelta(milliseconds=100))
 
 
-class C002_TestGetInvolved(TestCase):
+class C020_TestGetInvolved(TestCase):
     def setUp(self):
         self.client = Client()
         pass
@@ -68,7 +68,7 @@ class C002_TestGetInvolved(TestCase):
     def tearDown(self):
         pass
 
-    def test_001_012_getinvolved(self):
+    def test_020_012_getinvolved(self):
         ts = now()
         r = self.client.get(reverse('GetInvolved'))
         self.assertEqual(r.status_code, 200)
