@@ -68,7 +68,7 @@ Great Suffolk Bike Ride 2016 : My Details
         <tr>
             <th class='cell check'>
                 <input type="checkbox" class="selectAll" name="selectAll" id="selectAll"/>
-                <label class="click selectAll" for="selectAll" name="selectAll" id="selectAll"/></th>
+                <label class="click selectAll" for="selectAll" name="selectAll" id="selectAll"></label></th>
             <th class='cell name'>Name</th>
             <th class='cell date'>Date</th>
             <th class='cell start'>Start</th>
@@ -84,7 +84,7 @@ Great Suffolk Bike Ride 2016 : My Details
                 {% if leg.cyclist_on_leg %}
                      checked
                 {% endif %}
-                /><label class="click checkbox" for="check_{{ leg.id }}" />
+                /><label class="click checkbox" for="check_{{ leg.id }}"></label>
             </td>
             <td class='cell name' >{{ leg.name }}</td>
             <td class='cell date' >{{ leg.date }}</td>
@@ -93,17 +93,17 @@ Great Suffolk Bike Ride 2016 : My Details
             <td class='cell distance' >{{ leg.distanceKM }}</td>
         </tr>
         {% endfor %}
-        </div>
-        <tfoot>
-            <tr class='row'>
-                <td class='cell check' >&nbsp;</td>
-                <td class='cell' >&nbsp;</td>
-                <td class='cell' >&nbsp;</td>
-                <td class='cell' >&nbsp;</td>
-                <td class='cell' >&nbsp;</td>
-                <td class='cell' id="totalDistance" >&nbsp;</td>
-            </tr>
-        </tfoot>
+    </tbody>
+    <tfoot>
+        <tr class='row'>
+            <td class='cell check' >&nbsp;</td>
+            <td class='cell' >&nbsp;</td>
+            <td class='cell' >&nbsp;</td>
+            <td class='cell' >&nbsp;</td>
+            <td class='cell' >&nbsp;</td>
+            <td class='cell' id="totalDistance" >&nbsp;</td>
+        </tr>
+    </tfoot>
 {% endblock %}
 
 {% block post-form %}

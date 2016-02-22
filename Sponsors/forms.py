@@ -25,6 +25,8 @@ __created__ = '13 Feb 2016'
 
 class Communications(forms.ModelForm):
     opportunity = forms.IntegerField()
+
+    # noinspection PyClassicStyleClass
     class Meta:
         model = models.Sponsor
         fields = ['name','company_name', 'email','telephone','mobile', 'communication_preference']

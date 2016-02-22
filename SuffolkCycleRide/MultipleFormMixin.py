@@ -22,6 +22,7 @@ from django.forms.forms import BaseForm
 # Depends on a template being available to loop and render forms.
 # Makes very few assumptions about the content of the template
 
+
 class MultipleFormMixin(object):
     """ Multiple Form Mixin
         Looks for an Attribute named 'context_template' which is expected to be a dictionary.
@@ -96,22 +97,21 @@ class MultipleFormMixin(object):
         if not hasattr(self, 'context_template'):
             raise AttributeError("'context_template' attribute must be defined")
 
-        assert isinstance(self.context_template, dict)
-
         if not isinstance(self.context_template, dict):
             raise AttributeError("'context' attribute must be a dictionary")
 
         self.context, self.this_form = None, None
 
+        # noinspection PyArgumentList
         super(MultipleFormMixin,self).__init__(*args,**kwargs)
 
-
+    # noinspection PyIncorrectDocstring
     def get(self, request, *args, **kwargs):
         """ Set the self.forms and the self.this_form attributes based on the self._forms Meta data"""
         request_data = request.GET if request.GET else None
         self.context = self._context_dict(self.context_template, request_data)
 
-
+    # noinspection PyIncorrectDocstring
     def post(self, request, *args, **kwargs):
         """ Set the self.forms and the self.this_form attributes based on the self._forms Meta data"""
         request_data = request.POST if request.POST else None

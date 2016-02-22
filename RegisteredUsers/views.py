@@ -41,6 +41,7 @@ class SignIn(View):
                'ResetUrl': reverse_lazy('User:ResetRequest')
                }
 
+    # noinspection PyIncorrectDocstring
     def get(self, request):
         """ Initial fetch of SignIn Form - Nothing to go wrong here"""
         c = self.context.copy()
@@ -48,6 +49,7 @@ class SignIn(View):
         return render(request, "RegisteredUsers/pages/SignIn.html",
                       context=c)
 
+    # noinspection PyIncorrectDocstring
     def post(self, request):
         """ Process the Form contents """
 
@@ -67,7 +69,7 @@ class SignIn(View):
         return render(request, "RegisteredUsers/pages/SignIn.html", context=c)
 
 
-# noinspection PyPep8Naming
+# noinspection PyPep8Naming,PyIncorrectDocstring
 def SignOut(request):
     """ A simple view - No form, no complexity - just logout and pop the user back home """
     logout(request=request)

@@ -7,6 +7,8 @@ from django.core.urlresolvers import reverse_lazy, reverse
 import models
 import forms
 
+from stats.models import PageVisit
+
 __version__ = "0.1"
 __author__ = 'Tony Flury : anthony.flury@btinternet.com'
 __created__ = '11 Feb 2016'
@@ -20,6 +22,7 @@ __created__ = '11 Feb 2016'
 # -----------------------------------------------------------------------------
 
 def main(request):
+    PageVisit.record(request)
     available = models.Opportunity.objects.filter(available=True, taken=False). \
         annotate(order_value=Coalesce('value', 'max_value')). \
         order_by('order_value')
@@ -39,6 +42,8 @@ class interest(View):
 
     def get(self, request, opportunity_slug):
         opportunity = models.Opportunity.objects.get(slug=opportunity_slug)
+        PageVisit.record(request, sub_document=opportunity.name)
+
         form = forms.Communications(initial={'opportunity': opportunity.id})
         context = self.context.copy()
         context['form'] = form
@@ -46,19 +51,18 @@ class interest(View):
         return render(request, 'Sponsors/communicate.html', context=context)
 
     def post(self, request, opportunity_slug):
-        if request.POST:
-            if request.POST.get('confirmation', '') == 'True':
-                return redirect('Sponsorship:Main')
+        if request.POST.get('confirmation', '') == 'True':
+            return redirect('Sponsorship:Main')
 
-            form = forms.Communications(request.POST)
-            if form.is_valid():
-                opportunity = models.Opportunity.objects.get(id=request.POST['opportunity'])
-                sponsor = form.save()
-                sponsor.potential = True
-                sponsor.potentials.add(opportunity)
-                sponsor.save()
-                return render(request, 'Sponsors/communicate.html',
-                              context={'opportunity': opportunity.id, 'confirmation': True})
+        form = forms.Communications(request.POST)
+        if form.is_valid():
+            opportunity = models.Opportunity.objects.get(id=request.POST['opportunity'])
+            sponsor = form.save()
+            sponsor.potential = True
+            sponsor.potentials.add(opportunity)
+            sponsor.save()
+            return render(request, 'Sponsors/communicate.html',
+                          context={'opportunity': opportunity.id, 'confirmation': True})
 
         opportunity = models.Opportunity.objects.get(slug=opportunity_slug)
         context = self.context.copy()

@@ -22,7 +22,10 @@ __created__ = '10 Jan 2016'
 
 
 class DictField( models.Field ):
+    """Implements a custom Field type to enable storage of Dictionary
 
+        Could be implemented as an adapter with a custom column types - but that maybe too complex - simple not complex
+    """
     description = 'Field to store an arbitary dictionary'
 
     def __init__(self, *args, **kwargs):
@@ -30,8 +33,7 @@ class DictField( models.Field ):
         super(DictField, self).__init__(*args, **kwargs)
 
     def deconstruct(self):
-        name, path, args, kwargs = super(DictField, self).deconstruct()
-        return name, path, args, kwargs
+        return super(DictField, self).deconstruct()
 
     def db_type(self, connection):
         if connection.settings_dict['ENGINE'] == 'django.db.backends.sqlite3':
@@ -51,12 +53,14 @@ class DictField( models.Field ):
 
         return v
 
+    # noinspection PyMethodMayBeStatic
     def from_db_value(self, value, expression, connection, context):
         if value is None:
             return value
 
         return DictField.parsePickle(value)
 
+    # noinspection PyMethodMayBeStatic
     def to_python(self, value):
         if isinstance(value, basestring):
             return value
@@ -66,14 +70,17 @@ class DictField( models.Field ):
 
         return DictField.parsePickle(value)
 
+    # noinspection PyMethodMayBeStatic
     def get_prep_value(self, value):
         if not isinstance(value, dict):
             raise ValidationError("DictField only supports dictionary objects")
         return dumps(value)
 
+    # noinspection PyMethodMayBeStatic
     def get_prep_lookup(self, lookup_type, value):
         raise TypeError("Cannot use DictField for lookups or joins")
 
+    # noinspection PyMethodMayBeStatic
     def formfield(self, **kwargs):
         # This is a fairly standard way to set up some defaults
         # while letting the caller override them.

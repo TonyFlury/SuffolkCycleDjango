@@ -10,6 +10,7 @@ from django.utils.text import slugify
 
 
 class Opportunity(models.Model):
+    # noinspection PyClassicStyleClass
     class Meta:
         verbose_name = "Opportunity"
         verbose_name_plural = 'Opportunities'

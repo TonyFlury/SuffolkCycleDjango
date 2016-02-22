@@ -1,10 +1,9 @@
 from django.shortcuts import render
 from django.template.loader import render_to_string
 
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.views.generic import View
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.urlresolvers import reverse_lazy, reverse
+from django.core.urlresolvers import reverse
 from EmailPlus.email import Email
 
 from newsletter.forms import NewsletterSignUpForm
@@ -14,20 +13,28 @@ from stats.models import PageVisit
 
 from MultipleFormMixin import MultipleFormMixin
 
-from pprint import pprint
 
+# noinspection PyIncorrectDocstring
 def home(request):
     """ The front page - where everybody first lands"""
     PageVisit.record(request)
     return render(request, "SuffolkCycleRide/pages/home.html", context={} )
 
 
+# noinspection PyIncorrectDocstring
 def readmore(request):
     """The Read more page - a list of the newsletter posts"""
     PageVisit.record(request)
     dl_url = reverse('newsletter:Download',kwargs = {'id':'0000'}).strip('0')
     qs = Newsletter.objects.order_by('-pub_date')
     return render(request, "SuffolkCycleRide/pages/readmore.html", context={'newsletter':qs, "dl_base":dl_url})
+
+
+# noinspection PyIncorrectDocstring
+def privacy(request):
+    """The Read more page - a list of the newsletter posts"""
+    PageVisit.record(request)
+    return render(request, "SuffolkCycleRide/pages/privacy.html")
 
 class GetInvolved(MultipleFormMixin, View):
     """Multiple form page - Newsletter Subscription, and New User Registration"""

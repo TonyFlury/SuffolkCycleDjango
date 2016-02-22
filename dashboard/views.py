@@ -49,7 +49,8 @@ class UserDashboard(LoginRequiredMixin, View):
     """The Dashboard Page - will get a lot more complex - might need its own .py"""
     login_url = reverse_lazy("GetInvolved")
 
-    def get(self, request):
+    @staticmethod
+    def get(request):
         PageVisit.record(request)
         return render(request, "dashboard/pages/dashboard.html")
 

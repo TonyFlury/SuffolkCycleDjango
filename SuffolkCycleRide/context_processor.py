@@ -17,7 +17,6 @@ __author__ = 'Tony Flury : anthony.flury@btinternet.com'
 __created__ = '16 Jan 2016'
 
 from django.conf import settings
-from django.http import HttpRequest
 
 def settings_base_url(request):
     return {"BASE_URL": settings.BASE_URL,          # Derived from settings - not ideal

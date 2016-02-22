@@ -47,6 +47,7 @@ class NewsletterUnsubscribeForm(Form):
             return None
 
 class NewsletterSignUpForm(ModelForm):
+    # noinspection PyClassicStyleClass
     class Meta:
         model = NewsletterRecipient
         fields = '__all__'
@@ -64,6 +65,7 @@ class NewsletterSignUpForm(ModelForm):
 
 
 class NewsletterUploadForm(ModelForm):
+    # noinspection PyClassicStyleClass
     class Meta:
         model = Newsletter
         fields = ['title', 'content',]

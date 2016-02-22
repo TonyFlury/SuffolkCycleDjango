@@ -31,7 +31,7 @@ class Unsubscribe(View):
             PageVisit.record(request)  # Only record successfull unsubscribes
             success = form.save()
             if success:
-                return render( "newsletter/pages/unsubscribe.html",
+                return render( request, "newsletter/pages/unsubscribe.html",
                                context={'email': form.cleaned_data['email']} )
 
         self.context['form'] = form
@@ -42,7 +42,7 @@ class Upload(View):
     context = { 'heading': 'Upload a newsletter',
                     'description': "Choose an newsletter file (pdf ideally) to upload, ready to distribute.",
                     'submit': 'Upload',
-                    'enctype': 'enctype="multipart/form-data"',
+                    'form_enctype': 'enctype="multipart/form-data"',
                     }
     def get(self, request):
         PageVisit.record(request)

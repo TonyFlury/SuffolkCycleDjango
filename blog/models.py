@@ -29,6 +29,7 @@ class Tag(models.Model):
         """ Generate An Absolute URL for this tag"""
         return reverse("blog:Search", kwargs={'tag_slug': self.slug})
 
+    # noinspection PyIncorrectDocstring
     def ref_count(self, distinct=True):
         """Return a reference count for this tag : How many entries use this tag"""
         return self.entries.distinct().count() if distinct else self.entries.count()

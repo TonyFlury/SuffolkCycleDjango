@@ -24,7 +24,7 @@ __created__ = '09 Feb 2016'
 def read_manifest():
     manifest = {}
     try:
-        with open('manifest.txt', 'r') as manifest_file:
+        with open('manifest.txt') as manifest_file:
             for entry in manifest_file:
                 parts = entry.split('\t')
                 manifest[parts[0].strip()] = parts[1].strip()

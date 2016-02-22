@@ -1,9 +1,7 @@
 from django.shortcuts import render
-from django.core.urlresolvers import reverse
 from django.views.generic import View
-from django.db.models import Q, F, Count, Case, When, Avg, Value, CharField
-import calendar
-from collections import Counter
+from django.db.models import Q, Count, Case, When, Avg, Value, CharField
+from stats.models import PageVisit
 
 from aggregates import StdDev, Mode
 
@@ -16,7 +14,8 @@ class BlogMixin(object):
     max_per_page = 10            # Number normally allowed per page
     pagination_orphans = 5       # Minimum allowed per page
 
-    def get_archive(self, request, display_year=None, display_month=None):
+    @staticmethod
+    def get_archive(request, display_year=None, display_month=None):
         """ Generate a query set which list which provides a calendarised archive
 
             :param request : The WSGI request which triggers this archive display, used to identify if draft documents should be displayed.
@@ -38,7 +37,8 @@ class BlogMixin(object):
 
         return {'list':archive, 'display_year':display_year, 'display_month':display_month}
 
-    def get_tag_cloud(self):
+    @staticmethod
+    def get_tag_cloud():
         """ Fetch the tag cloud data - categorise the Tags as upper, Average or lower
             Categorisation based on whether they are above or below average (mean)
             Maybe better to use MODE - i.e. the most frequent count.
@@ -100,6 +100,7 @@ class Main(BlogMixin,View):
 
     def get(self, request, page=0, tag_slug=None, year=None, month=None):
 
+        PageVisit.record(request)
         # Dictionary for arguments to be passed to queryset and pages - need two distinct dictionaries
         query_args, page_args = {}, {}
 

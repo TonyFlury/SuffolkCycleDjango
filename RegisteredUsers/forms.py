@@ -11,11 +11,6 @@ Testable Statements :
     Can I <Boolean statement>
     ....
 """
-
-__version__ = "0.1"
-__author__ = 'Tony Flury : anthony.flury@btinternet.com'
-__created__ = '07 Jan 2016'
-
 from datetime import date, timedelta
 
 from django.contrib.auth import authenticate, login
@@ -26,10 +21,16 @@ from django import forms
 
 import models
 
+__version__ = "0.1"
+__author__ = 'Tony Flury : anthony.flury@btinternet.com'
+__created__ = '07 Jan 2016'
+
+
 class NewUserForm(forms.ModelForm):
     """ Form to create a new User
        Preferred rather than any builtin registration form
     """
+    # noinspection PyClassicStyleClass
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'username', 'email', 'password']
@@ -62,7 +63,7 @@ class NewUserForm(forms.ModelForm):
 
         raise forms.ValidationError("Email address already in use")
 
-
+    # noinspection PyIncorrectDocstring
     def save(self, commit=True):
         """ Customised save on the form, so that we can separate control and view """
 
@@ -74,6 +75,7 @@ class NewUserForm(forms.ModelForm):
         else:
             return None
 
+    # noinspection PyIncorrectDocstring
     def login(self, request):
         """ Helper method to prevent login code in more than one place """
         user = authenticate( username=self.cleaned_data['username'], password=self.cleaned_data['password'] )
@@ -83,7 +85,7 @@ class NewUserForm(forms.ModelForm):
 class SignInForm(forms.Form):
     """ Sign in form - used rather that trying to re-style the normal admin provided SignIn Form"""
     username = forms.fields.CharField(strip=True, label=_('Username'), max_length=30, required=True)
-    password = forms.fields.CharField(strip=True, label=_('Password'), widget=forms.PasswordInput(), required=True)
+    password = forms.fields.CharField(label=_('Password'), widget=forms.PasswordInput(), required=True)
 
     def __init__(self, request=None, *args, **kwargs):
         super(SignInForm, self).__init__(request, *args, **kwargs)
@@ -102,6 +104,7 @@ class SignInForm(forms.Form):
         else:
             return self.cleaned_data
 
+    # noinspection PyIncorrectDocstring
     def save(self, commit=True, request = None):
         """ Not a real save - but each form needs a save method for consistency
             Make the view simple by overriding the save method and making it a login method.
@@ -126,7 +129,7 @@ class PasswordResetRequest(forms.Form):
 
         User creation process ensures that email is unique.
     """
-    email = forms.fields.CharField(strip=True, label=_('Email'), widget=forms.fields.EmailInput(), required=True)
+    email = forms.fields.CharField(label=_('Email'), widget=forms.fields.EmailInput(), required=True)
 
     def __init__(self, request=None, *args, **kwargs):
         super(PasswordResetRequest, self).__init__(request, *args, **kwargs)
@@ -148,7 +151,7 @@ class PasswordResetRequest(forms.Form):
 
 
 class PasswordReset(forms.Form):
-    newPassword = forms.fields.CharField(strip=True, label=_('New Password'), widget=forms.PasswordInput(), required=True)
+    newPassword = forms.fields.CharField(label=_('New Password'), widget=forms.PasswordInput(), required=True)
     confirmPassword = forms.fields.CharField(strip=True, label=_('Confirm Password'), widget=forms.PasswordInput(), required=True)
     uuid = forms.fields.UUIDField()
 

@@ -28,5 +28,6 @@ class EmailQueue(models.Model):
     destination = models.EmailField(default="")
 
 
+# noinspection PyProtectedMember
 class EmailQueueAdmin(admin.ModelAdmin):
     list_display = [field.name for field in EmailQueue._meta.fields if field.name != "id"]

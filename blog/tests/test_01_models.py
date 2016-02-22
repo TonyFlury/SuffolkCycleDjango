@@ -81,8 +81,10 @@ class C020_EntryCreationTitleTests(django.test.TestCase):
         e.save()
         self.assertEqual(e.slug, 'this-is-a-title')
 
+
 class C025_EntryTagRelationship(django.test.TestCase):
     """Test extra functionality around the Entry <-> Tag relationship"""
+
     def setUp(self):
         self.python = blog.models.Tag(name='Monty Python', is_permanent=True)
         self.python.save()
@@ -101,41 +103,41 @@ class C025_EntryTagRelationship(django.test.TestCase):
 
     def test_025_010_AddTagViaText(self):
         """Add a single existing tags - use one name, and not two"""
-        self.palin.tag_text='Monty Python'
-        self.assertItemsEqual( [self.python], self.palin.tags.all())
+        self.palin.tag_text = 'Monty Python'
+        self.assertItemsEqual([self.python], self.palin.tags.all())
 
     def test_025_012_AddTagsViaText(self):
         """Add two Existing tags via tag_text property"""
-        self.palin.tag_text='Monty Python, Pole to Pole'
-        self.assertItemsEqual( [self.python, self.poletoPole], self.palin.tags.all())
+        self.palin.tag_text = 'Monty Python, Pole to Pole'
+        self.assertItemsEqual([self.python, self.poletoPole], self.palin.tags.all())
 
     def test_025_014_ChangeTagViaText(self):
         """Change the tags - use one name, and not two"""
-        self.palin.tag_text='Monty Python, Pole to Pole'
-        self.assertItemsEqual( [self.python, self.poletoPole], self.palin.tags.all())
-        self.palin.tag_text='Pole to Pole'
-        self.assertItemsEqual( [self.poletoPole], self.palin.tags.all())
+        self.palin.tag_text = 'Monty Python, Pole to Pole'
+        self.assertItemsEqual([self.python, self.poletoPole], self.palin.tags.all())
+        self.palin.tag_text = 'Pole to Pole'
+        self.assertItemsEqual([self.poletoPole], self.palin.tags.all())
 
     def test_025_20_AddNewTagViaText(self):
         """Add a New tags via tag_text property"""
         tag_name = 'A Fish called Wanda'
         find = blog.models.Tag.objects.filter(name=tag_name).count()
-        self.assertEqual(find, 0)                                   # Check the tag does not exist
+        self.assertEqual(find, 0)  # Check the tag does not exist
 
-        self.cleese.tag_text=tag_name                               # Add the tag
+        self.cleese.tag_text = tag_name  # Add the tag
 
-        tag = blog.models.Tag.objects.filter(name =tag_name)
-        self.assertEqual( tag[0].name, tag_name)                   # Check that the tag has been created
-        self.assertEqual( tag[0].is_permanent, False)
+        tag = blog.models.Tag.objects.filter(name=tag_name)
+        self.assertEqual(tag[0].name, tag_name)  # Check that the tag has been created
+        self.assertEqual(tag[0].is_permanent, False)
 
-        self.assertItemsEqual( tag, self.cleese.tags.all())         # Check that the tag has been added.
+        self.assertItemsEqual(tag, self.cleese.tags.all())  # Check that the tag has been added.
 
     def test_025_020_TagReturnText(self):
         """Get tag names via tag_text return"""
         self.palin.tags = [self.python, self.poletoPole]
         txt = self.palin.tag_text
-        self.assertTrue(self.python.name in txt)        # No Guaranteed ordering in tag_text
-        self.assertTrue(self.poletoPole.name in txt)    # No Guaranteed ordering in tag_text
+        self.assertTrue(self.python.name in txt)  # No Guaranteed ordering in tag_text
+        self.assertTrue(self.poletoPole.name in txt)  # No Guaranteed ordering in tag_text
 
     def test_025_030_CheckRefCount(self):
         self.palin.tags = [self.python, self.poletoPole]
@@ -151,12 +153,11 @@ class C025_EntryTagRelationship(django.test.TestCase):
         tag_name = 'A Fish called Wanda'
         self.assertEqual(blog.models.Tag.objects.filter(name=tag_name).count(), 0)  # Check the tag does not exist
 
-        self.cleese.tag_text=tag_name                                          # Add the tag
-        tag = blog.models.Tag.objects.get(name =tag_name)
+        self.cleese.tag_text = tag_name  # Add the tag
+        tag = blog.models.Tag.objects.get(name=tag_name)
         self.assertEqual(tag.ref_count(), 1)
-        self.cleese.tag_text=''                                                # Remove the tag
+        self.cleese.tag_text = ''  # Remove the tag
         self.assertEqual(blog.models.Tag.objects.filter(name=tag_name).count(), 0)  # Check the tag does not exist
-
 
     def test_025_042_TestTagDeletion(self):
         """Test that a tag is deleted when it is removed and the ref_count"""
@@ -164,38 +165,37 @@ class C025_EntryTagRelationship(django.test.TestCase):
         tag = blog.models.Tag(name=tag_name)
         tag.save()
 
-        self.assertEqual(tag.is_permanent, False)                               # Check the tag is temporary
-        self.assertEqual(tag.ref_count(), 0)                                    # Check the tag does not exist
+        self.assertEqual(tag.is_permanent, False)  # Check the tag is temporary
+        self.assertEqual(tag.ref_count(), 0)  # Check the tag does not exist
 
-        self.cleese.tag_text=tag_name                                           # Add the tag to Mr Cleese
+        self.cleese.tag_text = tag_name  # Add the tag to Mr Cleese
 
         self.assertEqual(tag.ref_count(), 1)
 
-        self.cleese.tag_text=''                    # Remove the tag
+        self.cleese.tag_text = ''  # Remove the tag
 
         self.assertEqual(blog.models.Tag.objects.filter(name=tag_name).count(), 0)  # Check the tag does not exist
-
 
     def test_025_045_TestTagDeletionMultipleAdditions(self):
         """Test that a tag is deleted when it is removed and the ref_count"""
         tag_name = 'A Fish called Wanda'
 
-        self.cleese.tag_text = tag_name                               # Add the tag to Messers Cleese & Palin
+        self.cleese.tag_text = tag_name  # Add the tag to Messers Cleese & Palin
         self.palin.tag_text = tag_name
 
-        tag = blog.models.Tag.objects.get(name =tag_name)
-        self.assertEqual(tag.ref_count(), 2)                            # Check the tag exists
-        self.cleese.tag_text=''                                         # Remove the tag from Cleese
-        self.assertEqual(tag.ref_count(), 1)                            # Check the tag exists
-        self.palin.tag_text= ''
+        tag = blog.models.Tag.objects.get(name=tag_name)
+        self.assertEqual(tag.ref_count(), 2)  # Check the tag exists
+        self.cleese.tag_text = ''  # Remove the tag from Cleese
+        self.assertEqual(tag.ref_count(), 1)  # Check the tag exists
+        self.palin.tag_text = ''
 
         self.assertEqual(blog.models.Tag.objects.filter(name=tag_name).count(), 0)  # Check the tag does not exist
 
     def test_025_050_TestTagRetention(self):
         """Test that a permanent tag is retained when it is removed and the ref_count is zero"""
 
-        self.assertEqual(self.python.is_permanent, True)     # Check the tag exists and is permanent
-        self.cleese.tag_text=self.python.name                # Add the tag
-        self.assertEqual(self.python.ref_count(), 1)         # Check the  ref count is incremented
-        self.cleese.tag_text=''                              # Remove the tag
-        self.assertEqual(self.python.ref_count(), 0)         # Check the tag still exists with a ref_count of zero
+        self.assertEqual(self.python.is_permanent, True)  # Check the tag exists and is permanent
+        self.cleese.tag_text = self.python.name  # Add the tag
+        self.assertEqual(self.python.ref_count(), 1)  # Check the  ref count is incremented
+        self.cleese.tag_text = ''  # Remove the tag
+        self.assertEqual(self.python.ref_count(), 0)  # Check the tag still exists with a ref_count of zero

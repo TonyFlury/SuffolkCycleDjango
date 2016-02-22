@@ -11,15 +11,13 @@ Testable Statements :
     Can I <Boolean statement>
     ....
 """
+from django.test.runner import DiscoverRunner
+from django.test import TestCase
+from unittest import TestSuite
 
 __version__ = "0.1"
 __author__ = 'Tony Flury : anthony.flury@btinternet.com'
 __created__ = '19 Feb 2016'
-
-
-from django.test.runner import DiscoverRunner
-from django.test import TestCase
-from unittest import TestSuite
 
 
 class LayeredTestRunner(DiscoverRunner):
@@ -41,6 +39,7 @@ class LayeredTestRunner(DiscoverRunner):
                 a.append(t)
         return a
 
+    # noinspection PyMethodOverriding
     def build_suite(self, test_labels, extra_tests=None, **kwargs):
         suite = super(LayeredTestRunner,self).build_suite(test_labels,extra_tests,**kwargs)
         suite = self.flatten(suite)

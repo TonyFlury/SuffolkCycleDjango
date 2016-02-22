@@ -28,11 +28,11 @@ from threading import Timer
 # TODO Support for email priority
 # TODO Callbacks ?
 
-_scheduler_inst = None
+scheduler_inst = None
 
 
 def start_scheduler():
-    global _scheduler_inst
+    global scheduler_inst
 
     try:
         email_limit = settings.EMAIL_VOLUME_LIMIT
@@ -42,7 +42,7 @@ def start_scheduler():
         return
 
     print "Starting Scheduler"
-    _scheduler_inst = EmailScheduler()
+    scheduler_inst = EmailScheduler()
 
 
 class EmailScheduler(object):

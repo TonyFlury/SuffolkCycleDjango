@@ -21,6 +21,7 @@ from django import forms
 
 
 class UserDetails(forms.ModelForm):
+    # noinspection PyClassicStyleClass
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email']

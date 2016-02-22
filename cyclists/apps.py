@@ -5,7 +5,6 @@ class cyclistsConfig(AppConfig):
 
     def ready(self):
         super(cyclistsConfig,self).ready()
-        import signals.handlers
 
 
 

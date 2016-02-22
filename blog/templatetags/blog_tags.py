@@ -20,9 +20,8 @@ from django import template
 from django.core.urlresolvers import reverse
 from django.utils.html import format_html, mark_safe
 
-from pprint import pprint
-
 register = template.Library()
+
 
 @register.simple_tag(name='ellipsis')
 def add_ellipsis(string, length=30, center=False):
