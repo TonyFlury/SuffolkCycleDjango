@@ -1,0 +1,11 @@
+ {{sender_name}} < {{sender_email}}> has sent the following message :
+
+ {{reason_text}}
+-----------------------------------------------
+ 
+ {{content}}
+ 
+--
+Generated from the Contact Us page :
+The Great Suffolk Cycle Ride
+ {{host}}

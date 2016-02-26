@@ -69,7 +69,7 @@ class C030_TestViews(TestCase):
     def test_001_015_no_entries_template(self):
         """ Test that the /blog/ url uses the correct template - don't care about what it extends"""
         p = self.client.get(reverse('Blog:Main'))
-        self.assertEqual(p.templates[0].name, 'blog/entry_list.html')
+        self.assertTemplateUsed(p, 'blog/entry_list.html')
 
     def test_001_016_no_entries_context(self):
         """Confirm that context is empty when there are no entries"""

@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# coding=utf-8
 """
 # SuffolkCycle : Implementation of email.py
 
@@ -24,30 +25,32 @@ __version__ = "0.1"
 __author__ = 'Tony Flury : anthony.flury@btinternet.com'
 __created__ = '06 Jan 2016'
 
-#-----------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------
 #                               Change Log
 #                               ----------
 #
 # 09-02-2016 : Issue 8: Process fails with exception if smtp connection fails..
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 # TODO Support for BCC
 # TODO Support for other email arguments
 
 class Email(object):
-    def __init__(self, subject, body):
+    def __init__(self, subject=None, body=None):
         self._body = body
         self._subject = subject
 
     # noinspection PyIncorrectDocstring
-    def send(self, destination_email):
+    def send(self, destination_email, include_staff=True):
         """ Try to send the email immediately if we are able"""
         if (scheduler.scheduler_inst is None) or (scheduler.scheduler_inst.immediate_dispatch()):
             try:
                 send_mail(subject=self._subject,
                           from_email=settings.DEFAULT_FROM_EMAIL,
-                          recipient_list=[destination_email, settings.DEFAULT_FROM_EMAIL],
+                          recipient_list=[destination_email] + ([settings.DEFAULT_FROM_EMAIL] if include_staff else []),
                           message=self._body)
+
                 # Even if we can send immediately - we still need to record so that the volume sent is recorded.
                 if scheduler.scheduler_inst is not None:
                     qe = EmailQueue.objects.create(subject=self._subject, body_text=self._body,
@@ -55,6 +58,9 @@ class Email(object):
                                                    sent=True, sent_time=now(), queue_time=now())
             except BaseException as e:
                 logging.error('Error sending email to {} : {}'.format(destination_email, e))
+                qe = EmailQueue.objects.create(subject=self._subject, body_text=self._body,
+                                               destination=destination_email,
+                                               sent=False, queue_time=now())
         else:
             qe = EmailQueue.objects.create(subject=self._subject, body_text=self._body, destination=destination_email,
                                            sent=False, queue_time=now())

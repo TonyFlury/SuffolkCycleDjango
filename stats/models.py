@@ -36,18 +36,18 @@ class PageVisit(models.Model):
         return '{} visited {} (User: {})'.format(self.document, self.timestamp, self.user)
 
     @staticmethod
-    def most_recent(document=None, sub_document=None):
+    def most_recent(document=None,**kwargs):
         """Find the most recent Page Visit - optionally matching document and sub_document
         :param document : Optional - The document to match on
-        :param sub_document : Optional - The sub_document to match on
+        :param kwargs : Options further filters for this search
         :return : A PageVisit Instance or None
         """
         try:
-            if document and not sub_document:
+            if document and not kwargs:
                 return PageVisit.objects.filter(document=document).order_by('-timestamp')[0]
-            elif document and sub_document:
-                return PageVisit.objects.filter(document=document, sub_document=sub_document).order_by('-timestamp')[0]
+            elif document and kwargs:
+                return PageVisit.objects.filter(document=document, **kwargs).order_by('-timestamp')[0]
             else:
-                return PageVisit.objects.order_by('-timestamp')[0]
+                return PageVisit.objects.all().order_by('-timestamp')[0]
         except IndexError:
             return None

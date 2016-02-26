@@ -163,6 +163,7 @@ EMAIL_USE_SSL = True
 EMAIL_USE_TLS = False
 
 DEFAULT_FROM_EMAIL = "suffolkcycleride@btinternet.com"
+DEFAULT_TO_EMAIL = "suffolkcycleride@btinternet.com"
 
 
 #if os.environ.get('PYTHON_ANYWHERE','False') == 'True':

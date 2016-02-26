@@ -27,13 +27,13 @@ class MultipleFormMixin(object):
     """ Multiple Form Mixin
         Looks for an Attribute named 'context_template' which is expected to be a dictionary.
         This dictionary is processed recursively (including any lists within the dictionary)
-        If the value is a basic Form class, the value is replaced with a instatiated object of this class.
+        If the value is a basic Form class, the value is replaced with a instantiated object of this class.
             If a key named 'prefix' exists within the same dictionary as a Form class, then the value is used as the prefix
-            attrribute into the class instantiation - it is also retained as a tag
+            attribute into the class instantiation - it is also retained as a tag
 
         Sets the following attributes :
             'self.context' = a fully interpreted set of values from 'context_template'
-             'self.this_form' = the actual form which have been submitted based on the value of the submitted
+             'self.this_form' = the actual form which have been submitted based on the value of the submit
         """
 
     def _context_list(self, original_list, request_data):

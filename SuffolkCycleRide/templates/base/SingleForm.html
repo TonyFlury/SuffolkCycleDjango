@@ -3,6 +3,31 @@
 {% load staticfiles %}
 
 {% block content %}
+    {% if confirmation %}
+    <div class="popup" >
+        <div class="popup-inner ">
+            <h2>{% if confirmation.title %}
+                {{ confirmation.title }}
+                {% else %}
+                    Thank you
+                {% endif %}
+            </h2>
+            <span align="center">
+                {% if confirmation.message %}
+                    {{ confirmation.message }}
+                {% else %}
+                    Your details have been recorded, and we will be in touch shortly</span>
+                {% endif %}
+            <form method="post" action="">
+                {% csrf_token %}
+                <div>
+                <input type="hidden" value="True" name="confirmation">
+                <input type="submit" value="OK" name="OK">
+                </div>
+            </form>
+        </div>
+            </div>
+    {% else %}
     <div >
         <div class="form" style="margin-left: 15%; margin-right:15%;">
             <h4>{{ heading }}</h4>
@@ -22,4 +47,5 @@
             <div class="appendix small">{% block appendix %}{{ appendix|linebreaks }}{% endblock %}</div>
         </div>
     </div>
+    {% endif %}
 {% endblock %}

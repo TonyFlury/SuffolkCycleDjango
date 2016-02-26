@@ -17,10 +17,6 @@ __author__ = 'Tony Flury : anthony.flury@btinternet.com'
 __created__ = '20 Feb 2016'
 
 from django.test import TestCase
-from django.test import Client
-from django.core.urlresolvers import reverse
-from datetime import datetime
-from Sponsors import views
 from Sponsors import models
 from Sponsors import forms
 

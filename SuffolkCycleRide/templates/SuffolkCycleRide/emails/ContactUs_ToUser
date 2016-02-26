@@ -1,0 +1,18 @@
+{{sender_name}},
+    You sent a message to us through our Contact Us Page.
+ 
+    Your Email : {{sender_email}}
+    Reason : {{reason_text}}
+    Message Content :
+ 
+{{content}}
+
+
+---------------------------------------------
+Thank you for contacting us, and we will endeavour to reply to you  within 1 to 2 working days, although the delay
+might be longer if your question is complex or we are busy.
+This is an automated message from The Great Suffolk Cycle Ride.
+
+--
+This is an automated email via The Great Suffolk Cycle Ride website.
+{{host}}

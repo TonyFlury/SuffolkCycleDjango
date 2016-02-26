@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.db.models import Count
 from django.db.models.functions import Coalesce
 from django.views.generic import View
-from django.core.urlresolvers import reverse_lazy, reverse
 
 import models
 import forms

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-# SuffolkCycleDjango : Implementation of test_tags.py
+# SuffolkCycleDjango : Implementation of test_00_tags.py
 
 Summary : 
     <summary of module/class being implemented>

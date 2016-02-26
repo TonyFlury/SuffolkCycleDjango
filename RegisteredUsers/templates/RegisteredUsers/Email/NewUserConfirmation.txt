@@ -1,8 +1,8 @@
-Dear {{ user.first_name }},
+Dear {{ user.first_name }} {{ user.last_name }},
 
     Welcome to The Great Suffolk Cycle Ride.
 
-    Thank you for registering with our website at {{ BASE_URL }} .
+    Thank you for registering with our website at {{ HOST_URL }} .
 
     Your username is {{ user.username }}, and you will need this to login.
 
@@ -11,10 +11,10 @@ Dear {{ user.first_name }},
 
     We hope you find everything you need on the website - if something is missing, please let us know.
 
-    If you need to reset your password - click to {{ BASE_URL }}{{ ResetRequestURL }} and follow the prompts.
+    If you need to reset your password - click to {{ ResetUrl }} and follow the prompts.
 
     Thanks again, and we look forward to meeting you as the event progresses.
     --
     The Suffolk Cycle Ride Organisation team
-    www : {{ HOST }}
-    email : suffolkcycleride2016@gmail.com
+    www : {{ HOST_URL }}
+    email : suffolkcycleride2016@btinternet.com

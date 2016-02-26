@@ -1,0 +1,24 @@
+{% extends "base/base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+        <div class="popup" >
+            <div class="popup-inner ">
+                <h2>Unknown Password Reset Link</h2>
+                <span align="center">The link you followed is either invalid or has expired.</br>
+                    If you need to reset your password please Request a new reset</br>
+                    <a href="{% url 'User:ResetRequest' %}">Request a Password Reset</a>
+                </span>
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <input type="hidden" value="True" name="confirmation">
+                    <input type="submit" value="OK" name="OK">
+                </form>
+            </div>
+        </div>
+{% endblock %}

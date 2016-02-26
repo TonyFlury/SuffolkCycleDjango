@@ -1,20 +1,19 @@
-from django.core.exceptions import ObjectDoesNotExist
-from django.contrib.auth import login, authenticate
-from django.http import HttpResponseRedirect
-from django.template.loader import render_to_string
-from django.shortcuts import render, redirect
-from django.views.generic import View
-from django.core.urlresolvers import reverse_lazy, reverse
-from django.contrib.auth import logout
-
-from stats.models import PageVisit
-from EmailPlus.email import Email
-
-import forms
-import models
-
-from datetime import date as dt
+# coding=utf-8
 import uuid
+from datetime import date as dt
+
+from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
+import django.views.generic as generic
+from django.contrib.auth import login, authenticate, logout
+from django.core.urlresolvers import reverse_lazy, reverse
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
+from django.core.mail import send_mail
+
+from RegisteredUsers import forms, models
+from stats.models import PageVisit
 
 __version__ = "0.1"
 __author__ = 'Tony Flury : anthony.flury@btinternet.com'
@@ -31,7 +30,7 @@ __created__ = '09 Feb 2016'
 
 
 
-class SignIn(View):
+class SignIn(generic.View):
     """ Sign in On via a simple form """
 
     # Single store for Form information re-used in GET and Post
@@ -52,7 +51,6 @@ class SignIn(View):
     # noinspection PyIncorrectDocstring
     def post(self, request):
         """ Process the Form contents """
-
         c = self.context.copy()
         form = forms.SignInForm(request.POST)
 
@@ -72,11 +70,14 @@ class SignIn(View):
 # noinspection PyPep8Naming,PyIncorrectDocstring
 def SignOut(request):
     """ A simple view - No form, no complexity - just logout and pop the user back home """
-    logout(request=request)
+    if request.user.is_authenticated():
+        PageVisit.record(request)
+        logout(request=request)
+
     return HttpResponseRedirect(reverse("Home"), {})
 
 
-class ResetRequestView(View):
+class ResetRequestView(generic.View):
     """ view used for a user to request a password reset
 
         the form prompts for email address - and finds the relevant user
@@ -92,23 +93,27 @@ class ResetRequestView(View):
         return render(request, "base/SingleForm.html", context=c)
 
     def post(self, request):
+
         c = self.context.copy()
         form = forms.PasswordResetRequest(request.POST)
+
         if form.is_valid():
 
             # The save form creates an instance of the PasswordResetRequestModel: expiry date is 14 days from 'today'
             reset = form.save()
-            reset_local = reverse('User:Reset', args=[str(reset.uuid)])
+            reset_local = reset.get_url()
 
             # Send the email to the identified user: Email contains a URL unique to that reset (128 bit UUID)
-            Email(subject="Great Suffolk Cycle Ride : Password reset",
-                  body=render_to_string("RegisteredUsers/Email/PasswordResetRequest.txt",
+            send_mail( from_email = settings.DEFAULT_FROM_EMAIL,
+                       recipient_list=[reset.user.email],
+                        subject="Great Suffolk Cycle Ride : Password reset",
+                        message=render_to_string("RegisteredUsers/Email/PasswordResetRequest.txt",
                                         context={'user': reset.user,
                                                  'ResetUrl': request.build_absolute_uri(reset_local),
                                                  'ExpireBy': reset.expiry,
                                                  'HOST': request.get_host()
                                                  })
-                  ).send(reset.user.email)
+                    )
 
             # This will record the page visit - but not who requested the reset - only record a successful attempt
             # Pop the user to the ResetConfirmation page
@@ -124,12 +129,14 @@ class ResetRequestView(View):
             return render(request, "base/SingleForm.html", context=c)
 
 
-class Reset(View):
+class Reset(generic.View):
     context = {'heading': "New Password",
                'description': 'Enter and confirm your new password',
                'submit': "Reset Password",
                'action': ''
                }
+
+    #Todo - Refactor to use SingleForm and confirmation popup - rather than custom templates
 
     def get(self, request, reset_uuid):
 
