@@ -1,0 +1,58 @@
+{% extends "base/no-menu-base.html" %}
+
+{% load staticfiles %}
+{% load helper_tags %}
+
+{% block title %}
+ Suffolk Cycle Ride - Fund {{ cyclist.get_full_name }}
+{% endblock %}
+
+{% block page_styles_links %}
+    <link rel="stylesheet" href="{% static 'SuffolkCycleRide/css/fundme.css' %}">
+{% endblock %}
+
+{% block content %}
+<h2 style="text-align:center; margin-bottom:1em;margin-top:0.5em;">The Great Suffolk Cycle Ride</h2>
+<div>
+    <div style="float:left;width:20%">
+        {% if cyclist.picture %}
+        <div class="picture" {% resize_style cyclist.picture max_width="180" %}">
+        <img src="/media/{{ cyclist.picture.name }}" {% resize_style cyclist.picture max_width="180" %}"/>
+        </div>
+        {% else %}
+        <div class="picture" style='width:200px;height:200px'>
+        <img src="{% static 'SuffolkCycleRide/images/default_avatar.png' %}" style='width:200px;height:200px'/>
+        </div>
+        {% endif %}
+    </div>
+    <div style="float:right; width:75%">
+        <div id="intro-block">
+        {{ cyclist.get_full_name }} is cycling {{ cyclist.total_distance_km }} km (<i>{{ cyclist.total_distance_miles }} miles</i>) over {{cyclist.total_days}} days,<br/>to fund-raise for Suffolk cancer charities.<br/>
+        </div>
+<!--        <div class="barchart-outer" > -->
+            <div class="barchart-outer">
+            <div class="barchart-inner-inset"></div>
+            <div class="barchart-inner" style='width:{% limited_width_ratio cyclist.currentPledgedAmount cyclist.targetAmount 640 %}'></div>
+            <div class="barchart-text">
+        <span class="large bold">£{{cyclist.currentPledgedAmount | currency }} pledged</span> <span class="small">({{cyclist.percentage_funding}}%) of £{{ cyclist.targetAmount | currency }} target.</span>
+            </div>
+        </div>
+        {% if cyclist.fundraising_site %}
+            <div id="url-block">
+                You can support {{ cyclist.user.first_name }} online at <a href="{{ cyclist.fundraising_site }}">{{ cyclist.fundraising_domain }}</a>
+            </div>
+        {% endif %}
+
+        {% if cyclist.statement %}
+        <div id="statement-block">
+            <div>
+            {{ cyclist.user.first_name }} Says :
+                <div class="statement">
+                    {{ cyclist.statement }}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

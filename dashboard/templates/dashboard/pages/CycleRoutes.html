@@ -64,46 +64,53 @@ Great Suffolk Bike Ride 2016 : My Details
 {% endblock %}
 
 {% block dashboard-form %}
-    <thead>
-        <tr>
-            <th class='cell check'>
-                <input type="checkbox" class="selectAll" name="selectAll" id="selectAll"/>
-                <label class="click selectAll" for="selectAll" name="selectAll" id="selectAll"></label></th>
-            <th class='cell name'>Name</th>
-            <th class='cell date'>Date</th>
-            <th class='cell start'>Start</th>
-            <th class='cell end'>End</th>
-            <th class='cell distance'>Distance (Km)</th>
-        </tr>
-    </thead>
-    <tbody>
+    {% if legs %}
+        <thead>
+            <tr>
+                <th class='cell check'>
+                    <input type="checkbox" class="selectAll" name="selectAll" id="selectAll"/>
+                    <label class="click selectAll" for="selectAll" name="selectAll" id="selectAll"></label></th>
+                <th class='cell name'>Name</th>
+                <th class='cell date'>Date</th>
+                <th class='cell start'>Start</th>
+                <th class='cell end'>End</th>
+                <th class='cell distance'>Distance (Km)</th>
+            </tr>
+        </thead>
+        <tbody>
         {% for leg in legs %}
-        <tr class="row {% cycle 'row1' 'row2' %} leg">
-            <td class='cell check' >
-                <input  id='check_{{ leg.id }}' type="checkbox" class='checkbox' name="selected" value="{{ leg.id }}"
-                {% if leg.cyclist_on_leg %}
-                     checked
-                {% endif %}
-                /><label class="click checkbox" for="check_{{ leg.id }}"></label>
-            </td>
-            <td class='cell name' >{{ leg.name }}</td>
-            <td class='cell date' >{{ leg.date }}</td>
-            <td class='cell start' >{{ leg.start }}</td>
-            <td class='cell end' >{{ leg.end }}</td>
-            <td class='cell distance' >{{ leg.distanceKM }}</td>
-        </tr>
+            <tr class="row {% cycle 'row1' 'row2' %} leg">
+                <td class='cell check' >
+                    <input  id='check_{{ leg.id }}' type="checkbox" class='checkbox' name="selected" value="{{ leg.id }}"
+                    {% if leg.cyclist_on_leg %}
+                         checked
+                    {% endif %}
+                    /><label class="click checkbox" for="check_{{ leg.id }}"></label>
+                </td>
+                <td class='cell name' >{{ leg.name }}</td>
+                <td class='cell date' >{{ leg.date }}</td>
+                <td class='cell start' >{{ leg.start }}</td>
+                <td class='cell end' >{{ leg.end }}</td>
+                <td class='cell distance' >{{ leg.distanceKM }}</td>
+            </tr>
         {% endfor %}
-    </tbody>
-    <tfoot>
-        <tr class='row'>
-            <td class='cell check' >&nbsp;</td>
-            <td class='cell' >&nbsp;</td>
-            <td class='cell' >&nbsp;</td>
-            <td class='cell' >&nbsp;</td>
-            <td class='cell' >&nbsp;</td>
-            <td class='cell' id="totalDistance" >&nbsp;</td>
-        </tr>
-    </tfoot>
+        </tbody>
+        <tfoot>
+            <tr class='row'>
+                <td class='cell check' >&nbsp;</td>
+                <td class='cell' >&nbsp;</td>
+                <td class='cell' >&nbsp;</td>
+                <td class='cell' >&nbsp;</td>
+                <td class='cell' >&nbsp;</td>
+                <td class='cell' id="totalDistance" >&nbsp;</td>
+            </tr>
+        </tfoot>
+    {% else %}
+        <tbody>
+            <tr><td>We are busy planning the route for the <span class="bold">Great Suffolk Cycle Ride</span></td></tr>
+            <tr><td>Watch this space for details of the route when they are ready.</td></tr>
+        </tbody>
+    {% endif %}
 {% endblock %}
 
 {% block post-form %}

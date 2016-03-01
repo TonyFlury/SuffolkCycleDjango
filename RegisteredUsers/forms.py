@@ -94,10 +94,14 @@ class NewUserForm(forms.ModelForm):
     def save(self, commit=True):
         """ Customised save on the form, so that we can separate control and view """
 
-        # Fugly code - tidy - Explicit is better
+        fields = self.cleaned_data
+
         if self.is_valid():
-            d = dict([(k, v) for k, v in self.cleaned_data.iteritems() if k != 'confirm_password'])
-            user = User.objects.create_user(**d)
+            user = User.objects.create_user( first_name = fields['first_name'],
+                                             last_name = fields['last_name'],
+                                             username= fields['username'],
+                                             email= fields['email'],
+                                             password=fields['password'])
             return user
         else:
             return None

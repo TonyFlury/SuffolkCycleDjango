@@ -36,6 +36,7 @@ import SuffolkCycleRide.forms as forms
 import newsletter.models
 import newsletter.forms
 import RegisteredUsers.forms
+import cyclists.models
 
 class StaticUrls(TestCase):
     def setUp(self):
@@ -179,3 +180,27 @@ class ContactUs(TestCase):
         self.assertIn(name, user_message.body)
         self.assertIn(email, user_message.body)
         self.assertIn(content, user_message.body)
+
+class FundMe(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.user = User.objects.create_user( first_name='Chester', last_name="Tester",
+                                               username='Tester', email='tester@test.com',
+                                               password='testtest')
+        self.cyclist = cyclists.models.Cyclist.objects.get(user=self.user)
+        self.cyclist.targetAmount = 1000
+        self.cyclist.currentPledgedAmount = 50
+        self.cyclist.save()
+
+    def tearDown(self):
+        pass
+
+    def test_BasicAccess(self):
+        """Prove that access is available to the FundMe page - even when not logged in"""
+        ts = now()
+        r = self.client.get( reverse('FundMe', kwargs={'username':self.user.username}))
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(r.resolver_match.func.__name__, views.fundme.__name__)
+        self.assertEqual(r.templates[0].name, 'SuffolkCycleRide/pages/fundme.html')
+        self.assertAlmostEqual(PageVisit.most_recent('FundMe', user=self.user).timestamp, ts, delta=timedelta(milliseconds=100))
+        #Todo Will need to test other features - such as appearance of the target, the Image, the statement

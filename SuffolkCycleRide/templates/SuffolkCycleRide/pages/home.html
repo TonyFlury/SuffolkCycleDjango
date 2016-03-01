@@ -1,14 +1,28 @@
 {% extends "base/base.html" %}
 
 {% load staticfiles %}
+{% load helper_tags %}
 
 {% block subtitle %}
  - Home Page
 {% endblock %}
 
+{% block page_styles_links %}
+    <link rel="stylesheet" href="{% static 'SuffolkCycleRide/css/home.css' %}">
+{% endblock %}
+
 {% block content %}
 <!-- Intro -->
     <div class="content-section">
+        {% if funding %}
+            <div class="barchart-outer">
+                <div class="barchart-inner-inset"></div>
+                <div class="barchart-inner" style='width:{% limited_width_ratio funding.pledges funding.target 900 %}'></div>
+                <div class="barchart-text">
+                    <span class="large bold"">£{{funding.pledges | currency }} pledged</span> <span class="small">({{funding.percentage}}%) of £{{ funding.target | currency }} target.</span>.
+                </div>
+            </div>
+        {% endif %}
         <h2 style="font-size:300%;margin-top:0px;">Help Fight Cancer with the</h2>
         <h1 style="font-size:600%;margin-top:0px;">Great Suffolk</h1>
         <h1 style="font-size:600%;margin-top:0px;">Cycle Ride</h1>

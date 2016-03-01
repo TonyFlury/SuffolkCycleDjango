@@ -1,0 +1,66 @@
+{% extends "dashboard/base/dashboard_form.html" %}
+
+{% load staticfiles %}
+{% load helper_tags %}
+
+{% block title %}
+Great Suffolk Bike Ride 2016 : My Details
+{% endblock %}
+
+{% block page_styles %}
+
+div.picture {
+box-shadow: 6px 6px 4px rgba(0, 0, 0, 0.6);
+}
+
+{% endblock %}
+
+{% block dashboard-form %}
+    <tbody>
+        <tr>
+            <td colspan="4">{{ form.non_field_errors }}</td>
+        </tr>
+        <tr>
+            <td><label>Username :</label></td>
+            <td colspan="3"><span style="width:{{22}}em;" class="readonly">{{ request.user.username}}</span></td>
+        </tr>
+        <tr><td colspan="2">{{ form.first_name.errors }} </td><td colspan="2">{{ form.last_name.errors }} </td></tr>
+        <tr>
+            <td>{{ form.first_name.label_tag }}</td><td>{{form.first_name}}</td>
+            <td>{{ form.last_name.label_tag }}</td><td>{{form.last_name}}</td>
+        </tr>
+
+        <tr><td colspan="4">{{ form.email.errors }}</td></tr>
+        <tr>
+            <td>{{form.email.label_tag}}</td><td colspan="3">{{form.email}}</td>
+        </tr>
+
+        <tr><td colspan="4">{{ form.picture.errors }}</td></tr>
+        <tr>
+            <td>{{form.picture.label_tag}}</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr>
+            <td>
+                {% if cyclist.picture %}
+                    <div class="picture" style='width:100px;height:auto;'>
+                    <img src="{{ cyclist.picture.url }}" style='width:100px;height:auto;'/>
+                    </div>
+                {% else %}
+                    <div class="picture" style='width:100px;height:100px'>
+                    <img src="{% static 'SuffolkCycleRide/images/default_avatar.png' %}" style='width:100px;height:100px'/>
+                    </div>
+                {% endif %}
+                <td colspan="3" style="vertical-align:top">
+                    <div>
+                    <input id="picture-clear_id" name="picture-clear" class='checkbox' type="checkbox"/>
+                    <label for="picture-clear_id" style="text-align:left;" class='click checkbox'>Clear</label>
+                    </div>
+                    <div>
+                        <input id="picture" name="picture" type="file"/>
+                    </div>
+                </td>
+        </tr>
+    </tbody>
+{% endblock %}
+
+{% block post-form %}
+{% endblock %}

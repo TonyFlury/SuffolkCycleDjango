@@ -1,0 +1,23 @@
+div#Dashboard {
+display:inline-block;
+overflow:auto;
+/* border: dotted white ;*/
+width:1000px;
+margin-left:0% ;/* Outdent the main dashboard - so we have more horizontal space */
+margin-right:0%;
+
+}
+
+div#DashboardMenu {
+ float:left;
+/* border: dashed red ; */
+ padding-right: 1em;
+}
+
+div#DashboardDetails {
+   margin-left:0.25em;
+   padding: 0.25em;
+   float:left;
+   width:70%;
+   margin-right:0.1em;
+}

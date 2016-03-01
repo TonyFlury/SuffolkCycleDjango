@@ -1,0 +1,29 @@
+{% extends "dashboard/base/dashboard_form.html" %}
+
+{% load staticfiles %}
+
+{% block title %}
+Great Suffolk Bike Ride 2016 : My Details
+{% endblock %}
+
+{% block dashboard-form %}
+
+<tbody>
+<tr><td colspan="2" align="center"><span class="yellow">{{ form.targetAmount.errors }}</span></td></tr>
+<tr><td colspan="2" style="padding-left:30%"><span class="white small">{{ form.targetAmount.help_text }}</span></td></tr>
+<tr><td width="30%">{{ form.targetAmount.label_tag }}</td><td>{{ form.targetAmount }}</td></tr>
+
+<tr><td colspan="2" align="center"><span class="yellow">{{ form.currentPledgedAmount.errors }}</span></td></tr>
+<tr><td colspan="2" style="padding-left:30%"><span class="white small">{{ form.currentPledgedAmount.help_text }}</span></td></tr>
+<tr><td width="30%">{{ form.currentPledgedAmount.label_tag }}</td><td>{{ form.currentPledgedAmount }}</td></tr>
+
+<tr><td colspan="2" align="center"><span class="yellow">{{ form.fundraising_site.errors }}</span></td></tr>
+<tr><td colspan="2" style="padding-left:30%"><span class="white small">{{ form.fundraising_site.help_text }}</span></td></tr>
+<tr><td width="30%">{{ form.fundraising_site.label_tag }}</td><td>{{ form.fundraising_site }}</td></tr>
+</tbody>
+
+{% endblock %}
+
+{% block post-form %}
+Make sure you check out your own <a href="{{ cyclist.get_absolute_url }}" >Personal Fund Raising</a> Page. You can share it on social media, or with friends to ensure that everyone knows that you are taking part
+{% endblock %}

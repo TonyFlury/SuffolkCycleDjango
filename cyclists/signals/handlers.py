@@ -23,11 +23,9 @@ from cyclists.models import Cyclist
 
 @receiver(post_save, sender=User)
 def UserCreate( sender, instance, created, **kwargs):
-    if not created:
+
+    if (not created) or instance.is_staff:
         return
 
-    if instance.is_staff:
-        return
-
-    cyc = Cyclist.objects.create( user=instance, expectedAmount=0)
+    cyc = Cyclist.objects.create( user=instance)
     cyc.save()

@@ -5,6 +5,8 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.views.generic import View
 from django.core.urlresolvers import reverse
+from django.db.models import F
+
 
 from newsletter.forms import NewsletterSignUpForm
 from RegisteredUsers.forms import NewUserForm
@@ -12,18 +14,30 @@ from newsletter.models import Newsletter
 from stats.models import PageVisit
 from django.core.mail import send_mail
 
-from MultipleFormMixin import MultipleFormMixin
+from EnhancedForms import MultipleFormMixin
 
 from context_processor import settings_base_url
 import forms
+
+import cyclists.models
 
 
 # noinspection PyIncorrectDocstring
 def home(request):
     """ The front page - where everybody first lands"""
     PageVisit.record(request)
-    return render(request, "SuffolkCycleRide/pages/home.html", context={} )
 
+    funds = cyclists.models.Cyclist.total_funds()
+    if funds['target'] and funds['pledges']:
+        funds['target'] = max(2000, funds['target'])
+        funds['percentage'] = round(100*funds['pledges']/funds['target'])
+    else:
+        funds = {}
+
+    return render(request, "SuffolkCycleRide/pages/home.html", context={
+            'funding':{'pledges':"{:.0f}".format(funds['pledges']),
+                       'target':"{:.0f}".format(funds['target']),
+                       'percentage':"{:.0f}".format(funds['percentage']) } if funds else {} } )
 
 # noinspection PyIncorrectDocstring
 def readmore(request):
@@ -32,7 +46,6 @@ def readmore(request):
     dl_url = reverse('newsletter:Download',kwargs = {'id':'0000'}).strip('0')
     qs = Newsletter.objects.order_by('-pub_date')
     return render(request, "SuffolkCycleRide/pages/readmore.html", context={'newsletter':qs, "dl_base":dl_url})
-
 
 # noinspection PyIncorrectDocstring
 def privacy(request):
@@ -90,10 +103,9 @@ class GetInvolved(MultipleFormMixin, View):
                             message=render_to_string( "RegisteredUsers/Email/NewUserConfirmation.txt",
                                     context=dict( {'user': user,
                                              'ResetUrl': request.build_absolute_uri( reverse("User:ResetRequest") ),
-                                             'HOST': request.get_host() },
-                                             **settings_base_url(request)
-                                             )
-                                        ))
+                                             'HOST': request.get_host() }.items() +\
+                                             settings_base_url(request).items()
+                                             )))
                 self.this_form.login(request)
                 return HttpResponseRedirect( reverse('Dashboard:Home') )
 
@@ -125,19 +137,21 @@ class ContactUs(View):
             send_mail( subject="A message regarding {} from {}".format(data['reason'],data['sender_name']),
                        from_email = settings.DEFAULT_FROM_EMAIL,
                        recipient_list = [settings.DEFAULT_TO_EMAIL],
-                       message = render_to_string('SuffolkCycleRide/emails/ContactUs_ToStaff',
-                                  context= dict( {'host':settings.BASE_URL,
-                                                 'reason_text': forms.ContactChoices.fullVersion(data['reason'])},
-                                                **data ) ))
+                       message = render_to_string(
+                               'SuffolkCycleRide/emails/ContactUs_ToStaff',
+                               context= dict( {'host':settings.BASE_URL,
+                                            'reason_text': forms.ContactChoices.fullVersion(data['reason'])}.items() +\
+                                            data.items() ) ))
 
             # Confirmation message back to the user
             send_mail( subject="The Great Suffolk Cycle Ride - Thank you for your message",
                        from_email = settings.DEFAULT_FROM_EMAIL,
                        recipient_list = [data['sender_email']],
-                       message =render_to_string('SuffolkCycleRide/emails/ContactUs_ToStaff',
-                                    context = dict( {'host':settings.BASE_URL,
-                                                      'reason_text' :forms.ContactChoices.fullVersion(data['reason'])},
-                                                  **data ) ) )
+                       message =render_to_string(
+                               'SuffolkCycleRide/emails/ContactUs_ToStaff',
+                               context = dict( {'host':settings.BASE_URL,
+                                            'reason_text' :forms.ContactChoices.fullVersion(data['reason'])}.items() +\
+                                            data.items() ) ) )
 
             return render(request=request,
                           template_name='base/SingleForm.html',
@@ -148,3 +162,9 @@ class ContactUs(View):
             return render(request=request,
                           template_name='base/SingleForm.html',
                           context= context)
+
+def fundme(request, username):
+    cyclist = cyclists.models.Cyclist.objects.get(user__username = username)
+    PageVisit.record(request=request, document_name='FundMe', user = cyclist.user )
+
+    return render(request, 'SuffolkCycleRide/pages/fundme.html', context={'cyclist':cyclist})

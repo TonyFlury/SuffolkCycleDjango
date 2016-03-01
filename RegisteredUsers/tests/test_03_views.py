@@ -11,8 +11,8 @@ Testable Statements :
     Can I <Boolean statement>
     ....
 """
-from django.test import TestCase
-from django.test import Client
+from django.test import TestCase, Client
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.utils.timezone import now
 from django.contrib.auth import authenticate
@@ -225,3 +225,6 @@ class Reset(TestCase):
 
         # Confirm password has actually been changed - i.e. can we authenticate with the new password
         self.assertEqual(authenticate(username=self.chester.username, password='test'), self.chester)
+
+        with self.assertRaises(ObjectDoesNotExist):
+            prr = models.PasswordResetRequest.objects.get(pk = self.prr.pk)

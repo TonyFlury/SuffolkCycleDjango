@@ -1,194 +1,24 @@
+{% extends "base/origin.html" %}
+
 {% load staticfiles %}
 {% load helper_tags %}
 
-<html lang="{{ LANGUAGE_CODE }}" xmlns="http://www.w3.org/1999/html">
-
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
-    <head profile="http://www.w3.org/2005/10/profile">
-    <link rel="icon"
-      type="image/gig"
-      href="{% static 'SuffolkCycleRide/images/favicon.gif' %}">
-
-    <title>{% block title %}Suffolk Suffolk Cycle Ride 2016{% endblock %}{% block subtitle %}{% endblock %}</title>
-
-    <!-- Load site specific style sheets -->
-
-    <link rel="stylesheet" href="{% static 'base/css/colours.css' %}">
-    <link rel="stylesheet" href="{% static 'base/css/main-style.css' %}">
-    <link rel="stylesheet" href="{% static 'base/css/newforms.css' %}">
-    <link rel="stylesheet" href="{% static 'base/css/table.css' %}">
-    <link rel="stylesheet" href="{% static 'base/css/jquery.mCustomScrollbar.min.css' %}">
-
-    <!-- Data for the Facebook like button https://developers.facebook.com/tools/debug/og/object/ -->
-    <meta property="og:url"           content="{{ HOST_URL }}" />
-	<meta property="og:type"          content="website" />
-	<meta property="og:title"         content="The Great Suffolk Cycle Ride" />
-	<meta property="og:description"   content="A multi-day charity cycle ride across Suffolk in Summer 2016. Get involved as a cyclist, organiser, or part of the support team." />
-	<meta property="og:image"         content="{% absolute_static 'SuffolkCycleRide/images/suffolk-cycle-dated-background.gif' %}" />
-
-    {% block head_meta %}
-    {% endblock %}
-
-    <!-- Allow pages to load their own page specific styles -->
-    {% block page_styles_links %}
-    {% endblock %}
-
-    <style>
-    {% block page_styles %}
-    {% endblock %}
-    </style>
-
-    <script type="text/javascript" src="{% static 'base/js/jquery-latest.min.js' %}" ></script>
-    <script type="text/javascript" src="{% static 'base/js/jquery.mCustomScrollbar.concat.min.js' %}"></script>
-
-
-    <!-- Allow page specific scripts -->
-    <script type="text/javascript">
-        {% block page_scripts %}
-        {% endblock %}
-
-        function resetHeaderFooterWidths() {
-
-            var content_width = 900 ; /* ****** DONOT Set to less than 900 ***** */
-
-            var width = window.innerWidth
-                            || document.documentElement.clientWidth
-                            || document.body.clientWidth ;
-
-            var gap = (width - content_width)/2;
-
-            $('#Site_Background').css('width', (width).toString() + "px" );
-
-            $.each( $('div#content'), function(){
-                    $( this ).css('width', content_width.toString()+"px");
-            });
-
-            $.each( $('.Site_Root'), function(){
-                    $( this ).css('width', content_width.toString()+"px");
-                    $( this ).css('margin-left', gap.toString() + "px");
-                    $( this ).css('margin-right', gap.toString() + "px");
-            });
-
-            $.each( $('#header'), function(){
-                    $( this ).css('width', content_width.toString()+"px");
-            });
-
-            $.each( $('#footer'), function(){
-                    $( this ).css('width', content_width.toString()+"px");
-            });
-
-            $.each( $('.strip'), function(){
-                    $( this).css('left', (-gap).toString() + "px" );
-                    $( this).css('width', (width).toString() + "px" );
-                });
-
-            $.each( $('#header_bg'), function(){
-                    $( this).css('left', (-gap).toString() + "px" );
-                    $( this).css('width', (width).toString() + "px" );
-                });
-
-            $.each( $('#footer_bg'), function (){
-                    $( this).css('left', (-gap).toString() + "px" );
-                    $( this).css('width', (width).toString() + "px" );
-                });
-        }
-
-        $(document).ready(function(){
-                    resetHeaderFooterWidths();
-                });
-
-        $(window).resize(function(){
-                    resetHeaderFooterWidths();
-         });
-
-    </script>
-
-    <noscript>
-        {% block no_page_scripts %}
-        {% endblock %}
-    </noscript>
-
-</head>
-<body>
-<div id="fb-root"></div>
-
-<!-- Script for Facebook like button https://developers.facebook.com/tools/debug/og/object/ -->
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.5";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
-</script>
-
-<div id="Site_Background">
-    <div class="Site_Root"> <!-- Centered central vertical section -->
-
-        <div id='header'> <!-- Horizontal menu bar -->
-            <div id='header_bg'></div>  <!-- Darker bar extending across the viewport -->
-                <div class='menu centered'>
-                    {% block menu %}
-                    <ul class='chevronbar'>
-                        <li><a href="{% url 'Home' %}">Home</a></li>
-                        <li><a href="{% url 'Readmore' %}">Read More</a></li>
-                        {% if user.is_authenticated %}
-                        <li><a href="{% url 'Dashboard:Home' %}">My Dashboard</a></li>
-                        {% else %}
-                        <li><a href="{% url 'GetInvolved' %}">Get Involved</a></li>
-                        {% endif %}
-                        {% if user.is_authenticated %}
-                        <li><a href="{% url 'User:SignOut' %}">Sign Out</a></li>
-                        {% else %}
-                        <li><a href="{% url 'User:SignIn' %}">Sign In</a></li>
-                        {% endif %}
-                        <li><a href="{% url 'Sponsorship:Main' %}">Sponsor Us</a></li>
-                        <li><a href="{% url 'Blog:Main' %}">Blog</a></li>
-                    </ul>
-                    {% endblock %}
-                    <!-- Facebook like button -->
-                    <div class="fb-like fb-like-pos" data-href="{{ HOST_URL }}" data-width="200"
-                         data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
-                </div>
-        </div>
-
-        <div id="content">
-
-            {% block content %}
-            {{ content }}
-            {% endblock %}
-
-        </div>
-
-        <!-- The footer information - copyright info -->
-        <div id='footer'>
-            <div id='footer_bg'></div>
-            <div class="white centered small" style="top:10px">
-                <table class="white small">
-                    <tr>
-                <td align="left" class="white">
-                    {% now "Y" as year %}
-                &copy; {{ year }} - The Great Suffolk Cycle Ride</td>
-                        <td>&nbsp;</td>
-                <td align="right" class="white">{% now " D d M Y h:i A" %}</td>
-                        </tr>
-                    <tr>
-                <td align="left" class="white">Credits</td>
-                        <td align="center" class="white"><a href="{% url 'Privacy' %}" target="_new">Privacy Policy</a></td>
-                        <td align="right" class="white">Contact Us</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-
-    </div>
-
-</div>
-
-</body>
-</html>
+{% block menu-content %}
+<!-- repeated for clarity -->
+<ul class='chevronbar'>
+    <li><a href="{% url 'Home' %}">Home</a></li>
+    <li><a href="{% url 'Readmore' %}">Read More</a></li>
+    {% if user.is_authenticated %}
+    <li><a href="{% url 'Dashboard:Home' %}">My Dashboard</a></li>
+    {% else %}
+    <li><a href="{% url 'GetInvolved' %}">Get Involved</a></li>
+    {% endif %}
+    {% if user.is_authenticated %}
+    <li><a href="{% url 'User:SignOut' %}">Sign Out</a></li>
+    {% else %}
+    <li><a href="{% url 'User:SignIn' %}">Sign In</a></li>
+    {% endif %}
+    <li><a href="{% url 'Sponsorship:Main' %}">Sponsor Us</a></li>
+    <li><a href="{% url 'Blog:Main' %}">Blog</a></li>
+</ul>
+{% endblock %}

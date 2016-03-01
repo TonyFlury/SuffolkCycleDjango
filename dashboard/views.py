@@ -13,14 +13,13 @@ Testable Statements :
 """
 
 from datetime import date, timedelta
-from pprint import pprint
-
-from django.http import HttpResponseServerError,HttpResponseRedirect
+from django.http import HttpResponseServerError
 from django.shortcuts import render, redirect
 from django.views.generic import View
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.contrib.auth import login, authenticate
+from django.db.models import Case, When, Value
+from django.db.models import IntegerField
 
 from stats.models import PageVisit
 
@@ -29,9 +28,11 @@ import forms
 # Reuse the models and forms from the RegisteredUsers app to make password reset available
 import RegisteredUsers.models
 import RegisteredUsers.forms
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
 import cyclists.models
+
+from PIL import Image
+
+from StringIO import StringIO
 
 __version__ = "0.1"
 __author__ = 'Tony Flury : anthony.flury@btinternet.com'
@@ -45,70 +46,91 @@ __created__ = '23 Jan 2016'
 # -----------------------------------------------------------------------------
 
 
-class UserDashboard(LoginRequiredMixin, View):
-    """The Dashboard Page - will get a lot more complex - might need its own .py"""
-    login_url = reverse_lazy("GetInvolved")
+class UserDashboard(View):
+    """The Dashboard Page"""
+    def get(self, request):
+        if not request.user.is_authenticated():
+            return redirect( reverse("GetInvolved"))
 
-    @staticmethod
-    def get(request):
         PageVisit.record(request)
         return render(request, "dashboard/pages/dashboard.html")
 
+# Todo - Need to be able to add personal Statement - and upload portrait
 
-class MyDetails(LoginRequiredMixin, View):
-    login_url = reverse_lazy("GetInvolved")
-
+class MyDetails(View):
     context = {'heading': 'My Details',
                'description': 'Update your personal details here',
+                'form_enctype': 'enctype="multipart/form-data"',
                'submit': ['Save', 'Change Password']}
 
     def get(self, request):
+        if not request.user.is_authenticated():
+            return redirect( reverse("GetInvolved"))
 
         context = self.context.copy()
 
         PageVisit.record(request)
 
         me = request.user
-        form = forms.UserDetails(instance=me)
+        cyclist = cyclists.models.Cyclist.objects.get(user = me)
 
-        context.update({'form': form})
+        form = forms.MyDetails(instance=[me,cyclist])
 
-        return render(request, 'dashboard/pages/dashboardPeople.html', context=context)
+        context['form'] = form
+        context['cyclist'] = cyclist
+
+        return render(request, 'dashboard/pages/MyDetails.html', context=context)
 
     def post(self, request):
+        if not request.user.is_authenticated():
+            return redirect( reverse("GetInvolved"))
+
+        if request.POST.get('confirmation',''):
+            return redirect(reverse('Dashboard:MyDetails'))
 
         if request.POST['submit'] == 'Change Password':
             return redirect("Dashboard:PasswordReset")
 
         me = request.user
-        form = forms.UserDetails(request.POST)
+        cyclist = cyclists.models.Cyclist.objects.get(user = me)
+
+        form = forms.MyDetails(request.POST, request.FILES)
         context = self.context.copy()
 
         if form.is_valid():
-            me.first_name, me.last_name, me.email = (form.cleaned_data[k] for k in ['first_name', 'last_name', 'email'])
 
             PageVisit.record(request, 'Details Changed')
 
+            for k in ['first_name','last_name', 'email']:
+                if form.cleaned_data[k] != getattr(me, k):
+                    setattr(me, k, form.cleaned_data[k])
             me.save()
 
-            context.update({'description': 'Personal details saved',
-                            'description_class': 'confirm',
-                            'form': form})
+            if 'picture-clear' in form.cleaned_data:
+                cyclist.picture = ''
+            else:
+                if form.cleaned_data['picture'] != cyclist.picture:
+                    cyclist.picture = form.cleaned_data['picture']
+            cyclist.save()
 
-            return render(request, 'dashboard/pages/dashboardPeople.html', context=context)
+            return render(request, 'dashboard/pages/MyDetails.html',
+                          context={'confirmation': {'title':'Personal details saved',
+                                 'message': 'Your changes have been saved. Click OK to return to your dashboard'}})
 
-        context.update({'form': form})
-        return render(request, 'dashboard/pages/dashboardPeople.html', context=context)
+        context['form'] =  form
+        context['cyclist'] = cyclist
+        return render(request, 'dashboard/pages/MyDetails.html', context=context )
 
 
-class PasswordReset(LoginRequiredMixin, View):
+class PasswordReset(View):
     context = {'heading': 'Change Password',
                'description': ' Enter your new password, and confirm',
                'submit': ['Change Now']}
 
-    login_url = reverse_lazy("GetInvolved")
-
     def get(self, request):
+        if not request.user.is_authenticated():
+            return redirect( reverse("GetInvolved"))
+
         # Use the same mechanism as a 'forgotten password', but only have a 24 hour expiry period
         prr = RegisteredUsers.models.PasswordResetRequest.objects.create(user=request.user,
                                                                          expiry=date.today() + timedelta(days=1))
@@ -117,12 +139,14 @@ class PasswordReset(LoginRequiredMixin, View):
         context = self.context.copy()
         context['form'] = form
 
-        return render(request, 'dashboard/pages/dashboard_PasswordChange.html', context=context)
+        return render(request, 'dashboard/pages/PasswordChange.html', context=context)
 
     def post(self, request):
+        if not request.user.is_authenticated():
+            return redirect( reverse("GetInvolved"))
 
-        if request.POST.get('confirmation','') == "True":
-            return redirect('Dashboard:Home')
+        if request.POST.get('confirmation',''):
+            return redirect('Dashboard:MyDetails')
 
         form = RegisteredUsers.forms.PasswordReset(request.POST)
 
@@ -137,62 +161,67 @@ class PasswordReset(LoginRequiredMixin, View):
 
             PageVisit.record(request)
 
-            return render(request, 'dashboard/pages/dashboard_PasswordChange.html', context={'confirmation':True})
+            return render(request, 'dashboard/pages/PasswordChange.html',
+                          context={'confirmation': {'title':'Password Changed',
+                                 'message': 'Your new password has been saved. Click OK to return to your dashboard'}})
         else:
             context = self.context.copy()
             context['form'] = form
-            return render(request, 'dashboard/pages/dashboard_PasswordChange.html', context=context)
+            return render(request, 'dashboard/pages/PasswordChange.html', context=context)
 
 
-class CycleRoutes(LoginRequiredMixin, View):
-    context = {'heading': 'Cycle Legs',
+class CycleRoutes(View):
+    context = {'heading': 'Cycle Route : Legs',
                'description': 'Click the tick box to choose the legs you are going to cycle',
                'top_submit': ['Save'],
                'submit': ['Save']}
 
-    login_url = reverse_lazy("GetInvolved")
+    @staticmethod
+    def get_legs(cyclist_inst):
+        """Retrieve an annotated list of all the legs - marked with a Boolean if the given cyclists has selected them"""
+        my_legs = cyclist_inst.legs.all().values_list('pk',flat=True)
+        return cyclists.models.Leg.objects.annotate( cyclist_on_leg=Case(
+                                                            When(id__in=my_legs, then=Value('1')),
+                                                            default=Value('0'),
+                                                            output_field=IntegerField() )).order_by('date')
+
 
     def get(self, request):
+        if not request.user.is_authenticated():
+            return redirect( reverse("GetInvolved"))
+
         context = self.context.copy()
 
         cyclist = cyclists.models.Cyclist.objects.get(user=request.user)
-        legs = cyclists.models.Leg.objects.order_by('date').extra(
-                select={'cyclist_on_leg': "EXISTS(SELECT 1 FROM `cyclists_cyclist_legs` \
-        WHERE `cyclists_cyclist_legs`.`leg_id` = `cyclists_leg`.id \
-          AND `cyclists_cyclist_legs`.`cyclist_id` = %s)" % cyclist.id})
 
-        context.update({'cyclists': cyclists,
-                        'legs': legs})
+        # Custom Query to select all the legs and add a Boolean where the cyclist has selected that leg already
+        # Looked for ways to do this
 
-        return render(request, 'dashboard/pages/dashboardCycleRoutes.html',
+        # Fetch a simple list of all the legs this cyclist is on
+        context['legs'] = self.get_legs( cyclist )
+
+        return render(request, 'dashboard/pages/CycleRoutes.html',
                       context=context)
 
     def post(self, request):
-        pprint(request.POST)
+        if not request.user.is_authenticated():
+            return redirect( reverse("GetInvolved"))
+
+        if request.POST.get('confirmation',''):
+            return redirect(reverse('Dashboard:CycleRoutes'))
 
         context = self.context.copy()
 
         cyclist = cyclists.models.Cyclist.objects.get(user=request.user)
-        legs = cyclists.models.Leg.objects.order_by('date')
+        all_legs = cyclists.models.Leg.objects.order_by('date')
 
-        for l in legs:
-            if str(l.id) in request.POST.getlist('selected') and not cyclist.legs.filter(id=l.id).exists():
-                cyclist.legs.add(l)
-            elif str(l.id) not in request.POST.getlist('selected') and cyclist.legs.filter(id=l.id).exists():
-                cyclist.legs.remove(l)
+        # No need to worry if the legs are already added or not - adding something twice has no effect
+        for l in all_legs:
+            getattr(cyclist.legs,'add' if str(l.id) in request.POST.getlist('selected') else 'remove')(l)
 
-        cyclist.save()
-
-        legs = cyclists.models.Leg.objects.order_by('date').extra(
-                select={'cyclist_on_leg': "EXISTS(SELECT 1 FROM `cyclists_cyclist_legs` \
-                        WHERE `cyclists_cyclist_legs`.`leg_id` = `cyclists_leg`.id \
-                        AND `cyclists_cyclist_legs`.`cyclist_id` = %s)" % cyclist.id})
-
-        context.update({'cyclists': cyclists,
-                        'legs': legs})
-
-        return render(request, 'dashboard/pages/dashboardCycleRoutes.html',
-                      context=context)
+        return render(request, 'dashboard/pages/CycleRoutes.html',
+                          context={'confirmation': {'title':'Selection Saved',
+                                 'message': 'Your selection has saved. Click OK to return to your dashboard'}})
 
 
 class OtherVolunteering(View):
@@ -200,4 +229,18 @@ class OtherVolunteering(View):
 
 
 class Fundraising(View):
-    pass
+    context = {'heading': 'Fundraising Details',
+               'description': 'The details of your current Fundriaising',
+               'submit': ['Save']}
+
+    def get(self, request):
+        if not request.user.is_authenticated():
+            return redirect( reverse("GetInvolved"))
+
+        cyclist = cyclists.models.Cyclist.objects.get(user=request.user)
+
+        context = self.context.copy()
+        context['form'] = forms.FundRaising(instance=cyclist)
+        context['cyclist'] = cyclist
+
+        return render(request, 'dashboard/pages/FundRaising.html', context=context)

@@ -7,29 +7,55 @@ Great Suffolk Bike Ride 2016 = Home Page
 {% endblock %}
 
 {% block dashboard-detail %}
-    <div class="form">
-        <div id='heading' align='center' class="white xlarge special_font">{{ heading }}</div>
-        <div class="white {{ description_class }}">{{ description }}</div>
-        <form method="post" action="">
-            <div align="center">
-                {% for btn in top_submit %}
-                    <input type='submit' name='submit' value='{{btn}}'/>
-                {% endfor %}
+    {% if confirmation %}
+        <div class="popup" >
+            <div class="popup-inner ">
+                <h2 class="white">{% if confirmation.title %}
+                    {{ confirmation.title }}
+                    {% else %}
+                        Thank you
+                    {% endif %}
+                </h2>
+                <span class="white" align="center">
+                    {% if confirmation.message %}
+                        {{ confirmation.message }}
+                    {% else %}
+                        Your details have been recorded.</span>
+                    {% endif %}
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <div>
+                    <input type="hidden" value="True" name="confirmation">
+                    <input type="submit" value="OK" name="OK">
+                    </div>
+                </form>
             </div>
-            {% csrf_token %}
-            <table width="100%">
-                {% block dashboard-form %}
-                {{ form }}
-                {% endblock %}
-            </table>
-            <div align="center">
-                {% for btn in submit %}
-                    <input type='submit' name='submit' value='{{btn}}'/>
-                {% endfor %}
-            </div>
-        </form>
-        <div align="center" class="white small" >
-            {% block post-form %}{{ post_form_info }}{% endblock %}
         </div>
-    </div>
+    {% else %}
+        <div class="form">
+            <div id='heading' align='center' class="white xlarge special_font">{{ heading }}</div>
+            <div align='center' class="white description">{{ description }}</div>
+            <form method="post" action="" {{ form_enctype | safe }}>
+                <div align="center">
+                    {% for btn in top_submit %}
+                        <input type='submit' name='submit' value='{{btn}}'/>
+                    {% endfor %}
+                </div>
+                {% csrf_token %}
+                <table >
+                    {% block dashboard-form %}
+                    {{ form }}
+                    {% endblock %}
+                </table>
+                <div align="center">
+                    {% for btn in submit %}
+                        <input type='submit' name='submit' value='{{btn}}'/>
+                    {% endfor %}
+                </div>
+            </form>
+            <div align="center" class="white small" >
+                {% block post-form %}{{ post_form_info }}{% endblock %}
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}

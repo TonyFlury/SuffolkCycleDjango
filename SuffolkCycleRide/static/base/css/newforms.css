@@ -107,7 +107,7 @@ div.form div.description {
 		position: relative; 
 		-webkit-appearance: none;
 		-webkit-box-sizing: border-box;
-		box-sizing: border-box;	width: 140%; padding:0;}
+		box-sizing: border-box;	width: 100%; padding:0;}
 		
 	input[type="file"]::-webkit-file-upload-button {
 		width: 0; padding: 0; margin: 0;-webkit-appearance: none; border: none;}
@@ -191,4 +191,10 @@ div.form div.description {
 
 	@media screen and (max-width: 400px) { 
 		input[type="text"],input[type="email"]. textarea, select, div.styled { width:100% }
-	}/* end of query */		
+	}/* end of query */
+
+	label {
+	text-align: right;
+	display: block;
+	margin-right:1em;
+	}

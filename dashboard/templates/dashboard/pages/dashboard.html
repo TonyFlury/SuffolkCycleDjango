@@ -6,4 +6,16 @@
 Great Suffolk Bike Ride 2016: My Dashboard
 {% endblock %}
 
-{% block dashboard-detail %}Your data - based on the selection{% endblock %}
+{% block dashboard-detail %}<h2 class="normal">Welcome {{ user.first_name }}</h2>
+<div>
+    This is your dashboard - where you can review and change all the information recorded about you and your involvement
+in the event.
+    Make sure you
+<ul>
+    <li>Upload a profile picture - will be resized to maxiumum 200px width for display on your Fundme page</li>
+    <li>Add a personal Statement - so people will know why you are participating.</li>
+    <li>Make sure you record your Fundraising target amount.</li>
+    <li>Sign up to a fund-raising site (we recommend MyDonate.com), and record the url on your Fundraising page</li>
+</ul>
+</div>
+{% endblock %}

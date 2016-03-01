@@ -174,3 +174,7 @@ DEFAULT_TO_EMAIL = "suffolkcycleride@btinternet.com"
 #    EMAIL_VOLUME_LIMIT = 99
 #    EMAIL_LIMIT_PERIOD = 24*60*60
 #    EMAIL_SCHEDULER_PERIOD = 120 # Allow a 2 scheduler period - mail will be delayed at least 2 mins.
+
+# Define the smallest width/height to resize a portrait picture to
+# Also acts as a validation limit
+PORTRAIT_PICTURE_MIN_DIMENSION = 250

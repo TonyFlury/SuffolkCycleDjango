@@ -19,6 +19,8 @@ __version__ = "0.1"
 __author__ = 'Tony Flury : anthony.flury@btinternet.com'
 __created__ = '09 Feb 2016'
 
+ignore = ['htmlcov','env', 'media']
+
 def get_sha224(file_path):
     m = hashlib.sha224()
     try:
@@ -38,11 +40,9 @@ def walk_files():
                 continue
             yield os.path.join(root, f)
 
-        if 'env' in dirs:
-            dirs.remove('env')
-
-        if 'media' in dirs:
-            dirs.remove('media')
+        for i in ignore:
+            if i in dirs:
+                dirs.remove(i)
 
 if __name__ == '__main__':
     total = 0

@@ -18,17 +18,18 @@ class PageVisit(models.Model):
     arguments = DictField()
 
     @staticmethod
-    def record(request, document_name=None, sub_document=None, private=False):
+    def record(request, document_name=None, private=False, **kwargs):
 
         namespace, url_name = request.resolver_match.namespace, request.resolver_match.url_name
 
         document_name = document_name if document_name else ("{}:{}".format(namespace,url_name) if namespace else url_name)
+
         visit = PageVisit.objects.create(
                 document=document_name,
-                sub_document=sub_document,
-                source_ip=get_ip(request),
-                user_agent=request.META.get('HTTP_USER_AGENT', 'unknown'),
-                user=request.user if request.user.is_authenticated() else None,
+                sub_document= kwargs.get('sub_document', None),
+                source_ip=kwargs.get('source_ip', get_ip(request)),
+                user_agent=kwargs.get('user_agent', request.META.get('HTTP_USER_AGENT', 'unknown')),
+                user=kwargs.get('user',request.user if request.user.is_authenticated() else None),
                 arguments=dict() if private else (request.GET if request.GET else request.POST))
         visit.save()
 

@@ -1,4 +1,6 @@
 from django.conf.urls import include, url
+from django.conf import settings
+from django.conf.urls.static import static
 
 from django.contrib import admin
 admin.autodiscover()
@@ -14,6 +16,7 @@ urlpatterns = [
     url(r'^contactus$', views.ContactUs.as_view(), name="ContactUs"),
 
     url(r'^privacy$', views.privacy, name='Privacy'),
+    url(r'^FundMe/(?P<username>[0-9a-zA-Z]*)', views.fundme, name='FundMe'),
 
 #    url(r'^technology$', TemplateView.as_view(template_name='SuffolkCycleRide/pages/technology.html'), name='Technology' ),
 
@@ -27,3 +30,6 @@ urlpatterns = [
 
     url(r'^admin/', include(admin.site.urls)),
 ]
+
+if settings.DEBUG is True:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

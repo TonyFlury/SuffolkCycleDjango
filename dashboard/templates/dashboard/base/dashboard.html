@@ -6,16 +6,20 @@
 Great Suffolk Bike Ride 2016 = Home Page
 {% endblock %}
 
+{% block page_styles_links %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/dashboard.css' %}">
+{% endblock %}
+
 {% block content %}
 <h4 align="center">My Dashboard</h4>
 <hr>
 <div id="Dashboard" class="white">
     <div id="DashboardMenu">
         <ul class="vertical_menu">
-            <li><a href='/dashboard/MyDetails'>My Details</a></li>
-            <li><a href='/dashboard/CycleRoutes'>Cycle Routes</a></li>
+            <li><a href='{% url "Dashboard:MyDetails" %}'>My Details</a></li>
+            <li><a href='{% url "Dashboard:CycleRoutes" %}'>Cycle Routes</a></li>
             <li>Other Volunteering</li>
-            <li>Fund Raising</li>
+            <li><a href='{% url "Dashboard:FundRaising" %}'>Fund Raising</a></li>
         </ul>
     </div>
     <div id="DashboardDetails">{% block dashboard-detail %}Your data - based on the selection{% endblock %}</div>
