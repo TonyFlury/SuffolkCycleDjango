@@ -27,5 +27,5 @@ def UserCreate( sender, instance, created, **kwargs):
     if (not created) or instance.is_staff:
         return
 
-    cyc = Cyclist.objects.create( user=instance)
+    cyc = Cyclist.objects.create( user=instance, currentPledgedAmount=0, targetAmount=0, statement='')
     cyc.save()

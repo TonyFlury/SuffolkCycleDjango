@@ -11,7 +11,7 @@ Testable Statements :
     Can I <Boolean statement>
     ....
 """
-
+import logging
 from datetime import date, timedelta
 from django.http import HttpResponseServerError
 from django.shortcuts import render, redirect
@@ -50,12 +50,21 @@ class UserDashboard(View):
     """The Dashboard Page"""
     def get(self, request):
         if not request.user.is_authenticated():
+            logging.warning('Unauthorised attempt to access dashboard')
             return redirect( reverse("GetInvolved"))
 
-        PageVisit.record(request)
-        return render(request, "dashboard/pages/dashboard.html")
+        cyclist = cyclists.models.Cyclist.objects.get(user = request.user)
+        progress = sum( (1 if getattr(cyclist, attr_name) else 0) for attr_name in
+                        ['picture', 'statement', 'fundraising_site', 'targetAmount'] )
 
-# Todo - Need to be able to add personal Statement - and upload portrait
+        if cyclist.legs.all():
+            progress += 1
+
+        PageVisit.record(request)
+        return render(request, "dashboard/pages/dashboard.html",
+                      context={'cyclist': cyclist, 'progress': {'count':progress, 'limit':5}})
+
+# Todo - Dashboard progress bar - prompt user to upload portrait, personal statement etc.
 
 class MyDetails(View):
     context = {'heading': 'My Details',
@@ -65,6 +74,7 @@ class MyDetails(View):
 
     def get(self, request):
         if not request.user.is_authenticated():
+            logging.warning('Unauthorised attempt to access dashboard')
             return redirect( reverse("GetInvolved"))
 
         context = self.context.copy()
@@ -83,6 +93,7 @@ class MyDetails(View):
 
     def post(self, request):
         if not request.user.is_authenticated():
+            logging.warning('Unauthorised attempt to access dashboard')
             return redirect( reverse("GetInvolved"))
 
         if request.POST.get('confirmation',''):
@@ -94,7 +105,7 @@ class MyDetails(View):
         me = request.user
         cyclist = cyclists.models.Cyclist.objects.get(user = me)
 
-        form = forms.MyDetails(request.POST, request.FILES)
+        form = forms.MyDetails(instance=[me,cyclist], data=request.POST, files=request.FILES)
         context = self.context.copy()
 
         if form.is_valid():
@@ -129,6 +140,7 @@ class PasswordReset(View):
 
     def get(self, request):
         if not request.user.is_authenticated():
+            logging.warning('Unauthorised attempt to access dashboard')
             return redirect( reverse("GetInvolved"))
 
         # Use the same mechanism as a 'forgotten password', but only have a 24 hour expiry period
@@ -143,6 +155,7 @@ class PasswordReset(View):
 
     def post(self, request):
         if not request.user.is_authenticated():
+            logging.warning('Unauthorised attempt to access dashboard')
             return redirect( reverse("GetInvolved"))
 
         if request.POST.get('confirmation',''):
@@ -183,11 +196,12 @@ class CycleRoutes(View):
         return cyclists.models.Leg.objects.annotate( cyclist_on_leg=Case(
                                                             When(id__in=my_legs, then=Value('1')),
                                                             default=Value('0'),
-                                                            output_field=IntegerField() )).order_by('date')
+                                                            output_field=IntegerField() )).order_by('date','-morning')
 
 
     def get(self, request):
         if not request.user.is_authenticated():
+            logging.warning('Unauthorised attempt to access dashboard')
             return redirect( reverse("GetInvolved"))
 
         context = self.context.copy()
@@ -205,6 +219,7 @@ class CycleRoutes(View):
 
     def post(self, request):
         if not request.user.is_authenticated():
+            logging.warning('Unauthorised attempt to access dashboard')
             return redirect( reverse("GetInvolved"))
 
         if request.POST.get('confirmation',''):
@@ -214,6 +229,9 @@ class CycleRoutes(View):
 
         cyclist = cyclists.models.Cyclist.objects.get(user=request.user)
         all_legs = cyclists.models.Leg.objects.order_by('date')
+
+        # Unlike many other forms, there is nothing to validate here
+        # All that the user has to do is tick/untick checkboxes - and it is allowed to have none ticked.
 
         # No need to worry if the legs are already added or not - adding something twice has no effect
         for l in all_legs:
@@ -234,7 +252,9 @@ class Fundraising(View):
                'submit': ['Save']}
 
     def get(self, request):
+
         if not request.user.is_authenticated():
+            logging.warning('Unauthorised attempt to access dashboard')
             return redirect( reverse("GetInvolved"))
 
         cyclist = cyclists.models.Cyclist.objects.get(user=request.user)
@@ -244,3 +264,45 @@ class Fundraising(View):
         context['cyclist'] = cyclist
 
         return render(request, 'dashboard/pages/FundRaising.html', context=context)
+
+    def post(self, request):
+        if not request.user.is_authenticated():
+            logging.warning('Unauthorised attempt to access dashboard')
+            return redirect( reverse("GetInvolved"))
+
+        if request.POST.get('confirmation',''):
+            return redirect(reverse('Dashboard:FundRaising'))
+
+        cyclist = cyclists.models.Cyclist.objects.get(user=request.user)
+
+        form = forms.FundRaising(instance=cyclist, data=request.POST)
+
+        if form.is_valid():
+            form.save()
+
+            return render(request, 'dashboard/pages/FundRaising.html',
+                          context={'confirmation': {'title':'Information Saved',
+                                 'message': 'Your changes haved been saved. Click OK to return to your dashboard'}})
+        else:
+            cyclist = cyclists.models.Cyclist.objects.get(user=request.user)
+            context = self.context.copy()
+            context['form'] = form
+            context['cyclist'] = cyclist
+
+            return render(request, 'dashboard/pages/FundRaising.html', context=context)
+
+class FundMe(View):
+    def get(self, request):
+        if not request.user.is_authenticated():
+            logging.warning('Unauthorised attempt to access dashboard')
+            return redirect( reverse("GetInvolved"))
+
+        cyclist = cyclists.models.Cyclist.objects.get(user=request.user)
+
+        return render(request, 'SuffolkCycleRide/pages/fundme.html',
+                    context={'cyclist':cyclist,
+                             'mockup':{'url':reverse('FundMe',kwargs={'username':request.user.username})}
+                             } )
+
+    def post(self, request):
+        pass

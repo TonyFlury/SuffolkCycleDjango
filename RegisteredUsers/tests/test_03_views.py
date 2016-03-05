@@ -68,7 +68,7 @@ class SignIn(TestCase):
         r = self.client.post(reverse('User:SignIn'), data={'username': 'testertestington', 'password': 'testertester'})
         self.assertEqual(r.resolver_match.func.__name__, views.SignIn.as_view().__name__)
         self.assertTrue(self.client.session['_auth_user_id'], self.chester.pk)
-        self.assertRedirects(r, reverse('Home'))
+        self.assertRedirects(r, reverse('Dashboard:Home'))
         self.assertAlmostEqual(PageVisit.most_recent('User:SignIn').timestamp, ts, delta=timedelta(milliseconds=200))
 
 

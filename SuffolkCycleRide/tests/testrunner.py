@@ -11,6 +11,7 @@ Testable Statements :
     Can I <Boolean statement>
     ....
 """
+import logging
 from django.test.runner import DiscoverRunner
 from django.test import TestCase
 from unittest import TestSuite
@@ -25,6 +26,12 @@ class LayeredTestRunner(DiscoverRunner):
 
         Only the class name needs to be ordered.
     """
+    def run_tests(self, test_labels, extra_tests=None, **kwargs):
+
+        # Don't show logging messages while testing
+        logging.disable(logging.WARNING)
+
+        return super(LayeredTestRunner, self).run_tests(test_labels, extra_tests, **kwargs)
 
     def flatten(self, suite):
         a = []

@@ -3,22 +3,43 @@
 {% load staticfiles %}
 {% load helper_tags %}
 
+{% block page_styles %}
+
+{% endblock %}
+
 {% block menu-content %}
-<!-- repeated for clarity -->
-<ul class='chevronbar'>
-    <li><a href="{% url 'Home' %}">Home</a></li>
-    <li><a href="{% url 'Readmore' %}">Read More</a></li>
-    {% if user.is_authenticated %}
-    <li><a href="{% url 'Dashboard:Home' %}">My Dashboard</a></li>
-    {% else %}
-    <li><a href="{% url 'GetInvolved' %}">Get Involved</a></li>
-    {% endif %}
-    {% if user.is_authenticated %}
-    <li><a href="{% url 'User:SignOut' %}">Sign Out</a></li>
-    {% else %}
-    <li><a href="{% url 'User:SignIn' %}">Sign In</a></li>
-    {% endif %}
-    <li><a href="{% url 'Sponsorship:Main' %}">Sponsor Us</a></li>
-    <li><a href="{% url 'Blog:Main' %}">Blog</a></li>
-</ul>
+{% if not no_menu %}
+<div id="menu-container">
+    <ul class='chevronbar'>
+        <li><a href="{% url 'Home' %}">Home</a></li>
+        <li><a href="{% url 'Readmore' %}">Read More</a>
+            <ul class="sub">
+                <li><a href="{% url 'TheEvent' %}">The Event</a></li>
+                <li><a href="#">Newsletter</a></li>
+                <li><a href="{% url 'Blog:Main' %}">Blog</a></li>
+                <hr>
+                <li><a href="#">Sunrise Fundraising</a></li>
+                <li><a href="#">Press Releases</a></li>
+           </ul>
+        </li>
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'Dashboard:Home' %}">My Dashboard</a></li>
+        {% else %}
+        <li><a href="{% url 'GetInvolved' %}">Get Involved</a></li>
+        {% endif %}
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'User:SignOut' %}">Sign Out</a></li>
+        {% else %}
+        <li><a href="{% url 'User:SignIn' %}">Sign In</a></li>
+        {% endif %}
+        <li><a href="#">Sponsorship</a>
+            <ul class="sub">
+                <li><a href="{% url 'Sponsorship:Main' %}">Opportunities</a>/a></li>
+                <li><a href="#">Our Sponsors</a></li>
+            </ul>
+        </li>
+
+    </ul>
+</div>
+{% endif %}
 {% endblock %}

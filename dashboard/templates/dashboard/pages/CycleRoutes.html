@@ -1,10 +1,14 @@
 {% extends "dashboard/base/dashboard_form.html" %}
 
 {% load staticfiles %}
+{% load helper_tags %}
 
 {% block page_styles %}
 
+label,
 td { text-align: center;}
+
+td {font-size : 80%}
 
 td.distance, td#totalDistance {text-align:right; padding-right:2em;}
 
@@ -72,9 +76,10 @@ Great Suffolk Bike Ride 2016 : My Details
                     <label class="click selectAll" for="selectAll" name="selectAll" id="selectAll"></label></th>
                 <th class='cell name'>Name</th>
                 <th class='cell date'>Date</th>
+                <th class='cell date'>&nbsp;</th>
                 <th class='cell start'>Start</th>
                 <th class='cell end'>End</th>
-                <th class='cell distance'>Distance (Km)</th>
+                <th class='cell distance'>Km</th>
             </tr>
         </thead>
         <tbody>
@@ -88,7 +93,8 @@ Great Suffolk Bike Ride 2016 : My Details
                     /><label class="click checkbox" for="check_{{ leg.id }}"></label>
                 </td>
                 <td class='cell name' >{{ leg.name }}</td>
-                <td class='cell date' >{{ leg.date }}</td>
+                <td class='cell date' >{% iffchanged leg.date|date leg.date|date '&nbsp;' %}</td>
+                <td class='cell am-pm' >{% iff leg.morning 'am' 'pm' %}</td>
                 <td class='cell start' >{{ leg.start }}</td>
                 <td class='cell end' >{{ leg.end }}</td>
                 <td class='cell distance' >{{ leg.distanceKM }}</td>
@@ -98,6 +104,7 @@ Great Suffolk Bike Ride 2016 : My Details
         <tfoot>
             <tr class='row'>
                 <td class='cell check' >&nbsp;</td>
+                <td class='cell' >&nbsp;</td>
                 <td class='cell' >&nbsp;</td>
                 <td class='cell' >&nbsp;</td>
                 <td class='cell' >&nbsp;</td>
@@ -114,4 +121,4 @@ Great Suffolk Bike Ride 2016 : My Details
 {% endblock %}
 
 {% block post-form %}
-        {% endblock %}
+{% endblock %}

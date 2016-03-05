@@ -30,5 +30,6 @@ urlpatterns = [
     url(r'^CycleRoutes$', views.CycleRoutes.as_view(), name='CycleRoutes'),
     url(r'^Volunteering$', views.OtherVolunteering.as_view(), name='OtherVolunteering'),
     url(r'^Fundraising$', views.Fundraising.as_view(), name='FundRaising'),
+    url(r'^FundMe', views.FundMe.as_view(), name='FundMe'),
 ]
 

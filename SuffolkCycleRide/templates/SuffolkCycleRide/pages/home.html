@@ -17,7 +17,7 @@
         {% if funding %}
             <div class="barchart-outer">
                 <div class="barchart-inner-inset"></div>
-                <div class="barchart-inner" style='width:{% limited_width_ratio funding.pledges funding.target 900 %}'></div>
+                <div class="barchart-inner" style='width:{% limited_width_ratio funding.pledges funding.target 880 %}'></div>
                 <div class="barchart-text">
                     <span class="large bold"">£{{funding.pledges | currency }} pledged</span> <span class="small">({{funding.percentage}}%) of £{{ funding.target | currency }} target.</span>.
                 </div>

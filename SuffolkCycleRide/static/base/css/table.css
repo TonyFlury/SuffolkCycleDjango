@@ -2,7 +2,7 @@ div.table,
 table {
 /*    border:1px solid black; */
     overflow: auto;
-    width: 95%;
+    max-width: 95%;
     margin-left: auto ;
     margin-right: auto ;
 }
@@ -25,7 +25,6 @@ thead th {
     font-weight: bold;
     padding:0.2em 0 0.2em 0 ;
     color : white ;
-
     }
 
 div.row,
@@ -52,16 +51,20 @@ span.cell,
  td {
     padding:0.2em 0 0.2em 0 ;
     color: black;
+    padding-right: 2em;
 }
 
 span.cell { display:table-cell;}
+
+div.row span.cell:first-child { padding-left:1em;}
+div.row span.cell:last-child { padding-right:0em;}
 
 div.header,
  th {
     background-color: #008781;
 }
 
-div.header {     display: table-header-group;}
+div.header {display: table-header-group;}
 
 div.tfooter,
 tfoot {

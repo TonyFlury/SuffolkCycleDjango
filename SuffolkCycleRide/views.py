@@ -1,3 +1,5 @@
+import logging
+
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.conf import settings
@@ -5,8 +7,6 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.views.generic import View
 from django.core.urlresolvers import reverse
-from django.db.models import F
-
 
 from newsletter.forms import NewsletterSignUpForm
 from RegisteredUsers.forms import NewUserForm
@@ -47,11 +47,29 @@ def readmore(request):
     qs = Newsletter.objects.order_by('-pub_date')
     return render(request, "SuffolkCycleRide/pages/readmore.html", context={'newsletter':qs, "dl_base":dl_url})
 
+#ToDo Rewrite Readmore page - to point to all the extra content
+
+def the_event(request):
+    """The Event page - with a summary of the event"""
+    stats = cyclists.models.Leg.Totals()
+    legs = cyclists.models.Leg.objects.all().order_by('date','-morning')
+    first_leg = legs[0]
+    last_leg = cyclists.models.Leg.objects.all().order_by('-date','morning')[0]
+    return render(request, "SuffolkCycleRide/pages/theevent.html", context={'event':{ 'stats':stats,
+                                                                                       'legs':legs,
+                                                                                      'first_leg':first_leg,
+                                                                                      'last_leg':last_leg }})
+
+def sunrise(request):
+    return render(request, "SuffolkCycleRide/pages/sunrise.html")
+#To Implmenent Sunrise Fundraising Page - and url entry for it.
+
 # noinspection PyIncorrectDocstring
 def privacy(request):
     """The Read more page - a list of the newsletter posts"""
     PageVisit.record(request)
     return render(request, "SuffolkCycleRide/pages/privacy.html")
+
 
 class GetInvolved(MultipleFormMixin, View):
     """Multiple form page - Newsletter Subscription, and New User Registration"""
@@ -107,6 +125,7 @@ class GetInvolved(MultipleFormMixin, View):
                                              settings_base_url(request).items()
                                              )))
                 self.this_form.login(request)
+                logging.info('Successful Registration')
                 return HttpResponseRedirect( reverse('Dashboard:Home') )
 
         return render(request, "base/VerticalForm.html", context=self.context)
@@ -167,4 +186,6 @@ def fundme(request, username):
     cyclist = cyclists.models.Cyclist.objects.get(user__username = username)
     PageVisit.record(request=request, document_name='FundMe', user = cyclist.user )
 
-    return render(request, 'SuffolkCycleRide/pages/fundme.html', context={'cyclist':cyclist})
+    return render(request, 'SuffolkCycleRide/pages/fundme.html', context={'cyclist':cyclist, 'no_menu':True})
+
+#Todo - Add Event logo to Fundme page - make sure that fb imaage and urls are set correctly.

@@ -1,21 +1,60 @@
 {% extends "dashboard/base/dashboard.html" %}
 
 {% load staticfiles %}
+{% load helper_tags %}
 
 {% block title %}
 Great Suffolk Bike Ride 2016: My Dashboard
 {% endblock %}
 
-{% block dashboard-detail %}<h2 class="normal">Welcome {{ user.first_name }}</h2>
+
+
+{% block dashboard-detail %}
 <div>
+    {% if progress.count != progress.limit %}
+    <div align="center" style="vertical-align:middle;margin-bottom:20px;">
+        <span class="white strong">Progress :</span>
+        <div style="display:inline-block;vertical-align:middle;">
+            <div class="barchart-outer" style='vertical-align:middle;' >
+                <div class="barchart-inner-inset"></div>
+                <div class="barchart-inner"  style="width:{% limited_width_ratio progress.count progress.limit 300 %};">
+                    <img class="barchart-colourbar" src="{% static 'dashboard/images/dashboard-progress.png' %}"/>
+                </div>
+                <div class="barchart-text">
+                    <span class="large bold">{{ progress.count }} steps completed</span> of <span class="small">{{ progress.limit }} tasks.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <h3 class="normal">Welcome {{ user.first_name }}</h3>
     This is your dashboard - where you can review and change all the information recorded about you and your involvement
 in the event.
-    Make sure you
 <ul>
-    <li>Upload a profile picture - will be resized to maxiumum 200px width for display on your Fundme page</li>
-    <li>Add a personal Statement - so people will know why you are participating.</li>
-    <li>Make sure you record your Fundraising target amount.</li>
-    <li>Sign up to a fund-raising site (we recommend MyDonate.com), and record the url on your Fundraising page</li>
+    {% if not cyclist.picture %}
+        <li>Upload a <a href="{% url 'Dashboard:MyDetails' %}">profile picture</a>.</li>
+    {% endif %}
+    {% if not cyclist.statement %}
+        <li>Add a <a href="{% url 'Dashboard:FundRaising' %}">personal Statement</a> - so people will know why you are participating.</li>
+    {% endif %}
+    {% if not cyclist.targetAmount %}
+        <li>Make sure you record your Fundraising <a href="{% url 'Dashboard:FundRaising' %}">target amount</a>.</li>
+    {% endif %}
+    {% if not cyclist.fundraising_site %}
+        <li>Sign up to a fund-raising site (we recommend MyDonate.com), and record the url on your <a href="{% url 'Dashboard:FundRaising' %}">Fundraising page</a>.</li>
+    {% endif %}
+    {% if not cyclist.legs.all %}
+        <li>Make sure you sign up to one or more of the cycle legs on your <a href="{% url 'Dashboard:CycleRoutes' %}">Cycle Route page</a>.</li>
+    {% endif %}
+    </ul>
+    <p>
+        You also get a  <a href="{% url 'Dashboard:FundMe' %}">FundMe</a> page - which is personalised with your picture, your statement and your funding targets and links.
+        You can share this page to social media, or copy/paste the address to an email, and tell your family and friends about your
+        participation in this great event.
+    </p>
+
+    Make sure you regularly update your <a href="{% url 'Dashboard:FundRaising' %}">Current Fundraising total</a></li>
+
 </ul>
 </div>
 {% endblock %}

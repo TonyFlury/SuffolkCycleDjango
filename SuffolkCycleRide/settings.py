@@ -66,7 +66,8 @@ MARKITUP_SET = 'markitup/sets/markdown/'
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
+    'django.middleware.common.BrokenLinkEmailsMiddleware',
+     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
@@ -141,6 +142,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+DATE_FORMAT = 'D, jS N Y' # Mon, 1st March 2016 - for example
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
@@ -154,7 +156,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 FILE_UPLOAD_HANDLERS = ['django.core.files.uploadhandler.TemporaryFileUploadHandler']
 MEDIA_URL = '/media/'
 
-# Gmail SMTP settings
+# Btinternet SMTP settings
 EMAIL_HOST = 'smtp.mail.yahoo.com'
 EMAIL_PORT = 465
 EMAIL_HOST_USER = "suffolkcycleride@btinternet.com"
@@ -178,3 +180,15 @@ DEFAULT_TO_EMAIL = "suffolkcycleride@btinternet.com"
 # Define the smallest width/height to resize a portrait picture to
 # Also acts as a validation limit
 PORTRAIT_PICTURE_MIN_DIMENSION = 250
+
+# Error Reporting config
+ADMINS = ['anthony.flury@btinternet.com']
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+MANAGERS = ADMINS
+import re
+
+IGNORABLE_404_URLS = [
+    re.compile(r'^/apple-touch-icon.*\.png$'),
+    re.compile(r'^/favicon\.ico$'),
+    re.compile(r'^/robots\.txt$'),
+]

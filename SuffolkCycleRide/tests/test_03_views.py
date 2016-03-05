@@ -38,6 +38,8 @@ import newsletter.forms
 import RegisteredUsers.forms
 import cyclists.models
 
+from bs4 import BeautifulSoup
+
 class StaticUrls(TestCase):
     def setUp(self):
         self.client = Client()
@@ -203,4 +205,12 @@ class FundMe(TestCase):
         self.assertEqual(r.resolver_match.func.__name__, views.fundme.__name__)
         self.assertEqual(r.templates[0].name, 'SuffolkCycleRide/pages/fundme.html')
         self.assertAlmostEqual(PageVisit.most_recent('FundMe', user=self.user).timestamp, ts, delta=timedelta(milliseconds=100))
+        self.assertEqual(r.context[-1]['cyclist'], self.cyclist)
+        self.assertFalse('mockup' in r.context[-1])
+
+        #Prove that there is no site menu accessible on this page
+        st = BeautifulSoup(r.content, 'html5lib')
+        uls = st.select('ul.chevronbar')
+        self.assertSequenceEqual(uls,[])
+
         #Todo Will need to test other features - such as appearance of the target, the Image, the statement

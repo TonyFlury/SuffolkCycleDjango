@@ -1,5 +1,6 @@
 # coding=utf-8
 import uuid
+import logging
 from datetime import date as dt
 
 from django.conf import settings
@@ -60,7 +61,8 @@ class SignIn(generic.View):
             form.save(request=request)
 
             PageVisit.record(request)
-            return HttpResponseRedirect(reverse("Home"))
+            logging.info('Successful Signin')
+            return HttpResponseRedirect(reverse("Dashboard:Home"))
 
         # If we get here we have errors
         c['form'] = form

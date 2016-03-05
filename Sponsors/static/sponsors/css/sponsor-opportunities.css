@@ -1,0 +1,68 @@
+div#content a:hover {
+    font-size:inherit;
+}
+
+div.opportunity {
+display:inline-block;
+border-radius:20px;
+padding:10px 10px;
+width:97%;
+margin-top:5px;
+margin-right:15px;
+}
+
+div.opportunity:last-of-type {
+}
+
+div.opportunity div.info {
+float:left;
+width:70%;
+display:inline-block;
+}
+
+div.opportunity div.value {
+float:right;
+width:25%;
+text-align:right;
+display:inline-block;
+margin-right:5px;
+}
+
+div.opportunity-list {
+    margin-top:10px;
+    height:400px;
+    padding:10px 20px 10px 15px;
+    position: relative ;
+    margin-left:auto;
+    margin-right:auto;
+    display: block;
+    border-radius: 15px;
+    border: thin solid rgb(128,128,128);
+}
+
+div.opportunity div.description {
+    margin-left:2em;
+    margin-bottom:5px;
+    font-style:italic;
+}
+div.opportunity div.description p {
+    margin:5px 0px;
+}
+
+div.opportunity a {
+    font-weight : normal ;
+}
+
+div.opportunity a:hover div.opportunity_name {
+    font-weight:bold ;
+    text-decoration:underline;
+}
+
+div.opportunity a:hover div.description {
+    font-weight:normal ;
+}
+
+div.opportunity a:hover div.value {
+    font-weight:normal ;
+    font-size: inherit;
+}

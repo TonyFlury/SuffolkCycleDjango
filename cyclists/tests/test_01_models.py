@@ -13,8 +13,11 @@ Testable Statements :
     ....
 """
 
+from django.test import TestCase
+
 __version__ = "0.1"
 __author__ = 'Tony Flury : anthony.flury@btinternet.com'
 __created__ = '29 Feb 2016'
 
 # Todo - Need to test methods on Cyclist instances
+# Todo - Test image upload/storage

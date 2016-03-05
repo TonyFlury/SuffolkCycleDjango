@@ -5,13 +5,13 @@ overflow:auto;
 width:1000px;
 margin-left:0% ;/* Outdent the main dashboard - so we have more horizontal space */
 margin-right:0%;
-
+border-top: thin dashed black;
 }
 
 div#DashboardMenu {
  float:left;
 /* border: dashed red ; */
- padding-right: 1em;
+ padding-right: 2em;
 }
 
 div#DashboardDetails {
@@ -20,4 +20,74 @@ div#DashboardDetails {
    float:left;
    width:70%;
    margin-right:0.1em;
+   border-left:thin dashed black;
+   padding-left:2em;
+}
+
+/*
+                    Funding Barchart styles
+ */
+div.barchart-outer {
+/* background-image: url( '/static/SuffolkCycleRide/images/target-background.png' );
+background-repeat:repeat-x;
+background-size: 100% 100%; */
+width:auto;
+height:auto;
+padding: 5px 5px;
+margin:10px 0px 20px 0px;
+position:relative;
+display:flex;
+/* border-radius: 10px;
+box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.6);
+border: thin solid grey ; */
+}
+
+div.barchart-inner-inset {
+border-radius: 5px;
+border: thin solid grey;
+height:50px;
+position:absolute;
+top:5px;
+left:5px;
+margin-left:5px;
+margin-right:5px;
+box-shadow: -3px 3px 4px 1px rgba(0, 0, 0, 0.8) inset;
+box-sizing: border-box;
+width: 310px;
+}
+
+div.barchart-colourbar {
+background-image: url( '/static/dashboard/images/dashboard-progress.png' );
+position:absolute;
+top:0;
+left:0;
+width:100%
+}
+
+div.barchart-inner {
+border-radius: 5px;
+height:40px;
+position:absolute;
+top:10px;
+left:8px;
+margin-left:5px;
+margin-right:5px;
+box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.6);
+box-sizing: border-box;
+width:auto;
+overflow:hidden;
+}
+
+
+
+div.barchart-text {
+/* font-weight: bold; */
+color: white ;
+margin: auto;
+display:block;
+position:relative;
+top:10px;
+margin-left:10px;
+margin-right:5px;
+padding-left: 10px;
 }

@@ -1,0 +1,40 @@
+{% extends "base/base.html" %}
+
+{% load staticfiles %}
+{% load helper_tags %}
+
+{% block subtitle %}
+ - The Event
+{% endblock %}
+
+{% block page_styles %}
+{% endblock %}
+
+{% block content %}
+
+<h2 class="centered">The Event - The Great Suffolk Cycle Ride</h2>
+<p>
+    The event is a {{ event.stats.days }} day cycle event starting in {{first_leg.start}} on {{first_leg.date}} and finishing {{ event.stats.distance }} km ({{event.stats.distance | kmToMiles }} miles) later oa {{last_leg.end}} on {{last_leg.date}}<br/>
+
+    The event is split into {{event.legs.count}} legs as follows :</p>
+<div style="width:75%">
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th><th>&nbsp;</th><th>Name</th><th>Start</th><th>End</th><th>km</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for leg in event.legs %}
+            <tr class="{% cycle 'row1' 'row2' %}">
+                <td>{% iffchanged leg.date leg.date|date '&nbsp;' %}</td>
+                <td>{% iff leg.morning 'am' 'pm' %}</td>
+                <td>{{leg.name}}</td>
+                <td>{{leg.start}}</td><td>{{leg.end}}</td><td>{{leg.distanceKM}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

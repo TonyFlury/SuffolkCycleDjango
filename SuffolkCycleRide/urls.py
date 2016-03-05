@@ -12,6 +12,8 @@ app_name = "home"
 urlpatterns = [
     url(r'^$', views.home, name='Home'),
     url(r'^readmore$', views.readmore, name='Readmore'),
+    url(r'^theevent$', views.the_event, name='TheEvent'),
+
     url(r'^getinvolved$', views.GetInvolved.as_view(), name="GetInvolved"),
     url(r'^contactus$', views.ContactUs.as_view(), name="ContactUs"),
 
@@ -33,3 +35,6 @@ urlpatterns = [
 
 if settings.DEBUG is True:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+#Todo - implmenet 404 & 500 errors.
+# http://stackoverflow.com/questions/17662928/django-creating-a-custom-500-404-error-page

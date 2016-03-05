@@ -61,8 +61,12 @@ class PictureUpload(forms.ModelForm):
                                         code='invalid',
                                         params={'min':min_size} )
 
+        if min(w,h) == min_size:
+            return self.cleaned_data['picture']
+
         # Resize image to ensure that the smallest size conforms to PORTRAIT_PICTURE_MIN_DIMENSION
         ratio = max(min_size/float(w), min_size/float(h))
+
         pic = image.resize((int(w*ratio), int(h*ratio)), Image.ANTIALIAS)
 
         new_image = StringIO()
@@ -94,13 +98,21 @@ class MyDetails(CombinedFormBase):
 class FundRaising(forms.ModelForm):
     class Meta:
         model = cyclists.models.Cyclist
-        fields = ['targetAmount', 'currentPledgedAmount', 'fundraising_site']
-        widgets = {'targetAmount' : forms.fields.TextInput(attrs={'size':7,'pattern':'(\d*.\d{2})|(\d+)','min':'0'}),
-                   'currentPledgedAmount' : forms.fields.TextInput(attrs={'size':7,'pattern':'(\d*.\d{2})|(\d+)','min':'0'}),
+        fields = ['targetAmount', 'currentPledgedAmount', 'fundraising_site', 'statement']
+        widgets = {'targetAmount' : forms.fields.NumberInput(attrs={'size':7,'min':'0'}),
+                   'currentPledgedAmount' : forms.fields.NumberInput(attrs={'size':7,'min':'0'}),
+                    'statement': forms.Textarea(attrs={'cols':40, 'rows':10}),
                    'fundraising_site' : forms.URLInput(attrs={'size':40})}
         help_texts = {'targetAmount':'How much do you hope to raise',
                       'currentPledgedAmount': 'How much do you currently have pledged',
-                      'fundraising_site' : 'Your fundraising site on MyDonate.com, FundMe.com or similar' }
+                      'fundraising_site' : 'Your fundraising site on MyDonate.com, FundMe.com or similar',
+                      'statement':'Your personal statement as to why you are raising participating. (This will appear on your personal FundMe page).'}
         labels = {'targetAmount' : u"Target £",
                   'currentPledgedAmount' : u'Current Pledges £',
-                  'fundraising_site' : 'Fundraising Site'}
+                  'fundraising_site' : 'Your Personal fundraising Site',
+                  'statement': 'Your personal statement'}
+
+        def __init__(self, *args, **kwargs):
+            super(FundRaising, self).__init__(*args, **kwargs)
+            self.fields['currentPledgedAmount'].required = False
+            self.fields['targetAmount'].required = False

@@ -1,4 +1,4 @@
-{% extends "base/no-menu-base.html" %}
+{% extends "base/base.html" %}
 
 {% load staticfiles %}
 {% load helper_tags %}
@@ -11,9 +11,39 @@
     <link rel="stylesheet" href="{% static 'SuffolkCycleRide/css/fundme.css' %}">
 {% endblock %}
 
+{% block og-url %}
+http://{{ HOST }}/FundMe/{{ cyclist.user.username }}
+{% endblock %}
+
+{% block og-title %}
+Support {{ cyclist.get_full_name }} on The Great Suffolk Cycle Ride
+{% endblock %}
+
+{% block og-description %}
+{{ cyclist.user.first_name }} is cycling {{ cyclist.total_distance }} km (<i>{{ cyclist.total_distance| kmToMiles }} miles</i>) over {{cyclist.total_days}} days in The Great Suffolk Cycle Ride; to fund-raise for Suffolk cancer charities.
+
+{{ cyclist.user.first_name }} Says :
+{{ cyclist.statement }}
+{% endblock %}
+
+{% block head_meta %}
+<meta property="og:image" content="http://{{HOST}}/media/{{ cyclist.picture.name }}" />
+{% endblock %}
+
 {% block content %}
-<h2 style="text-align:center; margin-bottom:1em;margin-top:0.5em;">The Great Suffolk Cycle Ride</h2>
-<div>
+{% if mockup %}
+    <div class="mockup">
+        This is a mockup of your <a href="{{ mockup.url }}">FundMe page</a>.<br/>
+        The full url is <b>http://{{ HOST }}{{ mockup.url }}</b>
+    </div>
+{% endif %}
+<div style="position:relative;clear:both;vertical-align:middle;">
+    <div style="vertical-align:middle;float:left; width:70%:">
+    <h2 style="vertical-align:middle;margin-bottom:1em;margin-top:0.5em;">The Great Suffolk Cycle Ride</h2>
+        </div>
+    <div class="logo"></div>
+</div>
+<div style="position:relative;clear:both;">
     <div style="float:left;width:20%">
         {% if cyclist.picture %}
         <div class="picture" {% resize_style cyclist.picture max_width="180" %}">
@@ -27,7 +57,7 @@
     </div>
     <div style="float:right; width:75%">
         <div id="intro-block">
-        {{ cyclist.get_full_name }} is cycling {{ cyclist.total_distance_km }} km (<i>{{ cyclist.total_distance_miles }} miles</i>) over {{cyclist.total_days}} days,<br/>to fund-raise for Suffolk cancer charities.<br/>
+        {{ cyclist.get_full_name }} is cycling {{ cyclist.total_distance }} km (<i>{{ cyclist.total_distance| kmToMiles }} miles</i>) over {{cyclist.total_days}} days,<br/>to fund-raise for Suffolk cancer charities.<br/>
         </div>
 <!--        <div class="barchart-outer" > -->
             <div class="barchart-outer">
