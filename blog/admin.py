@@ -15,8 +15,6 @@ class EntryAdmin(admin.ModelAdmin):
 
 class TagAdmin(admin.ModelAdmin):
     list_display = ('name',)
-    prepopulated_fields = {"slug": ("name",)}
-
 
 admin.site.register(models.Entry, EntryAdmin)
 admin.site.register(models.Tag, TagAdmin)
