@@ -6,7 +6,6 @@ from markitup.widgets import AdminMarkItUpWidget
 
 class EntryAdmin(admin.ModelAdmin):
     list_display = ('title','pub_date','is_published', 'author')
-    prepopulated_fields = {"slug": ("title",)}
 
     def formfield_for_dbfield(self, db_field, **kwargs):
         if db_field.name == 'content':
