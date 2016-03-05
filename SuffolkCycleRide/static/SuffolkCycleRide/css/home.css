@@ -1,0 +1,157 @@
+div.BigBtnOuter {
+    position: relative ;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	width:322px;
+	height:100px;
+	min-height:70px;
+	display:inline-block;
+}
+
+div.BtnStrip {
+    height:100px;
+    margin-top:25px;
+    padding-bottom:50px;
+}
+
+div.Btns {
+padding-left:75px;
+padding-right:75px;
+}
+
+div.BtnBar {
+	position: relative;
+	background-color: #000;
+	width: 100%;
+	height: 5px;
+	top: 50px
+}
+
+a.BigBtn {
+	border-radius: 10px;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	position:absolute;
+	width:322px;
+	height:100px;
+	min-height:70px;
+	background-color: #333;
+	border: 6px solid #333;
+	box-shadow: 1px 1px #1A1A1A, 3px 3px #1A1A1A, 5px 5px #1A1A1A, 7px 7px #1A1A1A, 9px 9px #1A1A1A;
+	text-align: center;
+}
+span.BigBtnTxt {
+    font: 50px/1.4em "Fredericka the Great",fantasy;
+    color: white ;
+    text-align: center;
+    height:100px;
+    position: relative;
+    border:6px;
+    line-height: 100px;
+    display: inline-block ;
+}
+
+
+div.ShapeBtnOuter {
+    display: inline;
+    position: relative;
+}
+
+a.ShapedButton
+{
+	border-radius: 40px 0px;
+	background-color: #67CFCB;
+	transition: border-color 0.4s ease 0s, background-color 0.4s ease 0s;
+	box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.6);
+	border: 0px solid #004D4E;
+	cursor: pointer !important;
+	text-align:center;
+	padding-left: 0.75em;
+	padding-right: 0.75em ;
+}
+
+
+a.ShapedButton:hover {
+	box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.6) inset;
+
+}
+
+span.ShapeBtnTxt {
+    font: 30px/1.4em "Fredericka the Great",fantasy;
+    color: white ;
+    text-align: center;
+    height:50px;
+    position: relative;
+    border:6px;
+    line-height: 50px;
+    width:auto;
+    padding: 0 10px;
+    display: inline-block ;
+}
+
+div.whitebackground {
+background-color: white;
+}
+
+/*
+                    Funding Barchart styles
+ */
+div.barchart-outer {
+/* background-image: url( '/static/SuffolkCycleRide/images/target-background.png' );
+background-repeat:repeat-x;
+background-size: 100% 100%; */
+width:900px;
+height:calc(2em + 4px);
+padding: 5px 5px;
+margin:10px 0px 20px 0px;
+position:relative;
+display:flex;
+/* border-radius: 10px;
+box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.6);
+border: thin solid grey ; */
+}
+
+div.barchart-inner-inset {
+border-radius: 5px;
+border: thin solid grey;
+height:calc(2em + 4px);
+position:absolute;
+top:5px;
+left:5px;
+margin-left:5px;
+margin-right:5px;
+box-shadow: -3px 3px 4px 1px rgba(0, 0, 0, 0.8) inset;
+box-sizing: border-box;
+width: 890px;
+}
+
+div.barchart-inner {
+background-image: url( '/static/SuffolkCycleRide/images/target-homepage-bar.png' );
+border-radius: 5px;
+height: calc(2em - 2px);
+position:absolute;
+top:8px;
+left:7px;
+margin-left:5px;
+margin-right:5px;
+box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.6);
+box-sizing: border-box;
+width:auto;
+}
+
+
+
+div.barchart-text {
+/* font-weight: bold; */
+color: black ;
+margin: auto;
+display:block;
+position:relative;
+margin-left:5px;
+margin-right:5px;
+padding-left: 10px;
+}
