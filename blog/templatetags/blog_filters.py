@@ -11,7 +11,7 @@ Testable Statements :
     Can I <Boolean statement>
     ....
 """
-
+from django.core.exceptions import ObjectDoesNotExist
 from django import template
 from django.template.defaultfilters import stringfilter
 from blog.models import Tag
@@ -54,7 +54,7 @@ def ellipsis(value, max_length):
 def get_tag_name(tag_slug):
     try:
         name =  Tag.objects.get(slug=tag_slug)
-    except:
+    except ObjectDoesNotExist :
         return ""
 
     return name
