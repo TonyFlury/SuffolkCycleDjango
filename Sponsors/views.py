@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Count
 from django.db.models.functions import Coalesce
 from django.views.generic import View
@@ -40,7 +40,8 @@ class interest(View):
                            'provide them to any 3rd party'}
 
     def get(self, request, opportunity_slug):
-        opportunity = models.Opportunity.objects.get(slug=opportunity_slug)
+        opportunity = get_object_or_404(models.Opportunity, slug=opportunity_slug)
+
         PageVisit.record(request, sub_document=opportunity.name)
 
         form = forms.Communications(initial={'opportunity': opportunity.id})
@@ -55,7 +56,8 @@ class interest(View):
 
         form = forms.Communications(request.POST)
         if form.is_valid():
-            opportunity = models.Opportunity.objects.get(id=request.POST['opportunity'])
+            opportunity = get_object_or_404(models.Opportunity, id=request.POST['opportunity'])
+
             sponsor = form.save()
             sponsor.potential = True
             sponsor.potentials.add(opportunity)

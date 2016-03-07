@@ -1,10 +1,10 @@
 import logging
-
-from django.shortcuts import render, redirect
+from django.core.exceptions import SuspiciousOperation
+from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.conf import settings
 
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseNotFound
 from django.views.generic import View
 from django.core.urlresolvers import reverse
 
@@ -182,10 +182,11 @@ class ContactUs(View):
                           template_name='base/SingleForm.html',
                           context= context)
 
+
 def fundme(request, username):
-    cyclist = cyclists.models.Cyclist.objects.get(user__username = username)
+
+    cyclist = get_object_or_404(cyclists.models.Cyclist, user__username = username)
+
     PageVisit.record(request=request, document_name='FundMe', user = cyclist.user )
 
     return render(request, 'SuffolkCycleRide/pages/fundme.html', context={'cyclist':cyclist, 'no_menu':True})
-
-#Todo - Add Event logo to Fundme page - make sure that fb imaage and urls are set correctly.

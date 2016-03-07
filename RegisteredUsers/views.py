@@ -4,7 +4,7 @@ import logging
 from datetime import date as dt
 
 from django.conf import settings
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, SuspiciousOperation
 import django.views.generic as generic
 from django.contrib.auth import login, authenticate, logout
 from django.core.urlresolvers import reverse_lazy, reverse
@@ -175,9 +175,9 @@ class Reset(generic.View):
                             "RegisteredUsers/pages/PasswordChange.html",
                             context={'confirmation':True})
                 else:
-                    return render(request, "pages/Invalid.html")
+                    raise SuspiciousOperation('Attempt to reset password on inactive user !')
             else:
-                return render(request, "pages/Incorrect.html")
+                raise SuspiciousOperation('Anonymous user attempting reset !')
         else:
             c = self.context.copy()
             c['form'] = form

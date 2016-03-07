@@ -8,7 +8,7 @@ from aggregates import StdDev, Mode
 # Create your views here.
 
 import models
-
+from django.shortcuts import get_object_or_404
 
 class BlogMixin(object):
     max_per_page = 10            # Number normally allowed per page
@@ -145,7 +145,7 @@ class Detail(BlogMixin,View):
 
         name = "blog:Detail"
 
-        entry = models.Entry.objects.get(slug = slug)
+        entry = get_object_or_404(models.Entr, slug = slug)
 
         return render(request,self.template, context={
                                     'entry': entry,

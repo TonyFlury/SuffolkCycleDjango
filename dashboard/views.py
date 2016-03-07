@@ -12,6 +12,7 @@ Testable Statements :
     ....
 """
 import logging
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from datetime import date, timedelta
 from django.http import HttpResponseServerError
 from django.shortcuts import render, redirect
@@ -38,6 +39,12 @@ __version__ = "0.1"
 __author__ = 'Tony Flury : anthony.flury@btinternet.com'
 __created__ = '23 Jan 2016'
 
+
+class NoDashboard(PermissionDenied):
+    """Short Hand exception for when staff try to use the Dashboard"""
+    def __init__(self, *args, **kwargs):
+        super(NoDashboard,self).__init__('Only cyclists have Dashboards', )
+
 # -----------------------------------------------------------------------------
 #                               Change Log
 #                               ----------
@@ -53,7 +60,11 @@ class UserDashboard(View):
             logging.warning('Unauthorised attempt to access dashboard')
             return redirect( reverse("GetInvolved"))
 
-        cyclist = cyclists.models.Cyclist.objects.get(user = request.user)
+        try:
+            cyclist = cyclists.models.Cyclist.objects.get(user = request.user)
+        except ObjectDoesNotExist:
+            raise NoDashboard()
+
         progress = sum( (1 if getattr(cyclist, attr_name) else 0) for attr_name in
                         ['picture', 'statement', 'fundraising_site', 'targetAmount'] )
 
@@ -63,8 +74,6 @@ class UserDashboard(View):
         PageVisit.record(request)
         return render(request, "dashboard/pages/dashboard.html",
                       context={'cyclist': cyclist, 'progress': {'count':progress, 'limit':5}})
-
-# Todo - Dashboard progress bar - prompt user to upload portrait, personal statement etc.
 
 class MyDetails(View):
     context = {'heading': 'My Details',
@@ -82,7 +91,10 @@ class MyDetails(View):
         PageVisit.record(request)
 
         me = request.user
-        cyclist = cyclists.models.Cyclist.objects.get(user = me)
+        try:
+            cyclist = cyclists.models.Cyclist.objects.get(user = me)
+        except ObjectDoesNotExist:
+            raise NoDashboard()
 
         form = forms.MyDetails(instance=[me,cyclist])
 
@@ -103,7 +115,10 @@ class MyDetails(View):
             return redirect("Dashboard:PasswordReset")
 
         me = request.user
-        cyclist = cyclists.models.Cyclist.objects.get(user = me)
+        try:
+            cyclist = cyclists.models.Cyclist.objects.get(user = me)
+        except:
+            raise NoDashboard()
 
         form = forms.MyDetails(instance=[me,cyclist], data=request.POST, files=request.FILES)
         context = self.context.copy()
@@ -143,6 +158,11 @@ class PasswordReset(View):
             logging.warning('Unauthorised attempt to access dashboard')
             return redirect( reverse("GetInvolved"))
 
+        try:
+            cyclist = cyclists.models.Cyclist.objects.get(user = request.user)
+        except ObjectDoesNotExist:
+            raise NoDashboard()
+
         # Use the same mechanism as a 'forgotten password', but only have a 24 hour expiry period
         prr = RegisteredUsers.models.PasswordResetRequest.objects.create(user=request.user,
                                                                          expiry=date.today() + timedelta(days=1))
@@ -157,6 +177,11 @@ class PasswordReset(View):
         if not request.user.is_authenticated():
             logging.warning('Unauthorised attempt to access dashboard')
             return redirect( reverse("GetInvolved"))
+
+        try:
+            cyclist = cyclists.models.Cyclist.objects.get(user = request.user)
+        except ObjectDoesNotExist:
+            raise NoDashboard()
 
         if request.POST.get('confirmation',''):
             return redirect('Dashboard:MyDetails')
@@ -206,7 +231,10 @@ class CycleRoutes(View):
 
         context = self.context.copy()
 
-        cyclist = cyclists.models.Cyclist.objects.get(user=request.user)
+        try:
+            cyclist = cyclists.models.Cyclist.objects.get(user = request.user)
+        except ObjectDoesNotExist:
+            raise NoDashboard()
 
         # Custom Query to select all the legs and add a Boolean where the cyclist has selected that leg already
         # Looked for ways to do this
@@ -227,7 +255,11 @@ class CycleRoutes(View):
 
         context = self.context.copy()
 
-        cyclist = cyclists.models.Cyclist.objects.get(user=request.user)
+        try:
+            cyclist = cyclists.models.Cyclist.objects.get(user = request.user)
+        except ObjectDoesNotExist:
+            raise NoDashboard()
+
         all_legs = cyclists.models.Leg.objects.order_by('date')
 
         # Unlike many other forms, there is nothing to validate here
@@ -257,7 +289,10 @@ class Fundraising(View):
             logging.warning('Unauthorised attempt to access dashboard')
             return redirect( reverse("GetInvolved"))
 
-        cyclist = cyclists.models.Cyclist.objects.get(user=request.user)
+        try:
+            cyclist = cyclists.models.Cyclist.objects.get(user = request.user)
+        except ObjectDoesNotExist:
+            raise NoDashboard()
 
         context = self.context.copy()
         context['form'] = forms.FundRaising(instance=cyclist)
@@ -273,7 +308,10 @@ class Fundraising(View):
         if request.POST.get('confirmation',''):
             return redirect(reverse('Dashboard:FundRaising'))
 
-        cyclist = cyclists.models.Cyclist.objects.get(user=request.user)
+        try:
+            cyclist = cyclists.models.Cyclist.objects.get(user = request.user)
+        except ObjectDoesNotExist:
+            raise NoDashboard()
 
         form = forms.FundRaising(instance=cyclist, data=request.POST)
 
@@ -297,7 +335,10 @@ class FundMe(View):
             logging.warning('Unauthorised attempt to access dashboard')
             return redirect( reverse("GetInvolved"))
 
-        cyclist = cyclists.models.Cyclist.objects.get(user=request.user)
+        try:
+            cyclist = cyclists.models.Cyclist.objects.get(user = request.user)
+        except ObjectDoesNotExist:
+            raise NoDashboard()
 
         return render(request, 'SuffolkCycleRide/pages/fundme.html',
                     context={'cyclist':cyclist,
