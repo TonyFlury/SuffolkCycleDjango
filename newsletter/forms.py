@@ -38,7 +38,6 @@ class NewsletterUnsubscribeForm(Form):
 
     def save(self, commit=True):
         if self.is_valid():
-            print self.cleaned_data['email']
             nsu = NewsletterRecipient.objects.get(email = self.cleaned_data['email'])
             assert isinstance(nsu, NewsletterRecipient)
             d = nsu.delete()
