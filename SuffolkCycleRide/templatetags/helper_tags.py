@@ -14,11 +14,11 @@ Testable Statements :
 
 See : https://docs.djangoproject.com/en/1.9/howto/custom-template-tags/
 """
+import logging
 from django import template
 from django.template.base import FilterExpression
 from django.conf import settings
 from django.utils.html import format_html
-from django.forms.boundfield import BoundField
 from decimal import Decimal
 
 __version__ = "0.1"
@@ -40,10 +40,17 @@ def absolute_static(context, local_path):
                             static = settings.STATIC_URL,
                             path = local_path))
     else:
-        return format_html( "http://{host}{static}{path}".format(
+        if 'HOST' in context:
+            return format_html( "http://{host}{static}{path}".format(
                             host = context['HOST'],
                             static = settings.STATIC_URL,
                             path = local_path))
+        else:
+            return format_html( "{static}{path}".format(
+                            static = settings.STATIC_URL,
+                            path = local_path))
+
+
 
 @register.simple_tag(name='min', takes_context=False)
 def get_min(a,b):
@@ -59,24 +66,25 @@ def get_ratio(a,b):
 
 @register.simple_tag(name='resize_style', takes_context=False)
 def picture_style(picture, max_width=None, max_height=None):
-    if isinstance(picture, BoundField):
-        print picture
     ratio = min(1.0*int(max_width)/picture.width if max_width else 1.0,
                 1.0*int(max_height)/picture.height if max_height else 1.0)
     return format_html('style="width:{};height:{};"'.format(int(picture.width*ratio), int(picture.height*ratio)))
 
 @register.simple_tag(name='limited_width_ratio', takes_context=False)
 def limited_width_ratio(value,max_value, max_width ):
-    num_types = (Decimal,int,float)
 
-    if not (isinstance(max_value, num_types) and isinstance(value, num_types)) or not (isinstance(max_width, num_types)):
+    value, max_value = int(value), int(max_value)
+
+    try:
+        max_width = int(max_width)
+    except ValueError:
+        logging.error("limited_width_ratio template tag passed non integer '{}' as max_width".format(max_width))
         return 0
 
     if int(max_value) == 0:
         return 0
 
     return min( float(max_width), float(max_width)*float(value)/float(max_value))
-
 
 class varNode(template.Node):
     def __init__(self, parser, value, asvar):

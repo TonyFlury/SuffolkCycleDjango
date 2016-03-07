@@ -1,0 +1,43 @@
+{% extends "base/no-menu-base.html" %}
+
+{% load staticfiles %}
+{% load helper_tags %}
+
+{% block title %}
+ Suffolk Cycle Ride - Page Not Found
+{% endblock %}
+
+{% block page_styles %}
+h2.error {
+    margin-top:5px;
+    margin-bottom:10px;
+}
+
+div.error-description {
+    margin-top:20px;
+}
+
+span.link {
+    font-size:120%;
+    margin-top:10px;
+    display:block;
+}
+{% endblock %}
+
+{% block fb-disable %}
+{% endblock %}
+
+{% block content %}
+<div style="margin-left:auto; margin-right:auto; width:600px;">
+    <h2 class='error' align="center">Opps! - Page not Found</h2>
+    <div align="center">
+        <img src="{% static 'SuffolkCycleRide/images/bicycle-wreck1.gif' %}"/>
+    </div>
+    <div class='error-description' align="center">
+    <span>Something went wrong - and we can't find the page you are looking for.<br/>
+          You check your end - and our people will get busy checking our end.<br/>
+    </span>
+    <span class='link' align="center"><a href="{% url 'Home' %}">Home Page</a></span>
+    </div>
+</div>
+{% endblock %}

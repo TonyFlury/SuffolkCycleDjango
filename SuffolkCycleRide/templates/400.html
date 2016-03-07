@@ -1,0 +1,44 @@
+{% extends "base/no-menu-base.html" %}
+
+{% load staticfiles %}
+{% load helper_tags %}
+
+{% block title %}
+ Suffolk Cycle Ride - Page Not Found
+{% endblock %}
+
+{% block page_styles %}
+h2.error {
+    margin-top:5px;
+    margin-bottom:10px;
+}
+
+div.error-description {
+    margin-top:20px;
+}
+
+span.link {
+    font-size:120%;
+    margin-top:10px;
+    display:block;
+}
+{% endblock %}
+
+{% block fb-disable %}
+{% endblock %}
+
+{% block content %}
+<div style="margin-left:auto; margin-right:auto; width:700px;">
+    <h2 class='error' align="center">Opps! - Something Went Wrong</h2>
+    <div align="center">
+        <img src="{% static 'SuffolkCycleRide/images/bikeinpieces.gif' %}" height="280px"/>
+    </div>
+    <div class='error-description' align="center">
+    <span>Something went wrong,<br/>and we can't currently provide you with what you are looking for.<br/>
+          Our technical team have been informed - and we look to solve the issue soon.<br/>
+          Sorry for any inconvenience.<br/>
+    </span>
+    <span class='link' align="center"><a href="{% url 'Home' %}">Home Page</a></span>
+    </div>
+</div>
+{% endblock %}

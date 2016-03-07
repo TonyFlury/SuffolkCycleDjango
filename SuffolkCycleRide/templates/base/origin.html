@@ -61,6 +61,7 @@
 
 </head>
 <body>
+{% block fb-disable %}
 <div id="fb-root"></div>
 
 <!-- Script for Facebook like button https://developers.facebook.com/tools/debug/og/object/ -->
@@ -81,6 +82,7 @@ window.fbAsyncInit = function() {
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 </script>
+{% endblock %}
 
 <div id="Site_Background">
     <div class="Site_Root"> <!-- Centered central vertical section -->
