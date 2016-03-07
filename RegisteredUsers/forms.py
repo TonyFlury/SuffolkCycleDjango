@@ -16,7 +16,7 @@ from datetime import date, timedelta
 
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, SuspiciousOperation
 from django.utils.translation import gettext_lazy as _
 from django import forms
 
@@ -187,7 +187,11 @@ class PasswordResetRequest(forms.Form):
 
     def save(self):
         e = self.cleaned_data['email']
-        user = User.objects.get(email=e)
+        try:
+            user = User.objects.get(email=e)
+        except ObjectDoesNotExist:
+            raise SuspiciousOperation('Email does not exist during prr.save()')
+
         prr = models.PasswordResetRequest.objects.create(user=user, expiry=date.today() + timedelta(days=14))
         prr.save()
         return prr
@@ -213,7 +217,11 @@ class PasswordReset(forms.Form):
             return self.cleaned_data
 
     def save(self):
-        prr = models.PasswordResetRequest.objects.get(uuid=self.cleaned_data['uuid'])
+        try:
+            prr = models.PasswordResetRequest.objects.get(uuid=self.cleaned_data['uuid'])
+        except ObjectDoesNotExist:
+            raise SuspiciousOperation('prr does not exist during Password Reset save()')
+
         u = prr.user
         pwd = self.cleaned_data['newPassword']
         u.set_password(pwd)
