@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'newsletter.apps.newsletterConfig',
     'dashboard.apps.DashboardConfig',
     'stats.apps.StatsConfig',
-    'EmailPlus.apps.EmailplusConfig',
     'blog.apps.BlogConfig',
     'Sponsors.apps.SponsorsConfig',
     'django.contrib.admin',
