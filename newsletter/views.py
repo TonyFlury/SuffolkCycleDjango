@@ -4,19 +4,27 @@ from django.conf import settings
 from django.shortcuts import render
 from django.views.generic import View
 from forms import NewsletterUnsubscribeForm, NewsletterUploadForm
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import HttpResponse
-from django.template import RequestContext
 
 from models import Newsletter
 from stats.models import PageVisit
 
+# noinspection PyIncorrectDocstring
+def main(request):
+    """The Read more page - a list of the newsletter posts"""
+    PageVisit.record(request)
+    dl_url = reverse('Newsletter:Download',kwargs = {'id':'0000'}).strip('0')
+    qs = Newsletter.objects.order_by('-pub_date')
+    return render(request, "newsletter/pages/newsletter.html", context={'newsletter':qs, "dl_base":dl_url})
+
+#ToDo Rewrite Readmore page - to point to all the extra content
 
 class Unsubscribe(View):
     context = { 'heading': 'Unsubscribe from the Newsletter',
                     'description': "Enter your email in order to stop receiving our newsletter. We are sorry that you no longer want to keep in touch.",
                     'submit': 'Un-subscribe',
-                    'action': reverse_lazy('newsletter:Unsubscribe'),
+                    'action': reverse_lazy('Newsletter:Unsubscribe'),
                     }
 
     def get(self, request, email):
@@ -52,7 +60,6 @@ class Upload(View):
     def post(self, request):
         form = NewsletterUploadForm(data=request.POST, files=request.FILES)
         if form.is_valid():
-            print "Valid ..."
             form.save()
             return HttpResponse("File Uploaded")
 

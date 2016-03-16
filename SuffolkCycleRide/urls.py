@@ -1,6 +1,7 @@
 from django.conf.urls import include, url
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import TemplateView
 
 from django.contrib import admin
 admin.autodiscover()
@@ -11,8 +12,10 @@ app_name = "home"
 
 urlpatterns = [
     url(r'^$', views.home, name='Home'),
-    url(r'^readmore$', views.readmore, name='Readmore'),
     url(r'^theevent$', views.the_event, name='TheEvent'),
+    url(r'^SunriseFundraising$',
+            TemplateView.as_view(template_name='SuffolkCycleRide/pages/SunriseFundraising.html'),
+            name='SunriseFundraising$'),
 
     url(r'^getinvolved$', views.GetInvolved.as_view(), name="GetInvolved"),
     url(r'^contactus$', views.ContactUs.as_view(), name="ContactUs"),
@@ -24,7 +27,7 @@ urlpatterns = [
 
     url(r'^sponsorship/', include('Sponsors.urls', namespace='Sponsorship')),
     url(r'^User/', include("RegisteredUsers.urls", namespace='User')),
-    url(r'^newsletter/', include("newsletter.urls", namespace="newsletter")),
+    url(r'^newsletter/', include("newsletter.urls", namespace="Newsletter")),
     url(r'^dashboard/', include("dashboard.urls", namespace="Dashboard")),
     url(r'^blog/', include('blog.urls', namespace='Blog')),
 

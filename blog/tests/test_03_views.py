@@ -57,23 +57,23 @@ class C030_TestViews(TestCase):
 
     def test_001_010_no_entries_view_resolver(self):
         """ Test that the /blog/ url resolves to the correct View"""
-        p = self.client.get(reverse('blog:Main'))
+        p = self.client.get(reverse('Blog:Home'))
         self.assertEqual(p.status_code, 200)
         self.assertEqual(p.resolver_match.func.__name__, views.Main.as_view().__name__)
 
     def test_001_012_PageVisit(self):
         ts = now()
-        p = self.client.get(reverse('Blog:Main'))
-        self.assertAlmostEqual(PageVisit.most_recent('Blog:Main').timestamp, ts, delta=timedelta(milliseconds=60))
+        p = self.client.get(reverse('Blog:Home'))
+        self.assertAlmostEqual(PageVisit.most_recent('Blog:Home').timestamp, ts, delta=timedelta(milliseconds=60))
 
     def test_001_015_no_entries_template(self):
         """ Test that the /blog/ url uses the correct template - don't care about what it extends"""
-        p = self.client.get(reverse('Blog:Main'))
+        p = self.client.get(reverse('Blog:Home'))
         self.assertTemplateUsed(p, 'blog/entry_list.html')
 
     def test_001_016_no_entries_context(self):
         """Confirm that context is empty when there are no entries"""
-        p = self.client.get(reverse('Blog:Main'))
+        p = self.client.get(reverse('Blog:Home'))
         self.assertEqual(len(p.context[-1]['entries']), 0)
         self.assertEqual(len(p.context[-1]['archive']['list']), 0)
         self.assertEqual(len(p.context[-1]['tags']), 0)
@@ -84,7 +84,7 @@ class C030_TestViews(TestCase):
         self.e1.pub_date = datetime(2016, 1, 1)
         self.e1.is_published = True
         self.e1.save()
-        p = self.client.get(reverse('Blog:Main'))
+        p = self.client.get(reverse('Blog:Home'))
         self.assertEqual(len(p.context[-1]['entries']), 1)
         self.assertEqual(p.context[-1]['entries'][0], self.e1)
         self.assertEqual(len(p.context[-1]['archive']['list']), 1)
@@ -100,7 +100,7 @@ class C030_TestViews(TestCase):
         self.e1.tags.add(self.t3)
         self.e1.save()
 
-        p = self.client.get(reverse('Blog:Main'))
+        p = self.client.get(reverse('Blog:Home'))
         self.assertEqual(len(p.context[-1]['entries']), 1)
         self.assertEqual(p.context[-1]['entries'][0], self.e1)
         self.assertEqual(len(p.context[-1]['archive']['list']), 1)
@@ -135,7 +135,7 @@ class C030_TestViews(TestCase):
         self.e3.tags.add(self.t1, self.t3)
         self.e4.tags.add(self.t4)
 
-        p = self.client.get(reverse('Blog:Main'))
+        p = self.client.get(reverse('Blog:Home'))
         self.assertEqual(len(p.context[-1]['entries']), 4)
         self.assertSequenceEqual(p.context[-1]['entries'], [self.e1, self.e2, self.e3, self.e4])
         self.assertEqual(len(p.context[-1]['archive']['list']), 4)

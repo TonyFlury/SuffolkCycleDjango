@@ -155,3 +155,25 @@ margin-left:5px;
 margin-right:5px;
 padding-left: 10px;
 }
+
+
+h1:not(.normal) {
+    margin: -0.25em 0 0 0;
+    padding: 0;
+}
+
+
+h2:not(.normal) {
+    margin: -0.25em 0 0 0;
+    padding: 0;
+}
+
+h3:not(.normal) {
+    margin: 0px;
+    padding: 0px;
+}
+
+h4:not(.normal) {
+    margin: 5px 0px 10px 0px;
+    padding: 0px;
+}

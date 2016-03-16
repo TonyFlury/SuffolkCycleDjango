@@ -77,7 +77,7 @@ def build_url(text, page, context):
 
     if not tag and not year and not month:
         return format_html('<a href="{url}">{text}</a>',
-                            url = reverse('blog:Main', kwargs={'page':page} ),
+                            url = reverse('Blog:Home', kwargs={'page':page} ),
                             text = text)
 
     if tag:

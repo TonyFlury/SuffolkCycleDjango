@@ -13,13 +13,13 @@
 <div id="menu-container">
     <ul class='chevronbar'>
         <li><a href="{% url 'Home' %}">Home</a></li>
-        <li><a href="{% url 'Readmore' %}">Read More</a>
+        <li><a href="#">Read More</a>
             <ul class="sub">
                 <li><a href="{% url 'TheEvent' %}">The Event</a></li>
-                <li><a href="#">Newsletter</a></li>
-                <li><a href="{% url 'Blog:Main' %}">Blog</a></li>
+                <li><a href="{% url 'Newsletter:Home' %}">Newsletter</a></li>
+                <li><a href="{% url 'Blog:Home' %}">Blog</a></li>
                 <hr>
-                <li><a href="#">Sunrise Fundraising</a></li>
+                <li><a href="{% url 'SunriseFundraising$' %}">Sunrise Fundraising</a></li>
                 <li><a href="#">Press Releases</a></li>
            </ul>
         </li>

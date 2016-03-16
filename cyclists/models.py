@@ -59,7 +59,7 @@ class Leg(models.Model):
         unique_together = ('date', 'morning')
 
     def __str__(self):
-        return "{} : {}".format(self.name, self.date)
+        return "{} - {} {}: {}km from {} to {}".format(self.name, self.date, "am" if self.morning else "pm", self.distanceKM, self.start, self.end)
 
     @classmethod
     def Totals(cls):
@@ -73,14 +73,14 @@ def set_slug(sender, instance, **kwargs):
     try:
         i = sender.objects.get(pk = instance.pk)
     except ObjectDoesNotExist:
-        instance.slug = slugify(instance.name)
+        instance.slug = slugify(instance.start + " " + instance.end)
         return
 
     # Only set the slug if this instances title/name has changed.
-    if i.name == instance.name:
+    if i.start == instance.start and i.end == instance.end:
         return
 
-    instance.slug = slugify( instance.name )
+    instance.slug = slugify( instance.start + " " + instance.end )
 
 
 def get_portrait_path( self, filename):

@@ -16,12 +16,12 @@ Latest blog entries
     {% block blog-content %}
         {% if args.tag_slug %}
             <div class="sub-header">
-                <span style="margin-right:1em;">Displaying all posts labelled <strong>{{ args.tag_slug | get_tag_name }}</strong>.</span><a href="{% url 'blog:Main' %}">Show all posts</a>.
+                <span style="margin-right:1em;">Displaying all posts labelled <strong>{{ args.tag_slug | get_tag_name }}</strong>.</span><a href="{% url 'Blog:Home' %}">Show all posts</a>.
             </div>
         {% endif %}
         {% if args.year %}
             <div class="sub-header">
-                <span style="margin-right:1em;">Displaying all posts dated from {{ args.month|get_month_name }} {{ args.year }}.</span><a href="{% url 'blog:Main' %}">Show all posts</a>.
+                <span style="margin-right:1em;">Displaying all posts dated from {{ args.month|get_month_name }} {{ args.year }}.</span><a href="{% url 'Blog:Home' %}">Show all posts</a>.
             </div>
         {% endif %}
         {% for entry in entries %}

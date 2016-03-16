@@ -1,4 +1,3 @@
-
-
+from ExtTestCase import TestCase
 
 

@@ -29,7 +29,7 @@ from SuffolkCycleRide import views
 from stats.models import PageVisit
 
 from django.utils.timezone import now
-from datetime import timedelta
+from datetime import timedelta, date
 
 import SuffolkCycleRide.forms as forms
 
@@ -39,6 +39,8 @@ import RegisteredUsers.forms
 import cyclists.models
 
 from bs4 import BeautifulSoup
+
+from SuffolkCycleRide.tests import TestCase
 
 class StaticUrls(TestCase):
     def setUp(self):
@@ -54,15 +56,7 @@ class StaticUrls(TestCase):
         self.assertEqual(r.status_code, 200)
         self.assertEqual(r.resolver_match.func.__name__, views.home.__name__)
         self.assertEqual(r.templates[0].name, 'SuffolkCycleRide/pages/home.html')
-        self.assertAlmostEqual(PageVisit.most_recent('Home').timestamp, ts, delta=timedelta(milliseconds=100))
-
-    def test_011_readmore(self):
-        ts = now()
-        r = self.client.get(reverse('Readmore'))
-        self.assertEqual(r.status_code, 200)
-        self.assertEqual(r.resolver_match.func.__name__, views.readmore.__name__)
-        self.assertEqual(r.templates[0].name, 'SuffolkCycleRide/pages/readmore.html')
-        self.assertAlmostEqual(PageVisit.most_recent('Readmore').timestamp, ts, delta=timedelta(milliseconds=100))
+        self.assertAlmostEqual(PageVisit.most_recent('Home').timestamp, ts, delta=timedelta(milliseconds=500))
 
     def test_012_privacy(self):
         ts = now()
@@ -70,7 +64,7 @@ class StaticUrls(TestCase):
         self.assertEqual(r.status_code, 200)
         self.assertEqual(r.resolver_match.func.__name__, views.privacy.__name__)
         self.assertEqual(r.templates[0].name, 'SuffolkCycleRide/pages/privacy.html')
-        self.assertAlmostEqual(PageVisit.most_recent('Privacy').timestamp, ts, delta=timedelta(milliseconds=100))
+        self.assertAlmostEqual(PageVisit.most_recent('Privacy').timestamp, ts, delta=timedelta(milliseconds=500))
 
 
 class GetInvolved(TestCase):
@@ -205,12 +199,52 @@ class FundMe(TestCase):
         self.assertEqual(r.resolver_match.func.__name__, views.fundme.__name__)
         self.assertEqual(r.templates[0].name, 'SuffolkCycleRide/pages/fundme.html')
         self.assertAlmostEqual(PageVisit.most_recent('FundMe', user=self.user).timestamp, ts, delta=timedelta(milliseconds=100))
-        self.assertEqual(r.context[-1]['cyclist'], self.cyclist)
-        self.assertFalse('mockup' in r.context[-1])
 
-        #Prove that there is no site menu accessible on this page
+        self.assertInContext(response=r, attr_name='cyclist', expected=self.cyclist)
+        self.assertNotInContext(response=r, attr_name='mockup')
+
+        # Prove that there is no site menu accessible on this page
+        self.assertHTMLNotMatchSelector(r.content, 'ul.chevronbar')
+
+class TheEvent(TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def tearDown(self):
+        pass
+
+    def create_legs(self):
+        self.legs = [ cyclists.models.Leg(date=date(2020,07,10) + timedelta(days=10+c/2),
+                            name='Leg{}'.format(c), start='Town{}'.format(c+1), end='Town{}'.format(c+2),
+                            morning=c%2==0, distanceKM=17) for c in range(0,6)]
+        for l in self.legs:
+            l.save()
+
+    def test_001_TestBasicAccess(self):
+        ts = now()
+        r = self.client.get( reverse('TheEvent'))
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(r.resolver_match.func, views.the_event)
+        self.assertEqual(r.templates[0].name, 'SuffolkCycleRide/pages/theevent.html')
+        self.assertAlmostEqual(PageVisit.most_recent('TheEvent').timestamp, ts, delta=timedelta(milliseconds=100))
+
+        # Confirm that no legs are passed to the template
+        self.assertInContext(response=r, attr_name = 'event.legs', expected=[])
+
+    def test_002_TestEventList(self):
+        self.create_legs()
+        ts = now()
+        r = self.client.get( reverse('TheEvent'))
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(r.resolver_match.func, views.the_event)
+        self.assertEqual(r.templates[0].name, 'SuffolkCycleRide/pages/theevent.html')
+        self.assertAlmostEqual(PageVisit.most_recent('TheEvent').timestamp, ts, delta=timedelta(milliseconds=100))
+
+        # Test that the legs appear in the right order
+        self.assertInContext(response=r, attr_name = 'event.legs', expected=self.legs)
+
+        # Test the distance and start/end location appear
         st = BeautifulSoup(r.content, 'html5lib')
-        uls = st.select('ul.chevronbar')
-        self.assertSequenceEqual(uls,[])
-
-        #Todo Will need to test other features - such as appearance of the target, the Image, the statement
+        summary = st.select('div.summary')[0].select('p')
+        self.assertIn(self.legs[0].start, unicode(summary[0].text))
+        self.assertIn(self.legs[-1].end, unicode(summary[0].text))

@@ -39,22 +39,21 @@ def home(request):
                        'target':"{:.0f}".format(funds['target']),
                        'percentage':"{:.0f}".format(funds['percentage']) } if funds else {} } )
 
-# noinspection PyIncorrectDocstring
-def readmore(request):
-    """The Read more page - a list of the newsletter posts"""
-    PageVisit.record(request)
-    dl_url = reverse('newsletter:Download',kwargs = {'id':'0000'}).strip('0')
-    qs = Newsletter.objects.order_by('-pub_date')
-    return render(request, "SuffolkCycleRide/pages/readmore.html", context={'newsletter':qs, "dl_base":dl_url})
-
-#ToDo Rewrite Readmore page - to point to all the extra content
-
 def the_event(request):
     """The Event page - with a summary of the event"""
-    stats = cyclists.models.Leg.Totals()
+    PageVisit.record(request)
+
     legs = cyclists.models.Leg.objects.all().order_by('date','-morning')
-    first_leg = legs[0]
-    last_leg = cyclists.models.Leg.objects.all().order_by('-date','morning')[0]
+
+    if legs:
+        stats = cyclists.models.Leg.Totals()
+        first_leg = legs[0]
+        last_leg = cyclists.models.Leg.objects.all().order_by('-date','morning')[0]
+    else:
+        stats = {}
+        first_leg = None
+        last_leg = None
+
     return render(request, "SuffolkCycleRide/pages/theevent.html", context={'event':{ 'stats':stats,
                                                                                        'legs':legs,
                                                                                       'first_leg':first_leg,
@@ -107,10 +106,7 @@ class GetInvolved(MultipleFormMixin, View):
                 sub = self.this_form.save()
 
                 return render( request, "newsletter/pages/subscription_confirmation.html",
-                               context = {
-                                   'email': sub.email,
-                                   'readmore_url': request.build_absolute_uri( reverse('Readmore') )
-                               })
+                               context = {'email': sub.email })
 
             if self.this_form.prefix == 'r':
                 PageVisit.record(request, sub_document='New User Reqistration')

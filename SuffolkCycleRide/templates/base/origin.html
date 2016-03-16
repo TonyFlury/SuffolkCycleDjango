@@ -89,28 +89,15 @@ window.fbAsyncInit = function() {
 
         <div id='header'> <!-- Horizontal menu bar -->
             <div id='header_bg'></div>  <!-- Darker bar extending across the viewport -->
-                <div class='menu centered'>
-                    {% block menu-content %}
-                    <ul class='chevronbar'>
-                        <li><a href="{% url 'Home' %}">Home</a></li>
-                        <li><a href="{% url 'Readmore' %}">Read More</a></li>
-                        {% if user.is_authenticated %}
-                        <li><a href="{% url 'Dashboard:Home' %}">My Dashboard</a></li>
-                        {% else %}
-                        <li><a href="{% url 'GetInvolved' %}">Get Involved</a></li>
-                        {% endif %}
-                        {% if user.is_authenticated %}
-                        <li><a href="{% url 'User:SignOut' %}">Sign Out</a></li>
-                        {% else %}
-                        <li><a href="{% url 'User:SignIn' %}">Sign In</a></li>
-                        {% endif %}
-                        <li><a href="{% url 'Sponsorship:Main' %}">Sponsor Us</a></li>
-                        <li><a href="{% url 'Blog:Main' %}">Blog</a></li>
-                    </ul>
-                    {% endblock %}
-                    <!-- Facebook like button -->
-                    <div class="fb-like fb-like-pos" data-href="{{ HOST_URL }}" data-width="200"
+                <div class='menu-wrapper'>
+                    <div class="menu-body">
+                        <div class="fb-like fb-like-pos" data-href="{{ HOST_URL }}" data-width="200"
                          data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
+                    {% block menu-content %}
+                    {% endblock %}
+                    </div>
+                    <!-- Facebook like button -->
+
                 </div>
         </div>
 
