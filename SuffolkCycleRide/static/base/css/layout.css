@@ -182,12 +182,30 @@ div.strip {
 
 /* ------------------- Menu bar -------------------------------- */
 
-div .menu {
+div.menu-wrapper {
+    position:relative;
+    float:left;
+    left:50%
+    }
+
+div.menu-body {
+    position:relative;
     top: 30px;
-    position:absolute;
     color: white ;
     font: 20px/1.4em "fredericka the great",fantasy;
     width:100%;
+    float:left;
+    left:-50%
+}
+
+div#menu-container {
+	z-index: 1;
+}
+
+div#menu-container a {
+	display:block;
+	padding:0 5px;
+	color:#FFF;
 }
 
 ul.chevronbar {list-style-type: none; margin: 0; padding: 0; height:auto; width:auto; overflow:hidden;}
