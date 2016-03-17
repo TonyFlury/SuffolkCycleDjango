@@ -66,8 +66,9 @@
 
 <!-- Script for Facebook like button https://developers.facebook.com/tools/debug/og/object/ -->
 <script>
+
 window.fbAsyncInit = function() {
-    FB.init({
+   FB.init({
       appId      : '1695228507422103',
       xfbml      : true,
       version    : 'v2.5'
@@ -90,8 +91,7 @@ window.fbAsyncInit = function() {
         <div id='header'> <!-- Horizontal menu bar -->
             <div id='header_bg'></div>  <!-- Darker bar extending across the viewport -->
                 <div class='menu-wrapper'>
-                    <div class="menu-body">
-                        <div class="fb-like fb-like-pos" data-href="{{ HOST_URL }}" data-width="200"
+                    <div class="menu-body"><div class="fb-like fb-like-pos" data-href="{{ HOST_URL }}" data-width="200"
                          data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
                     {% block menu-content %}
                     {% endblock %}
@@ -111,7 +111,7 @@ window.fbAsyncInit = function() {
 
         <!-- The footer information - copyright info -->
         <div id='footer'>
-            <div id='footer_bg'></div>
+           <div id='footer_bg'></div>
             {% block footer-content %}
             <div class="white centered small" style="top:10px">
                 <table class="white small">

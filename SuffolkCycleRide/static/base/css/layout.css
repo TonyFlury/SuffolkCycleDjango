@@ -181,23 +181,19 @@ div.strip {
 }
 
 /* ------------------- Menu bar -------------------------------- */
-
 div.menu-wrapper {
-    position:relative;
-    float:left;
-    left:50%
-    }
-
-div.menu-body {
-    position:relative;
-    top: 30px;
-    color: white ;
-    font: 20px/1.4em "fredericka the great",fantasy;
-    width:100%;
-    float:left;
-    left:-50%
+	position: relative;
+	padding: 0px 10px;
 }
 
+div.menu-body {
+	position: relative;
+	top: 30px;
+	color: white;
+	font: 20px/1.4em "fredericka the great",fantasy;
+	margin: 0px auto;
+	max-width: 760px;
+}
 div#menu-container {
 	z-index: 1;
 }

@@ -22,11 +22,11 @@ function resetHeaderFooterWidths() {
 
     var content_width = 900 ; /* ****** DONOT Set to less than 900 ***** */
 
-    var width = window.innerWidth
+    var width = (window.innerWidth
                     || document.documentElement.clientWidth
-                    || document.body.clientWidth ;
+                    || document.body.clientWidth) - 25 ;
 
-    var gap = (width - content_width)/2;
+    var gap = ((width - content_width)/2) - 10;
 
     $('#Site_Background').css('width', (width).toString() + "px" );
 
