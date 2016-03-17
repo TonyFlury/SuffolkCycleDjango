@@ -141,7 +141,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-DATE_FORMAT = 'D, jS N Y' # Mon, 1st March 2016 - for example
+DATE_FORMAT = "D, jS N 'y" # Mon, 1st March 2016 - for example
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/

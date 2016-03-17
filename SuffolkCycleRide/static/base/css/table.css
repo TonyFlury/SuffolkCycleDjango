@@ -25,6 +25,7 @@ thead th {
     font-weight: bold;
     padding:0.2em 0 0.2em 0 ;
     color : white ;
+    text-align:left;
     }
 
 div.row,
@@ -33,6 +34,7 @@ div.row,
     height: auto ;
     margin: 1px;
     line-height: 1.2em;
+    vertical-align: top;
 }
 
 div.row {
@@ -50,7 +52,7 @@ div.row img,
 span.cell,
  td {
     padding:0.2em 0 0.2em 0 ;
-    color: black;
+    color: white;
     padding-right: 2em;
 }
 
