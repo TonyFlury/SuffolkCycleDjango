@@ -141,7 +141,7 @@ class ContactUs(View):
 
     def post(self,request):
         if request.POST.get('confirmation', False):
-            return redirect(reverse('home'))
+            return redirect(reverse('Home'))
 
         context = self.context.copy()
         form = context['form'](request.POST)

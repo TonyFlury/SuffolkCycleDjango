@@ -8,7 +8,7 @@ admin.autodiscover()
 
 import views
 
-app_name = "home"
+app_name = "Home"
 
 urlpatterns = [
     url(r'^$', views.home, name='Home'),
