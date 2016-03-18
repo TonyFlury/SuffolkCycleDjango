@@ -125,13 +125,14 @@ class InterestPage(TestCase):
     def test_010_InterestPagePost(self):
         p = self.client.post(reverse('Sponsorship:Interest', kwargs={'opportunity_slug':self.opp1.slug}),
                              data={'opportunity':self.opp1.id,
-                              'name':'test Sponsor',
+                              'contact_name':'test Sponsor',
                               'communication_preference':'telephone',
                               'telephone':'11111111111'})
         self.assertEqual(p.templates[0].name, 'Sponsors/communicate.html')
         self.assertEqual(p.context[-1]['confirmation'],True)
         sp = models.Sponsor.objects.all()
         self.assertEqual(len(sp),1)
-        self.assertEqual(sp[0].name, 'test Sponsor')
+        self.assertEqual(sp[0].contact_name, 'test Sponsor')
+        self.assertEqual(sp[0].slug, 'test-sponsor')
         self.assertEqual(sp[0].potential, True)
         self.assertTrue(self.opp1 in sp[0].potentials.all())

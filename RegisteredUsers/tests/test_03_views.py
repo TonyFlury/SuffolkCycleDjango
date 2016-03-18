@@ -152,7 +152,7 @@ class ResetRequest(TestCase):
         self.assertEqual(len(mail.outbox), 1)
         message = mail.outbox[0]
         url = "http://{}{}".format('testserver', prr.get_url())
-        date_str = prr.expiry.strftime('%B %d, %Y')
+        date_str = prr.expiry.strftime('%B %-e, %Y')
         self.assertIn(url, message.body)
         self.assertIn(date_str, message.body)
 

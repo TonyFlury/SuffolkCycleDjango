@@ -51,12 +51,14 @@ class C020_test_Opportunity_Model(TestCase):
 
     def test_020_001_Sponsor_creation_one_word_name(self):
         """Test that the slug is created correctly when the name is a single word"""
-        spo = Sponsors.models.Sponsor(name='BT')
+        spo = Sponsors.models.Sponsor(company_name='BT')
         spo.save()
         self.assertEqual(spo.slug, 'bt')
 
     def test_020_002_test_Sponsor_creation_two_word_name(self):
         """Test that the slug is created correctly when the name is two words"""
-        spo = Sponsors.models.Sponsor(name='British Gas')
+        spo = Sponsors.models.Sponsor(company_name='British Gas')
         spo.save()
         self.assertEqual(spo.slug, 'british-gas')
+
+# Todo Expand these tests

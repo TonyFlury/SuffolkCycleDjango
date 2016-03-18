@@ -31,6 +31,7 @@ class SponsorValidation(forms.ModelForm):
         if not (company_name or contact_name):
             self.add_error( 'company_name',
                              "You must provide either a 'Company Name' or 'Contact Name'")
+            return self.cleaned_data
 
         email, telephone, mobile = self.cleaned_data.get('email',None), \
                                    self.cleaned_data.get('telephone',None),\
@@ -83,9 +84,9 @@ class Communications(SponsorValidation):
         super(Communications, self).__init__(*args, **kwargs)
         self.fields['opportunity'].widget = self.fields['opportunity'].hidden_widget()
 
-    def save(self, commit=True):
-        comms = super(Communications, self).save( commit=False)
-        comms.slug = slugify(comms.name)
-        if commit:
-            comms.save( )
-        return comms
+#    def save(self, commit=True):
+#        comms = super(Communications, self).save( commit=False)
+ #       comms.slug = slugify(comms.name)
+ #       if commit:
+#            comms.save( )
+#        return comms

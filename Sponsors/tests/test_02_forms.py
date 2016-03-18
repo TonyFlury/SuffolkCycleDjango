@@ -29,11 +29,11 @@ class C010_test_CommunicationForm(TestCase):
     def test_010_010_test_FormNameMandatory(self):
         f = forms.Communications(data={'opportunity': self.opp1.id})
         self.assertEqual(f.is_valid(), False)
-        self.assertEqual(f.errors['name'], [u'Please provide your name'])
+        self.assertEqual(f.errors['company_name'], [u"You must provide either a 'Company Name' or 'Contact Name'"])
 
     def test_010_020_test_Form_No_Pref(self):
         f = forms.Communications(data={'opportunity': self.opp1.id,
-                                       'name': 'Me',
+                                       'contact_name': 'Me',
                                        'communication_preference': ''})
         self.assertEqual(f.is_valid(), False)
         self.assertEqual(f.errors['communication_preference'],
@@ -41,7 +41,7 @@ class C010_test_CommunicationForm(TestCase):
 
     def test_010_025_test_Form_Invalid_Pref(self):
         f = forms.Communications(data={'opportunity': self.opp1.id,
-                                       'name': 'Me',
+                                       'contact_name': 'Me',
                                        'communication_preference': 'xxx'})
         self.assertEqual(f.is_valid(), False)
         self.assertEqual(f.errors['communication_preference'],
@@ -49,7 +49,7 @@ class C010_test_CommunicationForm(TestCase):
 
     def test_010_028_test_Form_Pref_No_Data(self):
         f = forms.Communications(data={'opportunity': self.opp1.id,
-                                       'name': 'Me',
+                                       'contact_name': 'Me',
                                        'communication_preference': 'telephone'})
         self.assertEqual(f.is_valid(), False)
         self.assertEqual(f.errors['__all__'],
@@ -57,7 +57,7 @@ class C010_test_CommunicationForm(TestCase):
 
     def test_010_031_test_Form_No_Mobile(self):
         f = forms.Communications(data={'opportunity': self.opp1.id,
-                                       'name': 'Me',
+                                       'contact_name': 'Me',
                                        'communication_preference': 'mobile',
                                        'telephone':'11111111111'})
         self.assertEqual(f.is_valid(), False)
@@ -66,7 +66,7 @@ class C010_test_CommunicationForm(TestCase):
 
     def test_010_032_test_Form_No_Telephone(self):
         f = forms.Communications(data={'opportunity': self.opp1.id,
-                                       'name': 'Me',
+                                       'contact_name': 'Me',
                                        'communication_preference': 'telephone',
                                        'mobile':'11111111111'})
         self.assertEqual(f.is_valid(), False)
@@ -76,7 +76,7 @@ class C010_test_CommunicationForm(TestCase):
 
     def test_010_033_test_Form_No_Email(self):
         f = forms.Communications(data={'opportunity': self.opp1.id,
-                                       'name': 'Me',
+                                       'contact_name': 'Me',
                                        'communication_preference': 'email',
                                        'mobile':'11111111111'})
         self.assertEqual(f.is_valid(), False)
@@ -85,7 +85,7 @@ class C010_test_CommunicationForm(TestCase):
 
     def test_010_040_test_Form_Invalid_Email(self):
         f = forms.Communications(data={'opportunity': self.opp1.id,
-                                       'name': 'Me',
+                                       'contact_name': 'Me',
                                        'communication_preference': 'email',
                                        'email':'a.b.com'})
         self.assertEqual(f.is_valid(), False)
@@ -93,7 +93,7 @@ class C010_test_CommunicationForm(TestCase):
 
     def test_010_041_test_Form_Invalid_Mobile(self):
         f = forms.Communications(data={'opportunity': self.opp1.id,
-                                       'name': 'Me',
+                                       'contact_name': 'Me',
                                        'communication_preference': 'mobile',
                                        'mobile':'999999'})
         self.assertEqual(f.is_valid(), False)
@@ -102,7 +102,7 @@ class C010_test_CommunicationForm(TestCase):
 
     def test_010_041_test_Form_Invalid_Phone(self):
         f = forms.Communications(data={'opportunity': self.opp1.id,
-                                       'name': 'Me',
+                                       'contact_name': 'Me',
                                        'communication_preference': 'telephone',
                                        'telephone':'999999'})
         self.assertEqual(f.is_valid(), False)
