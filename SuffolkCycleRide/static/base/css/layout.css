@@ -136,7 +136,8 @@ div#content > :last-child {
 }
 
 div.popup {
-	margin: auto;
+	margin: 20px 20%;
+	width: auto;
 	background-color: #005551;
 	padding: 7px;
 	border-radius: 10px;
