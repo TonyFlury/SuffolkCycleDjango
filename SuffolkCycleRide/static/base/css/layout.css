@@ -337,8 +337,8 @@ span.special_font a {
 
 div#content p a:hover,
 div#content span:not(.ShapeBtnTxt) a:hover {
-    cursor:pointer;
-    font-size:120%;
+    border-top: thin dashed white ;
+    border-bottom: thin dashed white ;
 }
 
 .strong {

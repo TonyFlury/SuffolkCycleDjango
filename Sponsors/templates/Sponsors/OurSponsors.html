@@ -1,0 +1,46 @@
+{% extends "base/base.html" %}
+
+{% load staticfiles %}
+{% load helper_tags %}
+
+
+{% block subtitle %} - Sponsors{% endblock %}
+
+
+{% block content %}
+<h2 align="center" style="margin-top:0.5em;">Our Sponsors</h2>
+{% if sponsors %}
+<p style='margin-bottom:2em;'>We have already received very generous sponsorship which has helped us organise and run this event. Every penny of sponsorship helps us ensure that we can get as close as possible to 100% of the money raised by our cyclists will go to Charity.
+
+We want to say a massive thank you to our sponsors :
+</p>
+
+<table width="90%" align="center">
+    <tbody>
+    {% for sponsor in sponsors %}
+        <tr>
+            <td>
+                <div style="width:200;height:auto;">
+                    {% if sponssor.logo_url %}
+                        <img src="{{ sponsor.logo_url }}"style="width:200;height:auto;"/>
+                    {% elif sponsor.upload_logo.name %}
+                        <img src="{{ sponsor.upload_logo.url }}" style="width:200;height:auto;"/>
+                    {% else %}
+                        {{ sponsor.name }}
+                    {% endif %}
+                </div>
+            </td>
+            <td>
+                {{ sponsor.accolade }}
+            </td>
+        </tr>
+    {% endfor  %}
+    </tbody>
+</table>
+{% else %}
+<p>
+We are currently seeking sponsors for a number of <a href="{% url 'Sponsorship:Main' %}">different opportunities</a>. Details of confirmed sponsorships will appear on this page.
+</p>
+{% endif %}
+
+{% endblock %}

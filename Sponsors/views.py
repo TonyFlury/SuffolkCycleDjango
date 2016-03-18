@@ -71,3 +71,10 @@ class interest(View):
         context['description'] = context['description'].format(opportunity.name)
         return render(request, 'Sponsors/communicate.html',
                       context=context)
+
+def OurSponsors(request):
+    sponsors = models.Sponsor.objects.filter(potential = False)
+
+    return render(request=request,
+                  template_name='Sponsors/OurSponsors.html',
+                  context = {'sponsors':sponsors})

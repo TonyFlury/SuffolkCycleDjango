@@ -25,6 +25,7 @@ app_name = "Sponsors"
 urlpatterns = [
         url(r'^$', views.main, name='Main'),
         url(r'interest/(?P<opportunity_slug>[\w-]+)$', views.interest.as_view(), name='Interest'),
+        url(r'OurSponsors$', views.OurSponsors, name='OurSponsors'),
         ]
 
 

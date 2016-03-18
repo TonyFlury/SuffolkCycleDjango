@@ -22,31 +22,16 @@ __version__ = "0.1"
 __author__ = 'Tony Flury : anthony.flury@btinternet.com'
 __created__ = '13 Feb 2016'
 
-
-class Communications(forms.ModelForm):
-    opportunity = forms.IntegerField()
-
-    # noinspection PyClassicStyleClass
-    class Meta:
-        model = models.Sponsor
-        fields = ['name','company_name', 'email','telephone','mobile', 'communication_preference']
-        labels = { 'company_name':'Company Name',
-                   'communication_preference': 'Pref. contact method',
-                  'telephone':'Tel number',
-                  'mobile':'Mobile number'}
-        widgets = {'communication_preference': forms.RadioSelect(),
-                   'mobile':forms.TextInput(attrs={ 'type':'tel',
-                                                        'pattern':'[0-9]{11}'} ),
-                   'telephone':forms.TextInput(attrs={ 'type':'tel',
-                                                        'pattern':'[0-9]{11}'} ) }
-        error_messages = {'name':{'required':'Please provide your name'},
-                          'communication_preference':{'required':'You must select your preferred communication method'}}
-
-    def __init__(self, *args, **kwargs):
-        super(Communications, self).__init__(*args, **kwargs)
-        self.fields['opportunity'].widget = self.fields['opportunity'].hidden_widget()
-
+class SponsorValidation(forms.ModelForm):
     def clean(self):
+
+        company_name, contact_name = self.cleaned_data.get('company_name',None), \
+                                   self.cleaned_data.get('contact_name',None)
+
+        if not (company_name or contact_name):
+            self.add_error( 'company_name',
+                             "You must provide either a 'Company Name' or 'Contact Name'")
+
         email, telephone, mobile = self.cleaned_data.get('email',None), \
                                    self.cleaned_data.get('telephone',None),\
                                    self.cleaned_data.get('mobile',None)
@@ -73,6 +58,30 @@ class Communications(forms.ModelForm):
                                     })
         return self.cleaned_data
 
+
+class Communications(SponsorValidation):
+    opportunity = forms.IntegerField()
+
+    # noinspection PyClassicStyleClass
+    class Meta:
+        model = models.Sponsor
+        fields = ['contact_name','company_name', 'email','telephone','mobile', 'communication_preference']
+        labels = { 'contact_name' : 'Contact Name',
+                    'company_name':'Company Name',
+                   'communication_preference': 'Pref. contact method',
+                  'telephone':'Tel number',
+                  'mobile':'Mobile number'}
+        widgets = {'communication_preference': forms.RadioSelect(),
+                   'mobile':forms.TextInput(attrs={ 'type':'tel',
+                                                        'pattern':'[0-9]{11}'} ),
+                   'telephone':forms.TextInput(attrs={ 'type':'tel',
+                                                        'pattern':'[0-9]{11}'} ) }
+        error_messages = {'name':{'required':'Please provide your name'},
+                          'communication_preference':{'required':'You must select your preferred communication method'}}
+
+    def __init__(self, *args, **kwargs):
+        super(Communications, self).__init__(*args, **kwargs)
+        self.fields['opportunity'].widget = self.fields['opportunity'].hidden_widget()
 
     def save(self, commit=True):
         comms = super(Communications, self).save( commit=False)

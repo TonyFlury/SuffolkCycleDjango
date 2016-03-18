@@ -19,7 +19,7 @@ __version__ = "0.1"
 __author__ = 'Tony Flury : anthony.flury@btinternet.com'
 __created__ = '09 Feb 2016'
 
-ignore = ['htmlcov','env', 'media']
+ignore = ['htmlcov','env', 'media', 'static']
 
 def get_sha224(file_path):
     m = hashlib.sha224()

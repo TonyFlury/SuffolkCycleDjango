@@ -1,8 +1,8 @@
 from django.contrib import admin
 
-import models
 from markitup.widgets import AdminMarkItUpWidget
 
+import forms, models
 
 class OpportunityAdmin(admin.ModelAdmin):
     list_display = ('name', 'value', 'max_value')
@@ -15,8 +15,20 @@ class OpportunityAdmin(admin.ModelAdmin):
 
 
 class SponsorAdmin(admin.ModelAdmin):
-    list_display = ('name', 'potential', )
-    prepopulated_fields = {"slug": ("name",)}
+    list_display = ('company_name', 'contact_name', 'potential', )
+    readonly_fields = ('slug',)
+    fieldsets = (
+          ('Name', {'fields': ('company_name', 'contact_name')}),
+          ('Contact Details', {'fields':('email','telephone','mobile','communication_preference')}),
+          ('Other Info', {'fields': ('website',)}),
+          ('Logo', {'fields': ('logo_url','upload_logo')}),
+          ('Sponsorship Status', {'fields':('potential',)}),
+          ('Potentially Supports', {'fields': ('potentials',),
+                                    'classes': ('collapse',)}),
+          ('Actual Support', {'fields' : ('supports','accolade'),
+                              'classes' : ('collapse',)})
+                )
+    form = forms.SponsorValidation
 
 
 admin.site.register(models.Opportunity, OpportunityAdmin)
