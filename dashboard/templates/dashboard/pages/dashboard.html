@@ -28,9 +28,16 @@ Great Suffolk Bike Ride 2016: My Dashboard
     </div>
     {% endif %}
     <h3 class="normal">Welcome {{ user.first_name }}</h3>
+    <p>
     This is your dashboard - where you can review and change all the information recorded about you and your involvement
-in the event.
-<ul>
+in the event,<br/>
+        You also get a  <a href="{% url 'Dashboard:FundMe' %}">FundMe</a> page - which is personalised with your picture, your personal statemen, your funding targets and a link to your personal fund-raising page.
+        Once it is complete you can share this page to social media, or copy/paste the address to an email, and tell your family and friends about your participation in this great event.
+    </p>
+    <p>
+    Make sure you complete your profile soon as possible by completing the activities listed below - you can do these activities in any order, and this will ensure that your FundMe page is as effective as possible.
+    </p>
+    <ol>
     {% if not cyclist.picture %}
         <li>Upload a <a href="{% url 'Dashboard:MyDetails' %}">profile picture</a>.</li>
     {% endif %}
@@ -46,12 +53,7 @@ in the event.
     {% if not cyclist.legs.all %}
         <li>Make sure you sign up to one or more of the cycle legs on your <a href="{% url 'Dashboard:CycleRoutes' %}">Cycle Route page</a>.</li>
     {% endif %}
-    </ul>
-    <p>
-        You also get a  <a href="{% url 'Dashboard:FundMe' %}">FundMe</a> page - which is personalised with your picture, your statement and your funding targets and links.
-        You can share this page to social media, or copy/paste the address to an email, and tell your family and friends about your
-        participation in this great event.
-    </p>
+    </ol>
 
     Make sure you regularly update your <a href="{% url 'Dashboard:FundRaising' %}">Current Fundraising total</a></li>
 
