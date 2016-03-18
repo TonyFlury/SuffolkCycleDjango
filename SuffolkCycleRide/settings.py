@@ -156,7 +156,7 @@ FILE_UPLOAD_HANDLERS = ['django.core.files.uploadhandler.TemporaryFileUploadHand
 MEDIA_URL = '/media/'
 
 # Btinternet SMTP settings
-EMAIL_HOST = 'smtp.mail.yahoo.com'
+EMAIL_HOST = 'mail.btinternet.com'
 EMAIL_PORT = 465
 EMAIL_HOST_USER = "suffolkcycleride@btinternet.com"
 EMAIL_HOST_PASSWORD = "Ball00M0wgl1"
