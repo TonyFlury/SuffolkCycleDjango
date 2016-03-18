@@ -180,6 +180,13 @@ div.strip {
     overflow:auto;
 }
 
+#SponsorBar img {
+width:auto;
+height:50px;
+vertical-align:middle;
+margin-left:10px;
+}
+
 /* ------------------- Menu bar -------------------------------- */
 div.menu-wrapper {
 	position: relative;

@@ -80,9 +80,10 @@
             </a>
         </div>
         <div id="SponsorBar" style='position:relative;'>
-            <div style="float:left;position:relative;">
+            <div style="float:left;position:relative;vertical-align:middle'">
                 <span style="vertical-align:middle;" class="blue xxlarge special_font">Sponsors:</span>
-                <span style="margin-left:50px; vertical-align:middle;" class="small">Your Company Logo Here ?</span>
+                <a href="{% url 'Sponsorship:OurSponsors' %}"><img src="{% static 'Sponsors/images/CabsSmart.png' %}" /></a>
+                <span style="margin-left:20px; vertical-align:middle;" class="blue small">Your Company Logo Here ?</span>
             </div>
             <div class='ShapeBtnOuter' style='float:right;margin-right:10px;'>
                 <span class='ShapeBtnTxt'>
