@@ -81,8 +81,38 @@ width:100% ;
 position:relative;
 text-align: center;
 padding: 5px 0px;
-margin-bottom:5px;
+margin-bottom:0px;
 }
+
+div.ShareMe {
+    background: #005551;
+    color : yellow ;
+    font-size: small ;
+    width:100% ;
+    position:relative;
+    text-align: center;
+    padding: 5px 0px;
+    margin-bottom:10px;
+    vertical-align:middle;
+}
+
+div.Share {
+display:inline-block;
+margin-right:2em;}
+
+div.ShareMe > div.Share > a > img {
+    vertical-align:middle;
+    height:40px;
+    width:auto;
+    }
+
+div.ShareMe > div.Share > div {
+    margin-left:0.3em;
+    vertical-align:middle;
+    display:inline-block;
+    text-align: left
+    }
+
 
 div.logo {
 background : url( '/static/SuffolkCycleRide/images/suffolk-cycle-dated-land-sea-trans.gif' );

@@ -33,9 +33,20 @@ Support {{ cyclist.get_full_name }} on The Great Suffolk Cycle Ride
 {% block content %}
 {% if mockup %}
     <div class="mockup">
-        This is a mockup of your <a href="{{ mockup.url }}">FundMe page</a>.<br/>
-        The full url is <b>http://{{ HOST }}{{ mockup.url }}</b>
+        This is a mockup of your <a href="{{ mockup.local_url }}">FundMe page</a>.<br/>
+        The full url is <b>{{ mockup.full_url }}</b>
     </div>
+    <div class="ShareMe">
+        <div class="Share">
+        <a href="{{ mockup.urls.facebook}}"><img src="{% static 'SuffolkCycleRide/images/facebook.png' %}"></a>
+        <div >Share your FundMe<br/>page onto Facebook.</div>
+        </div>
+        <div class="Share">
+        <a href="{{ mockup.urls.twitter}}"><img src="{% static 'SuffolkCycleRide/images/twitter.png' %}"></a>
+        <div >Tweet about your<br/>FundMe page</div>
+        </div>
+    </div>
+
 {% endif %}
 <div style="position:relative;clear:both;vertical-align:middle;">
     <div style="vertical-align:middle;float:left; width:70%:">

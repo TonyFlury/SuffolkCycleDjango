@@ -21,6 +21,7 @@ from django.core.urlresolvers import reverse_lazy, reverse
 from django.contrib.auth import login, authenticate
 from django.db.models import Case, When, Value
 from django.db.models import IntegerField
+from django.utils.http import urlencode
 
 from stats.models import PageVisit
 
@@ -340,9 +341,30 @@ class FundMe(View):
         except ObjectDoesNotExist:
             raise NoDashboard()
 
+        local_url = reverse('FundMe',kwargs={'username':request.user.username})
+        full_url = '{protocol}{host}{page}'.format(
+                                                protocol='http://',
+                                                host = request.get_host(),
+                                                page = local_url)
+        facebookurl = "http://www.facebook.com/sharer/sharer.php?{data}".format(
+                data = urlencode(  {'u': full_url,
+                                    'title': 'Support {} on the Great Suffolk Cycle Ride'.format(
+                                                                            request.user.get_full_name())
+                                     }  )
+                        )
+
+        twitterurl = "http://twitter.com/intent/tweet?{data}".format(
+                        data = urlencode( {'status':'Support {name} on the Great Suffolk Cycle Ride\n{url}'.format(
+                                                name=request.user.get_full_name(),
+                                                url=full_url) } )
+                                        )
+
         return render(request, 'SuffolkCycleRide/pages/fundme.html',
                     context={'cyclist':cyclist,
-                             'mockup':{'url':reverse('FundMe',kwargs={'username':request.user.username})}
+                             'mockup':{'local_url': local_url,
+                                       'full_url': full_url,
+                                       'urls':{ 'facebook': facebookurl,
+                                                'twitter': twitterurl }}
                              } )
 
     def post(self, request):
