@@ -157,7 +157,7 @@ class ContactUs(View):
                        from_email = settings.DEFAULT_FROM_EMAIL,
                        recipient_list = [settings.DEFAULT_TO_EMAIL],
                        message = render_to_string(
-                               'SuffolkCycleRide/emails/ContactUs_ToUser',
+                               'SuffolkCycleRide/emails/ContactUs_ToStaff',
                                context= dict( {'host':settings.BASE_URL,
                                             'reason_text': forms.ContactChoices.fullVersion(data['reason'])}.items() +\
                                             data.items() ) ))
@@ -167,7 +167,7 @@ class ContactUs(View):
                        from_email = settings.DEFAULT_FROM_EMAIL,
                        recipient_list = [data['sender_email']],
                        message =render_to_string(
-                               'SuffolkCycleRide/emails/ContactUs_ToStaff',
+                               'SuffolkCycleRide/emails/ContactUs_ToUser',
                                context = dict( {'host':settings.BASE_URL,
                                             'reason_text' :forms.ContactChoices.fullVersion(data['reason'])}.items() +\
                                             data.items() ) ) )
