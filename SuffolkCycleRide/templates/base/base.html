@@ -18,7 +18,11 @@
 {% else %}
     <div id="ShareBar">
         <div class="ShareMe">
-        <a href="http://www.facebook.com/sharer/sharer.php?u={{ HOST_URL|urlencode:''}}&tite={{ 'The Great Suffolk Cycle Ride' | urlencode:'' }}">
+<a href="https://www.facebook.com/dialog/feed?
+app_id=1695226697422284
+&amp;display=popup&amp;caption={{ 'The Great Suffolk Cycle Ride' | urlencode:'' }}
+&amp;link={{ HOST_URL|urlencode:''}}
+&amp;redirect_uri={{ HOST_URL|urlencode:''}}">
         <img src="{% static 'SuffolkCycleRide/images/facebook.png' %}" ;"/>
         </a>
         </div>
