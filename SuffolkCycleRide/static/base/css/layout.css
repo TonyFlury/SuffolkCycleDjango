@@ -188,6 +188,23 @@ vertical-align:middle;
 margin-left:10px;
 }
 
+div#ShareBar {
+    margin-bottom:4px;
+    height:25px;
+}
+
+div#ShareBar > div.ShareMe {
+    display:inline-block;
+    margin-right:5px;
+    height:25px;
+    width:25px;
+}
+
+div#ShareBar > div.ShareMe img {
+    height:25px;
+    width:25px;
+}
+
 /* ------------------- Menu bar -------------------------------- */
 div.menu-wrapper {
 	position: relative;
@@ -323,7 +340,7 @@ border-width: 4px 7px 4px 0;
 border-color: transparent #ffffff transparent transparent;
 display:inline-block; }
 
-li:hover > a:after {content "\A";
+li:hover > a:after {content :"\A";
 position:relative;
 margin-left:5px;
 margin-bottom:1px;
