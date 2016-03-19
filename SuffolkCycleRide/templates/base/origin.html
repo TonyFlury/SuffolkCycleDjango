@@ -62,27 +62,6 @@
 </head>
 <body>
 {% block fb-disable %}
-<div id="fb-root"></div>
-
-<!-- Script for Facebook like button https://developers.facebook.com/tools/debug/og/object/ -->
-<script>
-
-window.fbAsyncInit = function() {
-   FB.init({
-      appId      : '1695228507422103',
-      xfbml      : true,
-      version    : 'v2.5'
-    });
-  };
-
-(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.5";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
-</script>
 {% endblock %}
 
 <div id="Site_Background">
@@ -91,13 +70,10 @@ window.fbAsyncInit = function() {
         <div id='header'> <!-- Horizontal menu bar -->
             <div id='header_bg'></div>  <!-- Darker bar extending across the viewport -->
                 <div class='menu-wrapper'>
-                    <div class="menu-body"><div class="fb-like fb-like-pos" data-href="{{ HOST_URL }}" data-width="200"
-                         data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
+                    <div class="menu-body">
                     {% block menu-content %}
                     {% endblock %}
                     </div>
-                    <!-- Facebook like button -->
-
                 </div>
         </div>
 
