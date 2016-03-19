@@ -13,6 +13,8 @@ Dear {{ user.first_name }} {{ user.last_name }},
 
     If you need to reset your password - click to {{ ResetUrl }} and follow the prompts.
 
+    We take your privacy seriously - our Privacy Policy is at {{ PrivacyUrl }}.
+
     Thanks again, and we look forward to meeting you as the event progresses.
     --
     The Suffolk Cycle Ride Organisation team

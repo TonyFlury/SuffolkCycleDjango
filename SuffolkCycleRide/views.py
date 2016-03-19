@@ -120,6 +120,7 @@ class GetInvolved(MultipleFormMixin, View):
                             message=render_to_string( "RegisteredUsers/Email/NewUserConfirmation.txt",
                                     context=dict( {'user': user,
                                              'ResetUrl': request.build_absolute_uri( reverse("User:ResetRequest") ),
+                                             'PrivacyUrl': request.build_absolute_uri( reverse("Privacy") ),
                                              'HOST': request.get_host() }.items() +\
                                              settings_base_url(request).items()
                                              )))
