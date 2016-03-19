@@ -349,15 +349,20 @@ class FundMe(View):
                                                 host = request.get_host(),
                                                 page = local_url)
 
-        facebookurl = "https://www.facebook.com/dialog/feed?" \
-                      "app_id=1695226697422284" \
-                      "&amp;display=popup" \
-                      "&amp;caption={ title }" \
-                      "&amp;link={ link }" \
-                      "&amp;redirect_uri={ redirect }".format(
-                title = quote('Support {} on the Great Suffolk Cycle Ride'.format(request.user.get_full_name()),''),
-                link = quote( full_url, ''),
-                redirect = quote( full_url, '') )
+        return_url = '{protocol}{host}{page}'.format(
+                                                protocol='http://',
+                                                host = request.get_host(),
+                                                page = reverse('Dashboard:FundMe'))
+
+        facebookurl = "https://www.facebook.com/dialog/feed?"\
+                      "app_id=1695226697422284"\
+                      "&amp;display=popup"\
+                      "&amp;caption={title}"\
+                      "&amp;link={link}"\
+                      "&amp;redirect_uri={redirect}".format(
+                title= quote('Support {} on the Great Suffolk Cycle Ride'.format(request.user.get_full_name()),''),
+                link= quote( full_url, ''),
+                redirect= quote( return_url, '') )
 
         twitterurl = "http://twitter.com/intent/tweet?{data}".format(
                         data = urlencode( {'status':'Support {name} on the Great Suffolk Cycle Ride\n{url}'.format(
