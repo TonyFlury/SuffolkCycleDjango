@@ -35,6 +35,7 @@ import SuffolkCycleRide.forms as forms
 
 import newsletter.models
 import newsletter.forms
+
 import RegisteredUsers.forms
 import cyclists.models
 
@@ -81,13 +82,15 @@ class GetInvolved(TestCase):
         self.assertEqual(r.status_code, 200)
         self.assertEqual(r.resolver_match.func.__name__, views.GetInvolved.as_view().__name__)
         self.assertEqual(r.templates[0].name, 'base/VerticalForm.html')
-        self.assertIsInstance(r.context[-1]['forms'][0]['form'], newsletter.forms.NewsletterSignUpForm)
-        self.assertIsInstance(r.context[-1]['forms'][1]['form'], RegisteredUsers.forms.NewUserForm)
+        # Issue 19 - Temporarily Disable Newsletter Capability
+        # self.assertIsInstance(r.context[-1]['forms'][0]['form'], newsletter.forms.NewsletterSignUpForm)
+        self.assertIsInstance(r.context[-1]['forms'][0]['form'], RegisteredUsers.forms.NewUserForm)
         self.assertAlmostEqual(PageVisit.most_recent('GetInvolved').timestamp, ts, delta=timedelta(milliseconds=100))
 
     def test_011_GetInvolvedPostNewsLetter(self):
         """Check that a correctly completed Newsletter Signup form results in correct templates and a new instance"""
 
+        self.skipTest('Issue 19 - Newsletter Capability Temporarily Disable')
         # Todo - Need to test the Newsletter Signup Form for incorrect/blank entries.
         ts = now()
         

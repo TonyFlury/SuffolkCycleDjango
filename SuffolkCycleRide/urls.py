@@ -27,7 +27,9 @@ urlpatterns = [
 
     url(r'^sponsorship/', include('Sponsors.urls', namespace='Sponsorship')),
     url(r'^User/', include("RegisteredUsers.urls", namespace='User')),
+
     url(r'^newsletter/', include("newsletter.urls", namespace="Newsletter")),
+
     url(r'^dashboard/', include("dashboard.urls", namespace="Dashboard")),
     url(r'^blog/', include('blog.urls', namespace='Blog')),
 

@@ -18,16 +18,18 @@ __created__ = '12 Jan 2016'
 
 
 from django.conf.urls import include, url
+from django.views.generic import TemplateView
 
 import views
 
 app_name = 'Newsletter'
 
 urlpatterns = [
-    url(r'^$', views.main, name='Home'),
-    url(r'^unsubscribe/(?P<email>.*?)$', views.Unsubscribe.as_view(), name='Unsubscribe'),
-    url(r'^unsubscribe/$', views.Unsubscribe.as_view(), name='Unsubscribe'),
-    url(r'^upload$', views.Upload.as_view(), name='Upload'),
-    url(r'^download/(?P<id>[0-9]*?)$', views.Download, name='Download'),
+    url(r'.*$', TemplateView.as_view(template_name='404.html'), name='Home')
+#    url(r'^$', views.main, name='Home'),
+#    url(r'^unsubscribe/(?P<email>.*?)$', views.Unsubscribe.as_view(), name='Unsubscribe'),
+#    url(r'^unsubscribe/$', views.Unsubscribe.as_view(), name='Unsubscribe'),
+#    url(r'^upload$', views.Upload.as_view(), name='Upload'),
+#    url(r'^download/(?P<id>[0-9]*?)$', views.Download, name='Download'),
 #    url(r'^list$', List, name="List"),
 ]

@@ -8,9 +8,11 @@ from django.http import HttpResponseRedirect, HttpResponseNotFound
 from django.views.generic import View
 from django.core.urlresolvers import reverse
 
-from newsletter.forms import NewsletterSignUpForm
+# Issue 19 - Newsletter Temporarily Disabled
+# from newsletter.forms import NewsletterSignUpForm
+# from newsletter.models import Newsletter
+
 from RegisteredUsers.forms import NewUserForm
-from newsletter.models import Newsletter
 from stats.models import PageVisit
 from django.core.mail import send_mail
 
@@ -75,11 +77,12 @@ class GetInvolved(MultipleFormMixin, View):
     context_template = {
                 'title': 'The Great Suffolk Cycle Ride 2016 : Get Involved',
                 'forms': [
-                    { 'name': 'Newsletter Sign Up',
-                      'description': 'Do you want to keep informed, but not ready to sign up to take part. Then our newsletter is ideal for you.',
-                      'form': NewsletterSignUpForm,
-                      'submit': u'Send me the newsletter',
-                      'prefix': 'nl' },
+# Issue 19 - Temporarily removed Newsletter Sign up
+#                    { 'name': 'Newsletter Sign Up',
+#                      'description': 'Do you want to keep informed, but not ready to sign up to take part. Then our newsletter is ideal for you.',
+#                      'form': NewsletterSignUpForm,
+#                      'submit': u'Send me the newsletter',
+#                      'prefix': 'nl' },
                     { 'name': 'Registration',
                       'description': 'Create an account here - your first step to participating or volunteering',
                       'form': NewUserForm,

@@ -150,7 +150,7 @@ DATE_FORMAT = "D, j N" # Mon, 1st March - for example
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 
-# Defined to collect uploaded Newsletters
+# Defined to collect uploaded pictures/logos etc
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 FILE_UPLOAD_HANDLERS = ['django.core.files.uploadhandler.TemporaryFileUploadHandler']
 MEDIA_URL = '/media/'
