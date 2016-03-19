@@ -36,6 +36,10 @@ def walk_files():
     for root, dirs, files in os.walk(os.getcwd()):
         for f in files:
             name, ext = os.path.splitext(f)
+
+            if f == 'manifest.txt': # Ignore the manifest file
+                continue
+
             if ext not in ['.py', '.html', '.gif', '.png', '.css', '.txt']:
                 continue
             yield os.path.join(root, f)
