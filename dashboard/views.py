@@ -22,6 +22,8 @@ from django.contrib.auth import login, authenticate
 from django.db.models import Case, When, Value
 from django.db.models import IntegerField
 from django.utils.http import urlencode
+from urllib import quote
+
 
 from stats.models import PageVisit
 
@@ -346,12 +348,16 @@ class FundMe(View):
                                                 protocol='http://',
                                                 host = request.get_host(),
                                                 page = local_url)
-        facebookurl = "http://www.facebook.com/sharer/sharer.php?{data}".format(
-                data = urlencode(  {'u': full_url,
-                                    'title': 'Support {} on the Great Suffolk Cycle Ride'.format(
-                                                                            request.user.get_full_name())
-                                     }  )
-                        )
+
+        facebookurl = "https://www.facebook.com/dialog/feed?" \
+                      "app_id=1695226697422284" \
+                      "&amp;display=popup" \
+                      "&amp;caption={ title }" \
+                      "&amp;link={ link }" \
+                      "&amp;redirect_uri={ redirect }".format(
+                title = quote('Support {} on the Great Suffolk Cycle Ride'.format(request.user.get_full_name()),''),
+                link = quote( full_url, ''),
+                redirect = quote( full_url, '') )
 
         twitterurl = "http://twitter.com/intent/tweet?{data}".format(
                         data = urlencode( {'status':'Support {name} on the Great Suffolk Cycle Ride\n{url}'.format(
