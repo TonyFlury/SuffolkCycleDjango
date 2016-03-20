@@ -16,7 +16,7 @@ Dear {{ user.first_name }} {{ user.last_name }},
     and follow the prompts.
 
     We take your privacy seriously - our Privacy Policy is at
-                    {{ PrivacyUrl }}.
+                    {{ PrivacyUrl }}
 
     Thanks again, and we look forward to meeting you as the event progresses.
     --
