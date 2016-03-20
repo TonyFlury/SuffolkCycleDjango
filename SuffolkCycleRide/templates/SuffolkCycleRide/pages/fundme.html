@@ -20,10 +20,11 @@ Support {{ cyclist.get_full_name }} on The Great Suffolk Cycle Ride
 {% endblock %}
 
 {% block og-description %}
-{{ cyclist.user.first_name }} is cycling {{ cyclist.total_distance }} km (<i>{{ cyclist.total_distance| kmToMiles }} miles</i>) over {{cyclist.total_days}} days in The Great Suffolk Cycle Ride; to fund-raise for Suffolk cancer charities.
-
-{{ cyclist.user.first_name }} Says :
-{{ cyclist.statement }}
+{{ cyclist.user.first_name }} is cycling {{ cyclist.total_distance }} km ({{ cyclist.total_distance| kmToMiles }} miles) over {{cyclist.total_days}} days in The Great Suffolk Cycle Ride; to fund-raise for Suffolk cancer charities.
+{% if cyclist.statement %}
+    {{ cyclist.user.first_name }} Says :
+    {{ cyclist.statement }}
+{% endif %}
 {% endblock %}
 
 {% block head_meta %}
