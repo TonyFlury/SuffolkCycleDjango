@@ -110,12 +110,6 @@ $(document).ready(function(){
                 </tr>
 
                 <tr>
-                    <td colspan="2">{{ form.website.errors }} </td></tr>
-                <tr>
-                    <td>{{ form.website.label_tag }}</td><td>{{form.website}}</td>
-                </tr>
-
-                <tr>
                     <td colspan="2">{{ form.email.errors }} </td></tr>
                 <tr>
                     <td>{{ form.email.label_tag }}</td><td>{{form.email}}</td>
@@ -137,7 +131,7 @@ $(document).ready(function(){
                 <tr>
                     <td colspan="2">{{ form.communication_preference.errors }} </td></tr>
                 <tr>
-                    <td>{{ form.communication_preference.label_tag }}</td>
+                    <td style="vertical-align:top">{{ form.communication_preference.label_tag }}</td>
                     <td>
                         <ul>
                             {% for comms in form.communication_preference %}
