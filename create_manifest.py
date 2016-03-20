@@ -32,7 +32,10 @@ def get_sha224(file_path):
 
     return m.hexdigest()
 
-def walk_files( rootdir ):
+def walk_files( rootdir = None):
+    if not rootdir:
+        rootdir = os.getcwd()
+
     for root, dirs, files in os.walk(rootdir):
         for f in files:
             name, ext = os.path.splitext(f)
