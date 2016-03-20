@@ -32,8 +32,8 @@ def get_sha224(file_path):
 
     return m.hexdigest()
 
-def walk_files():
-    for root, dirs, files in os.walk(os.getcwd()):
+def walk_files( rootdir ):
+    for root, dirs, files in os.walk(rootdir):
         for f in files:
             name, ext = os.path.splitext(f)
 
@@ -44,19 +44,21 @@ def walk_files():
                 continue
             yield os.path.join(root, f)
 
-        for i in ignore:
-            if i in dirs:
-                dirs.remove(i)
+        if root==rootdir:
+            for i in ignore:
+                if i in dirs:
+                    dirs.remove(i)
 
 if __name__ == '__main__':
+    root =  os.path.dirname(os.path.abspath(__file__))
     total = 0
     try:
         with open('manifest.txt', 'w') as manifest:
-            for path in walk_files():
+            for path in walk_files( root ):
                 signature = get_sha224(path)
                 if signature:
                     manifest.write('{}\t{}\n'.format(os.path.relpath(path), signature))
-                    sys.stdout.write('{}\n'.format(os.path.relpath(path)))
+#                    sys.stdout.write('{}\n'.format(os.path.relpath(path)))
                     total += 1
     except BaseException as e:
         sys.stderr.write("Error generating manifest file : {}".format(e))

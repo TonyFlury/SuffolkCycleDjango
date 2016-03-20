@@ -46,6 +46,7 @@ div.form div.description {
 
     input[type="file"] {
         width:20em;
+        color:black;
     }
 
     input[type="text"][readyonly]
@@ -107,10 +108,10 @@ div.form div.description {
 		position: relative; 
 		-webkit-appearance: none;
 		-webkit-box-sizing: border-box;
-		box-sizing: border-box;	width: 100%; padding:0;}
+		box-sizing: border-box;	width: 20em; padding:0;}
 		
 	input[type="file"]::-webkit-file-upload-button {
-		width: 0; padding: 0; margin: 0;-webkit-appearance: none; border: none;}
+		width: 0; padding: 0; margin: 0;-webkit-appearance: none; border: none; }
 
 	input[type="file"]:after {
 		content: 'Upload File';
