@@ -21,7 +21,7 @@ urlpatterns = [
     url(r'^contactus$', views.ContactUs.as_view(), name="ContactUs"),
 
     url(r'^privacy$', views.privacy, name='Privacy'),
-    url(r'^FundMe/(?P<username>[0-9a-zA-Z]*)', views.fundme, name='FundMe'),
+    url(r'^FundMe/(?P<username>[0-9a-zA-Z]*?)/', views.fundme, name='FundMe'),
 
 #    url(r'^technology$', TemplateView.as_view(template_name='SuffolkCycleRide/pages/technology.html'), name='Technology' ),
 
