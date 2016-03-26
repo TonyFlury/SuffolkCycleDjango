@@ -145,7 +145,7 @@ class Detail(BlogMixin,View):
 
         name = "blog:Detail"
 
-        entry = get_object_or_404(models.Entr, slug = slug)
+        entry = get_object_or_404(models.Entry, slug = slug)
 
         return render(request,self.template, context={
                                     'entry': entry,
