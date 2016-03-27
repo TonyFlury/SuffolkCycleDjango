@@ -55,11 +55,11 @@ class TestCase( django.test.TestCase):
             if isinstance(expected,Iterable) and isinstance(val,Iterable):
                 self.assertSequenceEqual(
                         expected, val,
-                        msg=kwargs.get('msg','context variable {}: expected {} != {}'.format(attr_name, expected, val)),
+                        msg=kwargs.get('msg',"context variable '{}': expected '{}', actual '{}'".format(attr_name, expected, val)),
                         seq_type=kwargs.get('seq_type',None))
             else:
                 if expected != val:
-                    self.fail(kwargs.get('msg','context variable {}: expected {} != {}'.format(attr_name, expected, val)))
+                    self.fail(kwargs.get('msg',"context variable '{}': expected '{}'', actual'{}'".format(attr_name, expected, val)))
 
     def assertNotInContext(self, response, attr_name, **kwargs):
         """Check that a dotted attribute name does not exist in the response context"""
@@ -81,7 +81,7 @@ class TestCase( django.test.TestCase):
 
         if not any(text in tag for tag in selected_tags):
             self.fail(kwargs.get('msg',
-                        'No text matching {} in any tag matching selector {}'.format(text, selector) ))
+                        "No text matching '{}' in any tag matching selector '{}'".format(text, selector) ))
 
     def assertHTMLNotMatchSelector(self, content, selector, **kwargs):
         st = BeautifulSoup(content, 'html5lib')

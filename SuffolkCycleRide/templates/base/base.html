@@ -47,7 +47,7 @@ app_id=1695226697422284
         {% if user.is_authenticated %}
         <li><a href="{% url 'Dashboard:Home' %}">My Dashboard</a></li>
         {% else %}
-        <li><a href="{% url 'GetInvolved' %}">Get Involved</a></li>
+        <li><a href="{% url 'GetInvolved' %}">Register</a></li>
         {% endif %}
         {% if user.is_authenticated %}
         <li><a href="{% url 'User:SignOut' %}">Sign Out</a></li>

@@ -11,7 +11,7 @@ Testable Statements :
     Can I <Boolean statement>
     ....
 """
-from django.test import TestCase
+from SuffolkCycleRide.tests.ExtTestCase import TestCase
 from django.test import Client
 from django.core.urlresolvers import reverse
 
@@ -29,7 +29,7 @@ __author__ = 'Tony Flury : anthony.flury@btinternet.com'
 __created__ = '19 Feb 2016'
 
 
-class C030_TestViews(TestCase):
+class TestLists(TestCase):
     def setUp(self):
         """ Contrived set of entries and tags in order to test most of the list functionality"""
         self.t1 = models.Tag(name='Tag 1', is_permanent=True)
@@ -149,6 +149,44 @@ class C030_TestViews(TestCase):
                 self.assertEqual(t.category, 'avg')
             if t == self.t4:
                 self.assertEqual(t.category, 'lower')
+
+class TestDetails(TestCase):
+    def setUp(self):
+        """ Contrived set of entries and tags in order to test most of the list functionality"""
+        self.t1 = models.Tag(name='Tag 1', is_permanent=True)
+        self.t1.save()
+        self.t2 = models.Tag(name='Tag 2', is_permanent=True)
+        self.t2.save()
+        self.t3 = models.Tag(name='Tag 3', is_permanent=True)
+        self.t3.save()
+        self.t4 = models.Tag(name='Tag 4', is_permanent=True)
+        self.t4.save()
+
+        self.e1 = models.Entry(title="Entry 1")
+        self.e1.save()
+        self.e1.tags = [self.t1, self.t2, self.t3, self.t4]
+        self.e2 = models.Entry(title="Entry 2")
+        self.e2.save()
+        self.e2.tags = [self.t2, self.t4]
+
+        self.e3 = models.Entry(title="Entry 3")
+        self.e3.save()
+        self.e3.tags = [self.t3]
+
+        self.e4 = models.Entry(title="Entry 4")
+        self.e4.save()
+        self.e4.tags = [self.t4]
+
+        self.client = Client()
+
+    def tearDown(self):
+        pass
+
+    def test_existingEntry(self):
+        resp = self.client.get(reverse('Blog:Detail', kwargs={'slug':self.e1.slug}))
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.resolver_match.func.__name__, views.Detail.__name__)
+        self.assertInContext(resp,'entry', self.e1)
 
 # todo - test cases for unpublished entries - when author is logged in, and when not.
 # Todo - Test cases to test searches by tag - and search by Archive (month & year)
