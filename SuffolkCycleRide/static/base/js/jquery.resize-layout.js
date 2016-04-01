@@ -21,12 +21,21 @@ Testable Statements :
 function resetHeaderFooterWidths() {
 
     var content_width = 900 ; /* ****** DONOT Set to less than 900 ***** */
-
     var width = (window.innerWidth
                     || document.documentElement.clientWidth
-                    || document.body.clientWidth) - 25 ;
+                    || document.body.clientWidth) ;
+    var gap ;
 
-    var gap = ((width - content_width)/2) - 10;
+    if (width < 900)
+        {
+            gap = 0;
+            content_width = width;
+        }
+    else
+        {
+            gap = ((width - content_width)/2) - 10;
+            width = width - 25 ;
+        }
 
     $('#Site_Background').css('width', (width).toString() + "px" );
 

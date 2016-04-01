@@ -1,3 +1,9 @@
+.clearfix:after { content: "\00A0"; display: block; clear: both; visibility: hidden; line-height: 0; height: 0;}
+.clearfix { display: inline-block;}
+html[xmlns] .clearfix { display: block;}
+* html .clearfix{ height: 1%;}
+.clearfix {display: block}
+
 /* ------------------- Layout -------------------------- */
 
 body {
@@ -188,23 +194,6 @@ vertical-align:middle;
 margin-left:10px;
 }
 
-div#ShareBar {
-    margin-bottom:4px;
-    height:25px;
-}
-
-div#ShareBar > div.ShareMe {
-    display:inline-block;
-    margin-right:5px;
-    height:25px;
-    width:25px;
-}
-
-div#ShareBar > div.ShareMe img {
-    height:25px;
-    width:25px;
-}
-
 /* ------------------- Menu bar -------------------------------- */
 div.menu-wrapper {
 	position: relative;
@@ -232,129 +221,152 @@ div#menu-container a {
     font-weight: unset;
 }
 
-ul.chevronbar {list-style-type: none; margin: 0; padding: 0; height:auto; width:auto; overflow:hidden;}
-ul.chevronbar li {margin: 0; padding: 0.5em; height:1.3em; width:auto; border:1px solid #01B1AF; position:relative; float:left; background:#01B1AF;  margin-right: 1.1em; padding: 0 0.5em; }
-ul.chevronbar li a {display:block;}
-ul.chevronbar li:before, ul.chevronbar li:after {content: ' '; height: 0; width: 0; position: absolute; top:-10px; border: 24px solid transparent; border-left-width: 12px; border-right-width: 12px;}
-ul.chevronbar>li:before {border-top-color: #01B1AF; border-bottom-color: #01B1AF; border-right-color: #01B1AF; right: 100%;}
-ul.chevronbar>li:after {border-left-color: #01B1AF; left: 100%; margin-left: -0.02em; overflow:hidden;}
-ul.chevronbar>li:first-child {padding-left:1.0em; border-radius:10px 0 0 10px;}
-ul.chevronbar>li:last-child {padding-right:0.1em; border-radius:0 10px 10px 0;}
-ul.chevronbar>li:first-child:before {border:none;}
-/* ul.chevronbar li.first:before {border: none !important ;} */
-ul.chevronbar>li:last-child:after {border: none !important;}
+@media only screen and (min-width: 900px) {
+
+    div#ShareBar {
+        margin-bottom:4px;
+        height:25px;
+    }
+
+    div#ShareBar > div.ShareMe {
+        display:inline-block;
+        margin-right:5px;
+        height:25px;
+        width:25px;
+    }
+
+    div#ShareBar > div.ShareMe img {
+        height:25px;
+        width:25px;
+    }
+
+    ul.chevronbar {list-style-type: none; margin: 0; padding: 0; height:auto; width:auto; overflow:hidden;}
+    ul.chevronbar li {margin: 0; padding: 0.5em; height:1.3em; width:auto; border:1px solid #01B1AF; position:relative; float:left; background:#01B1AF;  margin-right: 1.1em; padding: 0 0.5em; }
+    ul.chevronbar li a {display:block;}
+    ul.chevronbar li:before, ul.chevronbar li:after {content: ' '; height: 0; width: 0; position: absolute; top:-10px; border: 24px solid transparent; border-left-width: 12px; border-right-width: 12px;}
+    ul.chevronbar>li:before {border-top-color: #01B1AF; border-bottom-color: #01B1AF; border-right-color: #01B1AF; right: 100%;}
+    ul.chevronbar>li:after {border-left-color: #01B1AF; left: 100%; margin-left: -0.02em; overflow:hidden;}
+    ul.chevronbar>li:first-child {padding-left:1.0em; border-radius:10px 0 0 10px;}
+    ul.chevronbar>li:last-child {padding-right:0.1em; border-radius:0 10px 10px 0;}
+    ul.chevronbar>li:first-child:before {border:none;}
+    /* ul.chevronbar li.first:before {border: none !important ;} */
+    ul.chevronbar>li:last-child:after {border: none !important;}
 
 
-ul.chevronbar li a{
-  cursor: pointer ;
-  color : white;
-  text-decoration: none;
-  font-style:normal;
-    font-weight: unset;
+    ul.chevronbar li a{
+      cursor: pointer ;
+      color : white;
+      text-decoration: none;
+      font-style:normal;
+        font-weight: unset;
+    }
+
+    ul.chevronbar li a:hover {
+    }
+
+    div#menu-container {
+        z-index: 1;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 900px;
+        position: relative;
+    }
+
+    div#menu-container a {
+        display:block;
+        padding:0 5px;
+        color:#FFF;
+    }
+
+    /* Hide Dropdowns by Default */
+    div#menu-container ul ul.sub {
+        display: block;
+        position: fixed;
+        top: 57px; /* the height of the main nav */
+        max-height:0%;
+        visibility: hidden;
+    }
+
+    /* Display Dropdowns on Hover */
+    div#menu-container ul li:hover > ul.sub {
+        display: block;
+        position: fixed;
+        height: auto;
+        max-height: 100%;
+        visibility: visible;
+        /* opacity: 1.0; */
+    }
+
+    div#menu-container li:hover a {
+        text_decoration:none;
+    }
+
+    ul.chevronbar ul li {margin:0px;}
+
+
+    /* Fisrt Tier Dropdown */
+    div#menu-container ul ul.sub li {
+        width:auto;
+        float:none;
+        display:list-item;
+        position: relative;
+    }
+
+    /* Second, Third and more Tiers	*/
+    div#menu-container ul ul.sub ul.sub li {
+        position: relative;
+        top:-60px;
+        left:170px;
+    }
+
+    ul.sub {
+        background-color: #01B1AF;
+        border-radius: 0 5px 5px 0;
+        box-shadow: 6px 6px 6px 0px rgba(0, 0, 0, 0.6);
+        border-width: 0px 1px 1px 1px;
+        border-color: rgb(0,85,81) grey grey grey;
+        border-style: solid;
+        border-radius : 15px 15px 15px 15px ;
+        width:auto;
+        z-index:1;
+        list-style: none ;
+    /*    transition: max-height 4s linear; */
+        padding: 10px 0px 5px 0px;
+    }
+
+    ul.sub>li:last-child { padding-bottom:5px; }
+
+    li > a:after {
+        content:  '\A';
+        position:relative;
+        margin-left:5px;
+        margin-bottom:1px;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 4px 7px 4px 0;
+        border-color: transparent #ffffff transparent transparent;
+        display:inline-block;
+    }
+
+    li:hover > a:after {
+        content :"\A";
+        position:relative;
+        margin-left:5px;
+        margin-bottom:1px;
+        margin-right:-2px;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 6px 3px 0 6px;
+        border-color: #ffffff transparent transparent transparent;
+        display:inline-block;
+    }
+
+    li > a:only-child:after { content: ''; border:None; margin-right:-2px;}
+    li:hover > a:only-child:after { content: ''; border:None; margin-right:-2px; }
 }
 
-ul.chevronbar li a:hover {
-}
-
-
-div#menu-container {
-	z-index: 1;
-	margin-left: auto;
-	margin-right: auto;
-	max-width: 900px;
-	position: relative;
-}
-
-div#menu-container a {
-	display:block;
-	padding:0 5px;
-	color:#FFF;
-}
-
-/* Hide Dropdowns by Default */
-div#menu-container ul ul.sub {
-    display: block;
-	position: fixed;
-	top: 57px; /* the height of the main nav */
-    max-height:0%;
-    visibility: hidden;
-}
-
-/* Display Dropdowns on Hover */
-div#menu-container ul li:hover > ul.sub {
-	display: block;
-	position: fixed;
-	height: auto;
-	max-height: 100%;
-    visibility: visible;
-	/* opacity: 1.0; */
-}
-
-div#menu-container li:hover a {
-    text_decoration:none;
-}
-
-ul.chevronbar ul li {margin:0px;}
-
-
-/* Fisrt Tier Dropdown */
-div#menu-container ul ul.sub li {
-	width:auto;
-	float:none;
-	display:list-item;
-	position: relative;
-}
-
-/* Second, Third and more Tiers	*/
-div#menu-container ul ul.sub ul.sub li {
-	position: relative;
-	top:-60px;
-	left:170px;
-}
-
-ul.sub {
-    background-color: #01B1AF;
-    border-radius: 0 5px 5px 0;
-	box-shadow: 6px 6px 6px 0px rgba(0, 0, 0, 0.6);
-    border-width: 0px 1px 1px 1px;
-    border-color: rgb(0,85,81) grey grey grey;
-    border-style: solid;
-    border-radius : 15px 15px 15px 15px ;
-    width:auto;
-    z-index:1;
-    list-style: none ;
-/*    transition: max-height 4s linear; */
-    padding: 10px 0px 5px 0px;
-}
-
-ul.sub>li:last-child { padding-bottom:5px; }
-
-li > a:after { content:  '\A';
-position:relative;
-margin-left:5px;
-margin-bottom:1px;
-width: 0;
-height: 0;
-border-style: solid;
-border-width: 4px 7px 4px 0;
-border-color: transparent #ffffff transparent transparent;
-display:inline-block; }
-
-li:hover > a:after {content :"\A";
-position:relative;
-margin-left:5px;
-margin-bottom:1px;
-margin-right:-2px;
-width: 0;
-height: 0;
-border-style: solid;
-border-width: 6px 3px 0 6px;
-border-color: #ffffff transparent transparent transparent;
-display:inline-block;
-}
-
-li > a:only-child:after { content: ''; border:None; margin-right:-2px;}
-li:hover > a:only-child:after { content: ''; border:None; margin-right:-2px; }
 
 /* ------------------------- Font sizes and headings ----------------------- */
 span.special_font a {

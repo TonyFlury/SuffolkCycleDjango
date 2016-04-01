@@ -1,59 +1,4 @@
-div.BigBtnOuter {
-    position: relative ;
-	top: 0px;
-	right: 0px;
-	bottom: 0px;
-	left: 0px;
-	width:322px;
-	height:100px;
-	min-height:70px;
-	display:inline-block;
-}
 
-div.BtnStrip {
-    height:100px;
-    margin-top:25px;
-    padding-bottom:50px;
-}
-
-div.Btns {
-padding-left:75px;
-padding-right:75px;
-}
-
-div.BtnBar {
-	position: relative;
-	background-color: #000;
-	width: 100%;
-	height: 5px;
-	top: 50px
-}
-
-a.BigBtn {
-	border-radius: 10px;
-	top: 0px;
-	right: 0px;
-	bottom: 0px;
-	left: 0px;
-	position:absolute;
-	width:322px;
-	height:100px;
-	min-height:70px;
-	background-color: #333;
-	border: 6px solid #333;
-	box-shadow: 1px 1px #1A1A1A, 3px 3px #1A1A1A, 5px 5px #1A1A1A, 7px 7px #1A1A1A, 9px 9px #1A1A1A;
-	text-align: center;
-}
-span.BigBtnTxt {
-    font: 50px/1.4em "Fredericka the Great",fantasy;
-    color: white ;
-    text-align: center;
-    height:100px;
-    position: relative;
-    border:6px;
-    line-height: 100px;
-    display: inline-block ;
-}
 
 
 div.ShapeBtnOuter {
@@ -176,4 +121,102 @@ h3:not(.normal) {
 h4:not(.normal) {
     margin: 5px 0px 10px 0px;
     padding: 0px;
+}
+
+@media only screen and (min-width: 900px) {
+    div.home-icon {
+        position:absolute; top:150px; left:600px;
+    }
+
+    div.BtnStrip {
+        height:100px;
+        margin-top:25px;
+        padding-bottom:50px;
+    }
+
+    div.BigBtnOuter {
+        position: relative ;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+        width:322px;
+        height:100px;
+        min-height:70px;
+        display:inline-block;
+    }
+
+    div.BigBtnOuter.Register {
+        float:left ;
+    }
+
+    div.BigBtnOuter.SponsorUse {
+        float:right ;
+    }
+
+    div.Btns {
+    padding-left:75px;
+    padding-right:75px;
+    }
+
+    div.BtnBar {
+        position: relative;
+        background-color: #000;
+        width: 100%;
+        height: 5px;
+        top: 50px
+    }
+
+    a.BigBtn {
+        border-radius: 10px;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+        position:absolute;
+        width:322px;
+        height:100px;
+        min-height:70px;
+        background-color: #333;
+        border: 6px solid #333;
+        box-shadow: 1px 1px #1A1A1A, 3px 3px #1A1A1A, 5px 5px #1A1A1A, 7px 7px #1A1A1A, 9px 9px #1A1A1A;
+        text-align: center;
+    }
+    span.BigBtnTxt {
+        font: 50px/1.4em "Fredericka the Great",fantasy;
+        color: white ;
+        text-align: center;
+        height:100px;
+        position: relative;
+        border:6px;
+        line-height: 100px;
+        display: inline-block ;
+    }
+
+    div#Stamp,
+    div#ThankYou,
+    { display: inline-block; height: auto ; overflow: auto ; position: relative; }
+
+    div#Social { display:block; }
+
+    div#Stamp {
+        float:left;
+    }
+
+    div#ThankYou {
+        position: relative
+        float:left;
+        top:20px;
+    }
+
+    div#SunriseIcon {
+        float:left;
+        position; relative;
+        width: 200px;
+    }
+
+    div#OverviewText {
+     position:relative; width:70%;float:right; display:inline-block;
+    }
+
 }
