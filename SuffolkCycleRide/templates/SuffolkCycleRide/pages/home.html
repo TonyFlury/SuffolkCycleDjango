@@ -27,13 +27,11 @@
         <h1 style="font-size:600%;margin-top:0px;">Great Suffolk</h1>
         <h1 style="font-size:600%;margin-top:0px;">Cycle Ride</h1>
         <h1 style="font-size:600%;margin-top:0px;">2016</h1>
-        <div style="position:absolute; top:150px; left:600px">
+        <div class="home-icon">
             <img width="329" height="229" src="{% static 'SuffolkCycleRide/images/suffolk09s.gif' %}">
         </div>
-        <div class='white medium'>
-            Come and get involved in the Great Suffolk Cycle ride 2016, raising money for the fight against Cancer. Join us on
-            part or all of the bike ride around Suffolk, or get involved in helping organise or supporting the event. We need
-            everything from cooks to bike mechanics.
+        <div id='IntroText' class='white medium'>
+Come and get involved in the Great Suffolk Cycle ride 2016, raising money for the fight against Cancer. Join us on part or all of the bike ride around Suffolk, or get involved in helping organise or supporting the event. We need everything from cooks to bike mechanics.
         </div>
     </div>
 
@@ -42,12 +40,12 @@
             <div class="BtnBar"></div>
 
             <div class="Btns">
-                <div class='BigBtnOuter' style="float:left;">
+                <div class='BigBtnOuter Register'>
                     <a class='BigBtn' href="{% url 'GetInvolved' %}">
                         <span class='BigBtnTxt'>Get Involved</span>
                     </a>
                 </div>
-                <div class='BigBtnOuter' style="float:right;">
+                <div class='BigBtnOuter SponsorUs'>
                     <a class='BigBtn' href="{% url 'Sponsorship:Main' %}">
                         <span class='BigBtnTxt'>Sponsor Us</span>
                     </a>
@@ -58,15 +56,15 @@
     <!-- Read More -->
 
     <div class="content-section" style="margin-top:100px; padding-bottom:70px;">
-        <img style="position:absolute; top:-70px" src="{% static 'SuffolkCycleRide/images/hands.png' %}"/>
+        <img class='bar' style="position:absolute; top:-70px" src="{% static 'SuffolkCycleRide/images/hands.png' %}"/>
         <div class="strip whitebackground"></div>
 
         <h1 class="red" align="center">About</h1>
         <div style="display:inline-block; position:relative;">
-            <div style="float:left;position:relative; width=20%;">
+            <div id="SunRiseIcon">
                 <img width=200 height=140 src="{% static 'SunriseFundraising/images/FullColour-741x692.png' %}"/>
             </div>
-            <div class="blue" style="position:relative; width:70%;float:right; display:inline-block;">
+            <div id='OverviewText' class="blue" >
                 Planned for Summer 2016, the Great Suffolk Cycle Ride is a multi stage charity cycling event organised by Sunrise Funding (a charity specifically founded to raise money for hospitals, clinics and other organisation treating or supporting those with Cancer.
                 The Great Suffolk Cycle Ride will either pass through or near every major population center in Suffolk, from Lowestoft to Ipswich, Felixstowe to Sudbury and many more.
             </div>
@@ -96,7 +94,7 @@
     </div>
 
     <div class="content-section" style="padding-bottom:20px">
-        <img style="position:absolute; top:-50px" src="{% static 'SuffolkCycleRide/images/binding.png' %}"/>
+        <img class='bar' style="position:absolute; top:-50px" src="{% static 'SuffolkCycleRide/images/binding.png' %}"/>
         <div class="strip redbackground"></div>
 
         <h1 style="position:relative;display:inline;font-size:400%;top:10px;" class="lightblue">Blog</h1>
@@ -116,10 +114,14 @@
         </div>
     </div>
 
-    <div class="content-section" style="margin-bottom:75px" >
-        <img  style="display:inline" src="{% static 'SuffolkCycleRide/images/stamp.png' %}"/>
-        <h1 style="font-size:400%;position:absolute; top:20px; display:inline">Thank&nbsp;<span class="red">You</span></h1>
-        <div align="center" style="display:inline-block;">
+    <div class="content-section clearfix" style="padding-top:15px; margin-bottom:75px" >
+        <div id="Stamp">
+            <img src="{% static 'SuffolkCycleRide/images/stamp.png' %}"/>
+        </div>
+        <div id="ThankYou">
+            <h1 style="font-size:400%;" >Thank&nbsp;<span class="red">You</span></h1>
+        </div>
+        <div id="Social" align="center" style="display:inline-block;">
             <span class="xlarge special_font"><span class="normal">Follow us on</span>
                 <a class="black"
                    href="https://www.facebook.com/groups/GreatSuffolkCycleRide">Facebook</a>&nbsp;|&nbsp;<a

@@ -32,6 +32,7 @@ app_id=1695226697422284
         </a>
         </div>
     </div>
+    <div class="chevronbar-container" onclick="">
     <ul class='chevronbar'>
         <li><a href="{% url 'Home' %}">Home</a></li>
         <li><a href="#">Read More</a>
@@ -56,12 +57,13 @@ app_id=1695226697422284
         {% endif %}
         <li><a href="#">Sponsorship</a>
             <ul class="sub">
-                <li><a href="{% url 'Sponsorship:Main' %}">Opportunities</a>/a></li>
+                <li><a href="{% url 'Sponsorship:Main' %}">Opportunities</a></li>
                 <li><a href="{% url 'Sponsorship:OurSponsors' %}">Our Sponsors</a></li>
             </ul>
         </li>
 
     </ul>
+    </div>
 {% endif %}
 </div>
 {% endblock %}
