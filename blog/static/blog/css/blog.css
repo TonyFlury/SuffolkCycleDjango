@@ -14,13 +14,39 @@ div.blog-main-area {
     width: 100%;
 }
 
-div.blog-posts-area {
-	float: left;
-	width: 69%;
-	padding-right:1.0em;
-	border-right: thin solid grey ;
-	padding-top:0.5em;
+@media only screen and (max-width: 900px) {
+
+    div.blog-posts-area {
+        width: 90%;
+        padding-top:0.5em;
+        margin-left:0.5em;
+        margin-right:0.5em;
+    }
+    div.blog-sidebar {
+        display:none;
+        visibility:hidden;
+    }
 }
+
+@media only screen and (min-width: 900px) {
+
+    div.blog-posts-area {
+        float: left;
+        width: 69%;
+        padding-right:1.0em;
+        border-right: thin solid grey ;
+        padding-top:0.5em;
+    }
+
+    div.blog-sidebar {
+        float: right;
+        width: 25%;
+        padding-left: 1em;
+        padding-right:1em;
+        border: thin inset grey;
+    }
+}
+
 
 div.blog-posts-area div.blog-post:first-child {
     margin-top: 0.5em;
@@ -31,13 +57,6 @@ div.blog-posts-area div.blog-post:last-child {
     padding-bottom: 4em;
 }
 
-div.blog-sidebar {
-	float: right;
-	width: 25%;
-	padding-left: 1em;
-	padding-right:1em;
-    border: thin inset grey;
-}
 
 div.sidebar-module {
     padding: 0.1em 0.25em;

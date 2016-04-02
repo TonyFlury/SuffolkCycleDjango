@@ -182,6 +182,10 @@
     div#ThankYou
     { display:inline-block ; }
 
+    div#ThankYou {
+
+    }
+
     div#IntroText {
         margin: 0px 10px ;
     }
@@ -193,13 +197,33 @@
     }
 
     div#OverviewText {
-        margin: 0px 10px ;
+        margin: 5px 10px 0px 10px ;
     }
 
     table#footer-table {
         width:100%;
-        font-size: x-small;
+        font-size: xx-small;
     }
 
+    p#summary {
+        margin: 0.2em 2em;
+    }
+
+   h1.home-mainlines,
+   h2.home-firstline {
+    font-size: 200%;
+    margin-top: 0px;
+    margin-left: 10px;
+    margin-right: 10px;
+   }
+
+   h1.home-mainlines {
+    font-size: 300%;
+   }
+
+   div[align='left'] {
+        margin-left: 0.5em;
+        margin-right: 0.5em;
+   }
 
 }

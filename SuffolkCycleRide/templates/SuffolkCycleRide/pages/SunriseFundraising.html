@@ -11,15 +11,27 @@
 
 div > p:first-child {margin-top:0px}
 
+div.Intro {
+float:right;display:inline-block;width:70%;vertical-align:top;
+}
+
+@media only screen and (max-width: 900px) {
+
+div.Intro {
+    margin-right: 0.7em;
+}
+}
+
+
 {% endblock %}
 
 {% block content %}
 <div style="overflow:auto;">
-    <h2 align="center">Sunrise Fundraising</h2>
+    <h2 align="center" style="margin-bottom:0.2em;">Sunrise Fundraising</h2>
     <div style="display:inline-block;width:20%;overflow:auto;vertical-align:top;">
         <img src='{% static "SunriseFundraising/images/FullColour-741x692.png" %}' width="100%"/>
     </div>
-    <div class='white' style="float:right;display:inline-block;width:70%;vertical-align:top;">
+    <div class='Intro white'>
         <p>We are a charity founded in 2016 with the express purpose of raising money for to support Cancer patients across Suffolk. We plan to organise a number of different fund raising events - starting with the Great Suffolk Cycle Ride which will raise money for a general fund. The Charity will then make either specific or general donations to a number of different organisations who support cancer patients or their families in Suffolk.
         <p>We have a funding target of £2000 in 2016, which will allow us to make a difference to a lot of patients and families.
         <p>We have identified that Ipswich Hospital Oncology Center, West Suffolk Oncology Center and Macmillan Suffolk will be recipients in 2016 of the first funding round, and other organisations will benefit if we are able to meet our funding target.

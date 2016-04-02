@@ -10,10 +10,10 @@
 
 {% block content %}
 
-<h2 style='margin:0.5em;' class="centered">The Event - The Great Suffolk Cycle Ride</h2>
+<h2 style='margin-top:0.5em;' class="centered">The Event</h2><h2 class="centered" style="margin:0 1.0em;">The Great Suffolk Cycle Ride</h2>
 {% if event.legs %}
 <div class="summary">
-<p>
+<p id="summary">
     The event is a {{ event.stats.days }} day cycle event starting in {{event.first_leg.start}} on {{event.first_leg.date |date}} and finishing {{ event.stats.distance }} km ({{event.stats.distance | kmToMiles }} miles) later at {{event.last_leg.end}} on {{event.last_leg.date|date}}<br/>
 
     The event is split into {{event.legs.count}} legs as follows :</p>
@@ -39,7 +39,9 @@
 </div>
 {% else %}
 <div>
+    <p id="summary">
     The event is conceived as a multi day cycle ride. We are still planning the detail of the route, which we hope will go through most of the major population centers in Suffolk. It is intended that cyclists will be able to join the event for multiple days, single days or just half a day. Daily distances will range between 80 and 100 km (50 & 60 miles).
+    </p>
 </div>
 {% endif %}
 {% endblock %}
