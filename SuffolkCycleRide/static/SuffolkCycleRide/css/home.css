@@ -124,6 +124,11 @@ h4:not(.normal) {
 }
 
 @media only screen and (min-width: 900px) {
+
+    table#footer-table {
+        font-size: small ;
+    }
+
     div.home-icon {
         position:absolute; top:150px; left:600px;
     }
