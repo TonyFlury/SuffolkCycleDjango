@@ -1,0 +1,205 @@
+@media only screen and (max-width: 900px) {
+
+    div#ShareBar {
+        margin-bottom:4px;
+        height:25px;
+        display: inline-block
+    }
+
+    div#ShareBar > div.ShareMe {
+        margin-right:5px;
+        height:25px;
+        width:25px;
+    }
+
+    div#ShareBar > div.ShareMe:first-child {
+        margin-bottom:5px;
+    }
+
+
+    div#ShareBar > div.ShareMe img {
+        height:25px;
+        width:25px;
+    }
+
+    div.chevronbar-container {
+        background-image: url( '/static/SuffolkCycleRide/images/mobile-menu.png' );
+        background-size: 50px 50px;
+        width: 50px; height: 50px;
+        margin: 5px 10px;
+        overflow: hidden ;
+        display: inline-block;
+        cursor: pointer ;
+    }
+
+    ul.chevronbar,
+    ul.chevronbar ul.sub {
+        visibility: hidden;
+        display: none ;
+    }
+
+    /* Fisrt Tier Dropdown */
+    div#menu-container ul ul.sub li {
+        width:auto;
+        float:none;
+        display:list-item;
+        position: relative;
+    }
+
+    div.chevronbar-container:active > ul.chevronbar,
+    div.chevronbar-container:hover > ul.chevronbar,
+    ul.chevronbar > li:active ul.sub,
+    ul.chevronbar > li:hover ul.sub
+    {
+        display: block;
+        position: fixed;
+        height: auto;
+        max-height: 100%;
+        visibility: visible;
+        display : block ;
+    }
+
+    ul.chevronbar > li:active ul.sub,
+    ul.chevronbar > li:hover ul.sub
+    {
+        left:5em;
+    }
+
+    ul.chevronbar,
+    ul.chevronbar  ul.sub {
+        background-color: #01B1AF;
+        border-radius: 0 5px 5px 0;
+        box-shadow: 6px 6px 6px 0px rgba(0, 0, 0, 0.6);
+        border-width: 0px 1px 1px 1px;
+        border-color: rgb(0,85,81) grey grey grey;
+        border-style: solid;
+        border-radius : 15px 15px 15px 15px ;
+        width:auto;
+        z-index:1;
+        list-style: none ;
+    /*    transition: max-height 4s linear; */
+        padding: 10px 0px 5px 0px;
+    }
+
+    li > a:after {
+        content:  '\A';
+        position:relative;
+        margin-left:5px;
+        margin-bottom:1px;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 4px 7px 4px 0;
+        border-color: transparent #ffffff transparent transparent;
+        display:inline-block;
+    }
+
+    li:focus > a:after {
+        content :"\A";
+        position:relative;
+        margin-left:5px;
+        margin-bottom:1px;
+        margin-right:-2px;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 6px 3px 0 6px;
+        border-color: #ffffff transparent transparent transparent;
+        display:inline-block;
+    }
+
+    li > a:only-child:after { content: ''; border:None; margin-right:-2px;}
+
+    li:active > a:only-child:after,
+    li:hover > a:only-child:after
+    { content: ''; border:None; margin-right:-2px; }
+
+
+    /* Home page specific */
+
+    div.home-icon {
+        display:none;
+    }
+
+    div.BtnStrip {
+        height:100px;
+        margin-top:25px;
+        padding-bottom:50px;
+    }
+
+    div.Btns {
+        margin: 0px ;
+    }
+
+    div.BtnBar {
+        display: none;
+    }
+
+    div.BigBtnOuter {
+        position: relative ;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+        width:auto;
+        height:auto;
+        display:inline-block;
+        overflow: auto ;
+        margin-bottom: 20px ;
+    }
+
+    div.BigBtnOuter {
+        border-radius: 10px;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+        position:relative;
+        width:80%;
+        padding:10px 10px;
+        height:auto;
+        background-color: #333;
+        border: 6px solid #333;
+        box-shadow: 1px 1px #1A1A1A, 3px 3px #1A1A1A, 5px 5px #1A1A1A, 7px 7px #1A1A1A, 9px 9px #1A1A1A;
+        text-align: center;
+    }
+
+    span.BigBtnTxt {
+        font:2.0em "Fredericka the Great",fantasy;
+        color: white ;
+        text-align: center;
+        position: relative;
+        border:6px;
+        display: inline-block ;
+    }
+
+    img.bar {
+        display:none;
+        visibility: hidden;
+    }
+
+    div#Stamp,
+    div#ThankYou
+    { display:inline-block ; }
+
+    div#IntroText {
+        margin: 0px 10px ;
+    }
+
+    div#SunriseIcon {
+        width: 200px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    div#OverviewText {
+        margin: 0px 10px ;
+    }
+
+    table#footer-table {
+        width:100%;
+        font-size: x-small;
+    }
+
+
+}
