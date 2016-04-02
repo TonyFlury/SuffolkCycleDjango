@@ -102,28 +102,30 @@ padding-left: 10px;
 }
 
 
-h1:not(.normal) {
-    margin: -0.25em 0 0 0;
-    padding: 0;
-}
 
-
-h2:not(.normal) {
-    margin: -0.25em 0 0 0;
-    padding: 0;
-}
-
-h3:not(.normal) {
-    margin: 0px;
-    padding: 0px;
-}
-
-h4:not(.normal) {
-    margin: 5px 0px 10px 0px;
-    padding: 0px;
-}
 
 @media only screen and (min-width: 900px) {
+
+    h1:not(.normal) {
+        margin: -0.25em 0 0 0;
+        padding: 0;
+    }
+
+
+    h2:not(.normal) {
+        margin: -0.25em 0 0 0;
+        padding: 0;
+    }
+
+    h3:not(.normal) {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    h4:not(.normal) {
+        margin: 5px 0px 10px 0px;
+        padding: 0px;
+    }
 
     table#footer-table {
         font-size: small ;
@@ -228,4 +230,13 @@ h4:not(.normal) {
      position:relative; width:70%;float:right; display:inline-block;
     }
 
+   h2.home-firstline {
+    font-size: 300%;
+    margin-top: 0px;
+   }
+
+   h1.home-mainlines {
+    font-size: 600%;
+    margin-top: 0px;
+   }
 }
