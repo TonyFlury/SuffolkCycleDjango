@@ -93,6 +93,7 @@ a:hover {
 	left: 0px;
 }
 
+
 #footer /* Box for the footer info menu */
 {
 	bottom: 0px;
@@ -103,6 +104,7 @@ a:hover {
 	padding-bottom: 0.5em;
 	clear: both ;
 }
+
 
 h1.centered,
 h2.centered,
@@ -222,6 +224,10 @@ div#menu-container a {
 }
 
 @media only screen and (min-width: 900px) {
+
+    div#footer-table {
+        width:80%
+    }
 
     div#ShareBar {
         margin-bottom:4px;
