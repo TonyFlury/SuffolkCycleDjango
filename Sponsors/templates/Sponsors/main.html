@@ -15,8 +15,8 @@
 {% block content %}
 
 <h2 align="center" style="margin-top:0.5em; margin-bottom:0.5em;">Sponsorship</h2>
-<div style="display:inline-block;position:relative;top:0px;width:105%;margin-left:-5%;">
-    <div class="white reduced" style="position:relative;display:inline-block;float:left;top:0px;width:30%">
+<div id="SponsorshipBlock">
+    <div id='SponsorshipPreamble' class="white reduced">
         <div style="position:relative;top:0px;">
         <span class="large strong">The&nbsp;Great&nbsp;Suffolk&nbsp;Cycle&nbsp;Ride</span> is a complex undertaking, and we want to ensure that every penny raised by our cyclists goes to our good causes. We are therefore seeking sponsors willing to sponsor us to cover some specific costs associated with the event.<br>
         If you or your business feel able to sponsor any of the items please select the relevant item from the list and fill in the form. We will be in touch with you within a few working days.
@@ -29,7 +29,7 @@
             </p>
         </div>
     </div>
-    <div style="display:inline-block;float:right;width:65%">
+    <div id="OpportunityListContainer">
     {% if sponsor %}
 
     {% endif %}
@@ -41,9 +41,7 @@
                     <a href="{% url 'Sponsorship:Interest' opportunity_slug=opportunity.slug %}">
                         <div class="info">
                             <div class="opportunity_name">{{ opportunity.name}}</div>
-                            <div class='description reduced'>{{ opportunity.description }}</div>
-                        </div>
-                        <div class="value">
+                            <div class="value">
                             {% if opportunity.value %}
                              £{{ opportunity.value }}
                             {% else %}
@@ -51,7 +49,9 @@
                                     Up&nbsp;to&nbsp;£{{ opportunity.max_value }}
                                 {% endif %}
                             {% endif %}
+                            </div>
                         </div>
+                        <div class='description reduced'>{{ opportunity.description }}</div>
                     </a>
                 </div>
             {% endfor %}

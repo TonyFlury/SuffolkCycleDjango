@@ -15,17 +15,8 @@ div.opportunity:last-of-type {
 }
 
 div.opportunity div.info {
-float:left;
-width:70%;
+width:100%;
 display:inline-block;
-}
-
-div.opportunity div.value {
-float:right;
-width:25%;
-text-align:right;
-display:inline-block;
-margin-right:5px;
 }
 
 div.opportunity-list {
@@ -41,6 +32,7 @@ div.opportunity-list {
 }
 
 div.opportunity div.description {
+    float: left;
     margin-left:2em;
     margin-bottom:5px;
     font-style:italic;
@@ -51,6 +43,18 @@ div.opportunity div.description p {
 
 div.opportunity a {
     font-weight : normal ;
+}
+
+div.opportunity div.opportunity_name {
+    display: inline-block;
+    float: left ;
+}
+div.opportunity div.value {
+    display:inline-block;
+    float:right;
+    max-width:40%;
+    text-align:left;
+    margin-right:5px;
 }
 
 div.opportunity a:hover div.opportunity_name {
@@ -65,4 +69,67 @@ div.opportunity a:hover div.description {
 div.opportunity a:hover div.value {
     font-weight:normal ;
     font-size: inherit;
+}
+
+
+@media only screen and (min-width: 900px) {
+
+    div#SponsorshipBlock {
+        display:inline-block;
+        position:relative;
+        top:0px;
+        width:105%;
+        margin-left:-5%;
+    }
+
+    div#SponsorshipPreamble {
+        position:relative;
+        display:inline-block;
+        float:left;
+        top:0px;
+        width:30%;
+    }
+
+    div#OpportunityListContainer {
+        display:inline-block;
+        float:right;
+        width:65%;
+    }
+
+    div.opportunity {
+        display:inline-block;
+        border-radius:20px;
+        padding:10px 10px;
+        width:97%;
+        margin-top:5px;
+        margin-right:15px;
+    }
+}
+
+
+@media only screen and (max-width: 900px) {
+
+    div#SponsorshipBlock {
+        position:relative;
+        top:0px;
+        margin: 0 0.4em 0 0.4em;
+    }
+
+    div#SponsorshipPreamble {
+        position:relative;
+        margin: 0.2em 0.1em 0.1em 0.1em;
+    }
+
+    div#OpportunityListContainer {
+        margin: 0.2em 0.1em 0.1em 0.1em;
+    }
+
+    div.opportunity {
+        display:inline-block;
+        border-radius:20px;
+        padding:10px 10px;
+        width:90%;
+        margin-top:5px;
+        margin-right:15px;
+    }
 }
