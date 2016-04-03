@@ -1,12 +1,28 @@
-div.form {
-    background-color: #005551;
-    display: block ;
-    color : #9AE7E4 ;
-    border-radius: 25px;
-    width:auto;
-    padding: 1em;
-    margin: .01em ;
+@media only screen and (min-width: 900px) {
+    div.form {
+        background-color: #005551;
+        display: block ;
+        color : #9AE7E4 ;
+        border-radius: 25px;
+        width:auto;
+        padding: 1em;
+        margin-left: 25%;
+        margin-right: 25%;
+    }
 }
+
+@media only screen and (max-width: 900px) {
+    div.form {
+        background-color: #005551;
+        display: block ;
+        color : #9AE7E4 ;
+        border-radius: 10px;
+        width:auto;
+        padding: 0.5em;
+        margin: 0.1em ;
+    }
+}
+
 
 div.form th {
     background-color: inherit;
