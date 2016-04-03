@@ -6,8 +6,16 @@
         border-radius: 25px;
         width:auto;
         padding: 1em;
+        }
+
+    div.form {
         margin-left: 25%;
         margin-right: 25%;
+    }
+
+    div.form.dashboard {
+        margin-left: 0;
+        margin-right: 0;
     }
 }
 
