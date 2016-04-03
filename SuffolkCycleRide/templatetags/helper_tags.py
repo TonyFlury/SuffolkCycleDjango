@@ -125,7 +125,6 @@ def iff(cond, true_value, false_value):
 @register.simple_tag(name='iffCurrentPage', takes_context=True)
 def iffCurrentPage(context, cond, true_value, false_value):
     if 'current_path' in context:
-        print "'{}','{}','{}','{}'".format(context['current_path'], reverse(cond), true_value, false_value)
         return true_value if context['current_path'] == reverse(cond) else false_value
     else:
         return false_value
