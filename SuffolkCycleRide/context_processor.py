@@ -22,3 +22,9 @@ def settings_base_url(request):
     return {"BASE_URL": settings.BASE_URL,          # Derived from settings - not ideal
             "HOST": request.get_host(),             # The actually requested URL
             "HOST_URL": 'http://{}/'.format(request.get_host()) }
+
+
+def get_current_path(request):
+    return {
+       'current_path': request.get_full_path()
+     }

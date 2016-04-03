@@ -20,6 +20,7 @@ from django.template.base import FilterExpression
 from django.conf import settings
 from django.utils.html import format_html
 from decimal import Decimal
+from django.core.urlresolvers import reverse
 
 __version__ = "0.1"
 __author__ = 'Tony Flury : anthony.flury@btinternet.com'
@@ -120,6 +121,14 @@ def do_var(parser, token):
 @register.simple_tag(name='iff', takes_context=False)
 def iff(cond, true_value, false_value):
     return true_value if cond else false_value
+
+@register.simple_tag(name='iffCurrentPage', takes_context=True)
+def iffCurrentPage(context, cond, true_value, false_value):
+    if 'current_path' in context:
+        print "'{}','{}','{}','{}'".format(context['current_path'], reverse(cond), true_value, false_value)
+        return true_value if context['current_path'] == reverse(cond) else false_value
+    else:
+        return false_value
 
 class iffchangedNode(template.Node):
     def __init__(self, parser, condition, true_value, false_value, asvar=None):

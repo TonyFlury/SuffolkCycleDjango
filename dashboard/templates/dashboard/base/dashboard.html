@@ -1,6 +1,7 @@
 {% extends "base/base.html" %}
 
 {% load staticfiles %}
+{% load helper_tags %}
 
 {% block title %}
 Great Suffolk Bike Ride 2016 = Home Page
@@ -13,13 +14,13 @@ Great Suffolk Bike Ride 2016 = Home Page
 {% block content %}
 <h4 align="center">My Dashboard</h4>
 <div id="Dashboard" class="white">
-    <div id="DashboardMenu">
-        <ul class="vertical_menu">
-            <li><a href='{% url "Dashboard:Home" %}'>Home</a></li>
-            <li><a href='{% url "Dashboard:MyDetails" %}'>My Details</a></li>
-            <li><a href='{% url "Dashboard:CycleRoutes" %}'>Cycle Routes</a></li>
-            <li><a href='{% url "Dashboard:FundRaising" %}'>Fund Raising</a></li>
-            <li><a href='{% url "Dashboard:FundMe" %}'>Your FundMe Page</a></li>
+    <div id="DashboardMenuSection">
+        <ul id="DashboardMenu">
+            <li><a href='{% url "Dashboard:Home" %}' class="{% iffCurrentPage 'Dashboard:Home' 'selected' ''%}">Home</a></li>
+            <li><a href='{% url "Dashboard:MyDetails" %}' class="{% iffCurrentPage 'Dashboard:MyDetails' 'selected' ''%}">My Details</a></li>
+            <li><a href='{% url "Dashboard:CycleRoutes" %}' class="{% iffCurrentPage 'Dashboard:CycleRoutes' 'selected' ''%}">Cycle Routes</a></li>
+            <li><a href='{% url "Dashboard:FundRaising" %}' class="{% iffCurrentPage 'Dashboard:FundRaising' 'selected' ''%}">Fund Raising</a></li>
+            <li><a href='{% url "Dashboard:FundMe" %}' class="{% iffCurrentPage 'Dashboard:FundMe' 'selected' ''%}">Your FundMe Page</a></li>
         </ul>
     </div>
     <div id="DashboardDetails">{% block dashboard-detail %}Your data - based on the selection{% endblock %}</div>

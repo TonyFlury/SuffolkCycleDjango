@@ -1,28 +1,9 @@
 div#Dashboard {
 display:inline-block;
 overflow:auto;
-/* border: dotted white ;*/
-width:1000px;
-margin-left:0% ;/* Outdent the main dashboard - so we have more horizontal space */
-margin-right:0%;
-border-top: thin dashed black;
+width: 100%
 }
 
-div#DashboardMenu {
- float:left;
-/* border: dashed red ; */
- padding-right: 2em;
-}
-
-div#DashboardDetails {
-   margin-left:0.25em;
-   padding: 0.25em;
-   float:left;
-   width:70%;
-   margin-right:0.1em;
-   border-left:thin dashed black;
-   padding-left:2em;
-}
 
 /*
                     Funding Barchart styles
@@ -79,7 +60,6 @@ overflow:hidden;
 }
 
 
-
 div.barchart-text {
 /* font-weight: bold; */
 color: white ;
@@ -90,4 +70,92 @@ top:10px;
 margin-left:10px;
 margin-right:5px;
 padding-left: 10px;
+}
+
+@media only screen and (min-width: 900px) {
+
+    div#Dashboard {
+        border-top: thin dashed black;
+    }
+
+    div#DashboardMenuSection {
+     float:left;
+    /* border: dashed red ; */
+     padding-right: 2em;
+    }
+
+    div#DashboardDetails {
+       margin-left:0.25em;
+       padding: 0.25em;
+       float:left;
+       width:70%;
+       margin-right:0.1em;
+       border-left:thin dashed black;
+       padding-left:2em;
+    }
+
+    div#DashboardMenuSection > ul#DashboardMenu {
+        list-style-type: none;
+    }
+
+    div#DashboardMenuSection > ul#DashboardMenu > li {
+        margin-bottom: 0.2em;
+    }
+
+
+    div#DashboardMenuSection > ul#DashboardMenu > li > a {
+        font-weight: normal ;
+    }
+
+    div#DashboardMenuSection > ul#DashboardMenu > li > a.selected {
+        font-weight: bold;
+    }
+}
+
+@media only screen and (max-width: 900px) {
+
+    div#DashboardDetails {
+       margin-left:0.1em;
+       width:100%;
+       margin-right:0.2em;
+    }
+
+
+    div#DashboardMenuSection {
+        display:block;
+    }
+
+    div#DashboardMenuSection > ul#DashboardMenu {
+        list-style-type: none;
+    }
+
+    div#DashboardMenuSection > ul#DashboardMenu > li {
+        display:inline-block;
+        border-top : thin white solid;
+        border-left : thin white solid;
+        border-right : thin white solid;
+        border-radius : 8px 8px 0px 0px;
+        padding-left:0px;
+        padding-right:0px;
+        margin: 0px 0px 0.1px 0px;
+    }
+
+
+    div#DashboardMenuSection > ul#DashboardMenu > li > a {
+        padding-left: 0.4em;
+        padding-right: 0.4em;
+        font-weight: normal ;
+        border-radius : 8px 8px 0px 0px;
+        margin: 0px 0px 0.1px 0px;
+
+    }
+
+    div#DashboardMenuSection > ul#DashboardMenu > li > a.selected {
+        background: white;
+        color: #00B7B1 ;
+        font-weight: bold;
+        border-radius : 8px 8px 0px 0px;
+        margin: 0px 0px 0.1px 0px;
+
+   }
 }
