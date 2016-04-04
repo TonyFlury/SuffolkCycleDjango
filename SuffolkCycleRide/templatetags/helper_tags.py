@@ -116,7 +116,6 @@ def do_var(parser, token):
 
     return varNode( parser, var, asvar )
 
-
 @register.simple_tag(name='iff', takes_context=False)
 def iff(cond, true_value, false_value):
     return true_value if cond else false_value

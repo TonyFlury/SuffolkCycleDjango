@@ -4,7 +4,7 @@ from models import Cyclist, Leg
 
 class LegAdmin(admin.ModelAdmin):
     date_hierarchy = 'date'
-    fields = (('name'), ('date','morning', 'duration'), ('start','end','distanceKM'), 'description')
+    fields = (('name'), ('date','morning', 'duration'), ('start','end','distanceKM'),'map','description')
     ordering = ('date', '-morning')
     list_display = ('date','morning', 'name','start','end', 'distanceKM')
 

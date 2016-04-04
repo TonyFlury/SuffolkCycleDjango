@@ -20,6 +20,7 @@
 
     <link rel="stylesheet" href="{% static 'base/css/colours.css' %}">
     <link rel="stylesheet" href="{% static 'base/css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'base/css/small-screen.css' %}">
     <link rel="stylesheet" href="{% static 'base/css/newforms.css' %}">
     <link rel="stylesheet" href="{% static 'base/css/table.css' %}">
     <link rel="stylesheet" href="{% static 'base/css/jquery.mCustomScrollbar.min.css' %}">
@@ -28,7 +29,7 @@
     <meta property="og:url"           content="{% block og-url %}{{ HOST_URL }}{% endblock %}" />
 	<meta property="og:type"          content="website" />
 	<meta property="og:title"         content="{% block og-title %}The Great Suffolk Cycle Ride{% endblock %}" />
-	<meta property="og:description"   content="{% block og-description %}A multi-day charity cycle ride across Suffolk in Summer 2016. Get involved as a cyclist, organiser, or part of the support team.{% endblock %}" />
+	<meta property="og:description"   content="{% block og-description %}A 7 day charity cycle ride across Suffolk from July 23rd to July 29th 2016 2016. Raising money for Cancer Charities across Suffolk. Get on your bike, get involved as an organiser, or part of the support team.{% endblock %}" />
 	<meta property="og:image"         content="{% absolute_static 'SuffolkCycleRide/images/suffolk-cycle-dated-background.gif' %}" />
 
     {% block head_meta %}
@@ -47,6 +48,8 @@
     <script type="text/javascript" src="{% static 'base/js/jquery.mCustomScrollbar.concat.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'base/js/jquery.resize-layout.js' %}"></script>
 
+    {% block page_script_links %}
+    {% endblock %}
 
     <!-- Allow page specific scripts -->
     <script type="text/javascript">
@@ -62,26 +65,6 @@
 </head>
 <body>
 {% block fb-disable %}
-<div id="fb-root"></div>
-
-<!-- Script for Facebook like button https://developers.facebook.com/tools/debug/og/object/ -->
-<script>
-window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '1695228507422103',
-      xfbml      : true,
-      version    : 'v2.5'
-    });
-  };
-
-(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.5";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
-</script>
 {% endblock %}
 
 <div id="Site_Background">
@@ -91,13 +74,9 @@ window.fbAsyncInit = function() {
             <div id='header_bg'></div>  <!-- Darker bar extending across the viewport -->
                 <div class='menu-wrapper'>
                     <div class="menu-body">
-                        <div class="fb-like fb-like-pos" data-href="{{ HOST_URL }}" data-width="200"
-                         data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
                     {% block menu-content %}
                     {% endblock %}
                     </div>
-                    <!-- Facebook like button -->
-
                 </div>
         </div>
 
@@ -111,21 +90,19 @@ window.fbAsyncInit = function() {
 
         <!-- The footer information - copyright info -->
         <div id='footer'>
-            <div id='footer_bg'></div>
+           <div id='footer_bg'></div>
             {% block footer-content %}
             <div class="white centered small" style="top:10px">
-                <table class="white small">
+                <table id='footer-table' class="white">
                     <tr>
-                <td align="left" class="white">
+                <td align="center" class="white">
                     {% now "Y" as year %}
                 &copy; {{ year }} - The Great Suffolk Cycle Ride</td>
-                        <td>&nbsp;</td>
-                <td align="right" class="white">{% now " D d M Y h:i A" %}</td>
+                <td align="center" class="white">{% now " D d M Y h:i A" %}</td>
                         </tr>
                     <tr>
-                <td align="left" class="white">Credits</td>
                         <td align="center" class="white"><a href="{% url 'Privacy' %}" target="_new">Privacy Policy</a></td>
-                        <td align="right" class="white"><a href="{% url 'ContactUs' %}">Contact Us</a></td>
+                        <td align="center" class="white"><a href="{% url 'ContactUs' %}">Contact Us</a></td>
                     </tr>
                 </table>
             </div>

@@ -5,12 +5,34 @@
 
 {% block page_styles %}
 
+
+
 {% endblock %}
 
 {% block menu-content %}
 <!-- Allow conditional generation of menu -->
-{% if not no_menu %}
+
 <div id="menu-container">
+{% if no_menu %}
+    <h3 align="center" style="margin-top:15px;"><a href="{{ HOST_URL }}" >The Great Suffolk Cycle Ride</a></h3>
+{% else %}
+    <div id="ShareBar">
+        <div class="ShareMe">
+<a href="https://www.facebook.com/dialog/feed?
+app_id=1695226697422284
+&amp;display=popup&amp;caption={{ 'The Great Suffolk Cycle Ride' | urlencode:'' }}
+&amp;link={{ HOST_URL|urlencode:''}}
+&amp;redirect_uri={{ HOST_URL|urlencode:''}}">
+        <img src="{% static 'SuffolkCycleRide/images/facebook.png' %}" ;"/>
+        </a>
+        </div>
+        <div class="ShareMe">
+        <a href="http://twitter.com/intent/tweet?status={{ 'Supporting The Great Suffolk Cycle Ride - raising money for Suffolk Cancer Charities - 580Km over 7 days' | urlencode:'' }}%0A{{ HOST_URL|urlencode:''}}">
+        <img src="{% static 'SuffolkCycleRide/images/twitter.png' %}"/>
+        </a>
+        </div>
+    </div>
+    <div class="chevronbar-container" onclick="">
     <ul class='chevronbar'>
         <li><a href="{% url 'Home' %}">Home</a></li>
         <li><a href="#">Read More</a>
@@ -26,7 +48,7 @@
         {% if user.is_authenticated %}
         <li><a href="{% url 'Dashboard:Home' %}">My Dashboard</a></li>
         {% else %}
-        <li><a href="{% url 'GetInvolved' %}">Get Involved</a></li>
+        <li><a href="{% url 'GetInvolved' %}">Register</a></li>
         {% endif %}
         {% if user.is_authenticated %}
         <li><a href="{% url 'User:SignOut' %}">Sign Out</a></li>
@@ -35,12 +57,13 @@
         {% endif %}
         <li><a href="#">Sponsorship</a>
             <ul class="sub">
-                <li><a href="{% url 'Sponsorship:Main' %}">Opportunities</a>/a></li>
-                <li><a href="#">Our Sponsors</a></li>
+                <li><a href="{% url 'Sponsorship:Main' %}">Opportunities</a></li>
+                <li><a href="{% url 'Sponsorship:OurSponsors' %}">Our Sponsors</a></li>
             </ul>
         </li>
 
     </ul>
-</div>
+    </div>
 {% endif %}
+</div>
 {% endblock %}

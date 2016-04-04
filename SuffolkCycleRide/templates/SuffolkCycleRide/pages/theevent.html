@@ -2,12 +2,18 @@
 
 {% load staticfiles %}
 {% load helper_tags %}
+{% load map_tags %}
 
 {% block subtitle %}
  - The Event
 {% endblock %}
 
 {% block page_styles %}
+{% endblock %}
+
+{% block page_script_links %}
+    <script type="text/javascript" src="{% static 'ol2map/js/OpenLayers.2.14.js' %}"></script>
+    <script type="text/javascript" src="{% static 'ol2map/js/ol2map_base.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -29,12 +35,21 @@
         </thead>
         <tbody>
         {% for leg in event.legs %}
-            <tr class="{% cycle 'row1' 'row2' %}">
+
+            <tr class="{% cycle 'row1' 'row2' as rowClass %}">
                 <td>{% iffchanged leg.date leg.date|date '&nbsp;' %}</td>
                 <td>{% iff leg.morning 'am' 'pm' %}</td>
                 <td>{{leg.name}}</td>
                 <td>{{leg.start}}</td><td>{{leg.end}}</td><td>{{leg.distanceKM}}</td>
             </tr>
+            {% if leg.map %}
+                <tr class="{{ rowClass }}">
+                    <td colspan="3">&nbsp;</td>
+                    <td colspan="3">
+                        {% MapForLeg leg %}
+                    </td>
+                </tr>
+            {% endif %}
         {% endfor %}
         </tbody>
     </table>
