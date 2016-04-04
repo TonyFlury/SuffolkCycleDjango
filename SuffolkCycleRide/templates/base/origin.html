@@ -48,6 +48,8 @@
     <script type="text/javascript" src="{% static 'base/js/jquery.mCustomScrollbar.concat.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'base/js/jquery.resize-layout.js' %}"></script>
 
+    {% block page_script_links %}
+    {% endblock %}
 
     <!-- Allow page specific scripts -->
     <script type="text/javascript">

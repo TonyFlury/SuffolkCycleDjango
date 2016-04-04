@@ -44,6 +44,8 @@ class HashedURLStorage(FileSystemStorage):
             return "%s&%s" % (base_url, the_hash)
         return "%s?%s" % (base_url, the_hash)
 
+def get_map_path(self, filename):
+    return os.path.join('kml', self.slug, filename)
 
 class Leg(models.Model):
     date = fields.DateField(default=now)
@@ -55,6 +57,7 @@ class Leg(models.Model):
     duration = fields.DecimalField(decimal_places=1,max_digits=2,default=1.0)
     distanceKM = fields.IntegerField()
     morning = fields.BooleanField(default=True)
+    map = models.FileField(upload_to=get_map_path, blank=True)
     class Meta:
         unique_together = ('date', 'morning')
 
@@ -64,6 +67,7 @@ class Leg(models.Model):
     @classmethod
     def Totals(cls):
         return cls.objects.aggregate(distance=Sum('distanceKM'),days=Count('date',distinct=True))
+
     prepopulated_fields = {"slug": ("title",)}
 
 

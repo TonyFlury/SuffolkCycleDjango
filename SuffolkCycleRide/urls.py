@@ -32,6 +32,9 @@ urlpatterns = [
 
     url(r'^dashboard/', include("dashboard.urls", namespace="Dashboard")),
     url(r'^blog/', include('blog.urls', namespace='Blog')),
+    url(r'^map_example', views.googlemap, name='Example'),
+
+    url(r'^ol2map/', include('ol2map.urls', namespace='olMap2')), # Urls for mapping App -
 
     url(r'^markitup/', include('markitup.urls')),
 

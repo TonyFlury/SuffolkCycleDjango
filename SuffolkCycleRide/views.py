@@ -23,6 +23,8 @@ import forms
 
 import cyclists.models
 
+import ol2map.models
+
 
 # noinspection PyIncorrectDocstring
 def home(request):
@@ -63,7 +65,6 @@ def the_event(request):
 
 def sunrise(request):
     return render(request, "SuffolkCycleRide/pages/sunrise.html")
-#To Implmenent Sunrise Fundraising Page - and url entry for it.
 
 # noinspection PyIncorrectDocstring
 def privacy(request):
@@ -71,6 +72,17 @@ def privacy(request):
     PageVisit.record(request)
     return render(request, "SuffolkCycleRide/pages/privacy.html")
 
+def googlemap(request):
+    themap = ol2map.models.ol2Map(domElement='ol2map_1',
+                                  classes = ['smallmap'],
+                                  restrictedExtent = ((0.2, 52.55), (1.95, 51.5)),
+                                  center = (1.0, 52.1),
+                                  zoom = 7,
+                                  kmlLayers=[('Day 1','/media/kml/day1.kml', 0.1)],
+                                  switcher = True )
+
+    return render(request, 'SuffolkCycleRide/pages/google.html',
+                  context={'themap':themap})
 
 class GetInvolved(MultipleFormMixin, View):
     """Multiple form page - Newsletter Subscription, and New User Registration"""

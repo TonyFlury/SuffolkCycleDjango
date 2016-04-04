@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'stats.apps.StatsConfig',
     'blog.apps.BlogConfig',
     'Sponsors.apps.SponsorsConfig',
+    'ol2map',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
