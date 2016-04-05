@@ -8,10 +8,98 @@
  - The Event
 {% endblock %}
 
-
 {% block page_script_links %}
-    <script type="text/javascript" src="{% static 'ol2map/js/OpenLayers.2.14.js' %}"></script>
-    <script type="text/javascript" src="{% static 'ol2map/js/ol2map_base.js' %}"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyA0JeZ9eOujzkEPKG4W6rWdU5P0NXOUmZ0"></script>
+        <script src="{% static 'ol2map/js/OpenLayers.2.14.js' %}"></script>
+        <script src="{% static 'ol2map/js/ol2map_base.js' %}"></script>
+{% endblock %}
+
+{% block page_styles_links %}
+       <link rel="stylesheet" href="{% static 'ol2map/css/homestyle.css' %}" type="text/css">
+<!--        <link rel="stylesheet" href="{% static 'ol2map/css/style.css' %}" type="text/css"> -->
+{% endblock %}
+
+{% block page_styles %}
+
+    .smallmap {
+        border: 1px solid #ccc;
+        border-radius : 25px;
+        overflow : hidden;
+        width: 512px;
+        height: 356px;
+        float: right;
+        display: inline-block ;
+    }
+
+    div.MoreLess {
+        border: thin dotted white ;
+        overflow: hidden ;
+        background : beige;
+    }
+
+    div.Description {
+        width: 30%;
+        float:left ;
+        display: inline-block ;
+        text-align: left ;
+        margin : 5px ;
+        color : black ;
+        margin-left: 10px ;
+    }
+
+    label.MoreLess {
+          background: beige;
+          display: block;
+          width: auto;
+          height: auto;
+          cursor: pointer;
+          float:right ;
+          color : black ;
+          margin : 6px 2px ;
+          padding : 2px 5px ;
+          border-radius : 5px;
+          box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.6) ;
+
+    }
+
+    .MoreLess[type="checkbox"] {
+            position: absolute;
+            top: -9999px;
+            left: -999px;
+        }
+
+    .MoreLess[type="checkbox"] + label.MoreLess::before {
+            content:'More';
+            }
+
+    .MoreLess[type="checkbox"]:checked + label.MoreLess::before {
+            content:'Less';
+            }
+
+    .MoreLess[type="checkbox"] ~ div.MoreLess {
+            height: 0 ;
+            width : 0 ;
+            padding : 0px;
+            overflow: hidden ;
+            }
+
+    .MoreLess[type="checkbox"]:checked ~ div.MoreLess {
+        margin: 5px;
+        height: auto ;
+        width: 95% ;
+        padding : 10px;
+        overflow: hidden ;
+        box-shadow: 6px 6px 6px 0px rgba(0, 0, 0, 0.6) ;
+        border-radius : 25px;
+            }
+
+    .Date { width:9em; display:inline-block;}
+    .Am  { width: 2em; display:inline-block;}
+    .name { width:20em; display:inline-block;}
+    .start { width:10em; display:inline-block;}
+    .end { width:10em; display:inline-block;}
+    .km { width:4em; display:inline-block;}
+
 {% endblock %}
 
 {% block content %}
@@ -24,34 +112,37 @@
 
     The event is split into {{event.legs.count}} legs as follows :</p>
 </div>
-<div class='white' align='center' style="width:100%">
-    <table>
-        <thead>
-            <tr>
-                <th style="width:9em;">Date</th><th>&nbsp;</th><th>Name</th><th>Start</th><th>End</th><th>km</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for leg in event.legs %}
+    <div class='white' align='center' style="width:100%">
+        <div style="background : #000; color: white ; "> <!-- Title row -->
+            <div class="Date">Date</div><div class="Am">&nbsp;</div>
+            <div class="name">Name</div><div class="start">Start</div>
+            <div class="end">End</div><div class="km">km</div>
+        </div>
+            {% for leg in event.legs %}
 
-            <tr class="{% cycle 'row1' 'row2' as rowClass %}">
-                <td>{% iffchanged leg.date leg.date|date '&nbsp;' %}</td>
-                <td>{% iff leg.morning 'am' 'pm' %}</td>
-                <td>{{leg.name}}</td>
-                <td>{{leg.start}}</td><td>{{leg.end}}</td><td>{{leg.distanceKM}}</td>
-            </tr>
-            {% if leg.map %}
-                <tr class="{{ rowClass }}">
-                    <td colspan="3">&nbsp;</td>
-                    <td colspan="3">
+            <div class="{% cycle 'row1' 'row2' as rowClass %}">
+                <div>
+                    <div class="Date">{% iffchanged leg.date leg.date|date '&nbsp;' %}</div>
+                    <div class="Am">{% iff leg.morning 'am' 'pm' %}</div>
+                    <div class="name">{{leg.name}}</div>
+                    <div class="start">{{leg.start}}</div><div class="end">{{leg.end}}</div><div class="km">{{leg.distanceKM}}</div>
+                </div>
+                {% if leg.map %}
+                <div>
+                    <input id='olMap_{{leg.slug}}_Show' type="checkbox" class="MoreLess">
+                        <label for='olMap_{{leg.slug}}_Show' class="MoreLess">&nbsp;</label>
+                        <div class="MoreLess">
+                            <div class="Description">
+                                {{leg.description}}
+                            </div>
                         {% MapForLeg leg %}
-                    </td>
-                </tr>
+                        </div>
+                </div>
+            </div>
             {% endif %}
         {% endfor %}
-        </tbody>
-    </table>
-</div>
+    </div>
+<div></div>
 {% else %}
 <div>
     <p id="summary">

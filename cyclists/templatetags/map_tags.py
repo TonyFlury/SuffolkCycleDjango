@@ -12,7 +12,7 @@ Testable Statements :
     Can I <Boolean statement>
     ....
 """
-
+import os.path
 import ol2map.models
 import cyclists.models
 from django import template
@@ -33,8 +33,10 @@ def MapForLeg(context, leg):
     themap = ol2map.models.ol2Map(domElement=context_name,
                                   classes = ['smallmap'],
                                   restrictedExtent = ((0.2, 52.55), (1.95, 51.5)),
-                                  center = (1.0, 52.1),
-                                  zoom = 7,
-                                  kmlLayers=[(leg.name,leg.map.name, 0.1)],
+                                  center = (1.245, 52.254),
+                                  zoom = 1,
+                                  zoomExtent = (8,16),
+                                  numZoomLevel = 9,
+                                  kmlLayers=[(leg.name,os.path.join('/media', leg.map.name), True, False)],
                                   switcher = True )
     return themap()

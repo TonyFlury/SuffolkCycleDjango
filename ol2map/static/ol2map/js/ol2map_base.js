@@ -11,7 +11,10 @@ $(document).ready(function(){
         var center = JSON.parse($(this).attr('data-ol2map-center'));
         var kmlLayers = JSON.parse($(this).attr('data-ol2map-kmlLayers'));
         var zoom = JSON.parse($(this).attr('data-ol2map-zoom'));
-        var switcher = JSON.parse($(this).attr('data-ol2map-switcher'));
+        var zoomExtent = JSON.parse($(this).attr('data-ol2map-zoomExtent'));
+        var numZoomLevels = JSON.parse($(this).attr('data-ol2map-numZoomLevel'));
+
+        var switcher ;
 
         if (extent != null)
         {
@@ -38,7 +41,7 @@ $(document).ready(function(){
                     "Google Streets", // the default
                     {
                       sphericalMercator:true,
-                      numZoomLevels: 20, minZoomLevel: 1, maxZoomLevel: 16,
+                      numZoomLevels: numZoomLevels, minZoomLevel: zoomExtent[0], maxZoomLevel: zoomExtent[1],
                       displayInLayerSwitcher: false }
                 ),
             ],
@@ -60,11 +63,14 @@ $(document).ready(function(){
             var layers = [];
 
             for (var i=0,  tot=kmlLayers.length; i < tot; i++) {
+                switcher = switcher || kmlLayers[i][3] ;
+
                 var layer = new OpenLayers.Layer.Vector(kmlLayers[i][0], {
                    animationEnabled: true,
+                   displayInLayerSwitcher : kmlLayers[i][3],
+                   opacity: 1.0,
                    projection: map.displayProjection,
                    strategies: [new OpenLayers.Strategy.Fixed()],
-                   opacity: kmlLayers[i][2],
                    protocol: new OpenLayers.Protocol.HTTP({
                         url: kmlLayers[i][1],
                         format: new OpenLayers.Format.KML({
@@ -76,11 +82,13 @@ $(document).ready(function(){
                 map.addLayer(layer);
                 layers[i] = layer;
 
-                layer.events.on({
-                        "featureselected": onFeatureSelect,
-                        "featureunselected": onFeatureUnselect
-                });
+                if (kmlLayers[i][2])
+                    layer.events.on({
+                            "featureselected": onFeatureSelect,
+                            "featureunselected": onFeatureUnselect
+                    });
             }
+
             if (switcher)
                 map.addControl(new OpenLayers.Control.LayerSwitcher());
 
@@ -108,12 +116,14 @@ $(document).ready(function(){
         var selectedFeature = feature;
         var layer = feature.layer;
         var map = layer.map;
-        var popup = new OpenLayers.Popup.FramedCloud("chicken",
+        var popup = new OpenLayers.Popup.FramedCloud(feature.attributes.name,
             feature.geometry.getBounds().getCenterLonLat(),
-            new OpenLayers.Size(100,100),
+            null,
             "<h2>"+feature.attributes.name + "</h2>" + feature.attributes.description,
             null, true, onPopupClose
         );
+        popup.autoSize = true;
+/*         popup.maxSize = new OpenLayers.Size(250,200); */
         feature.popup = popup;
         map.addPopup(popup);
     }

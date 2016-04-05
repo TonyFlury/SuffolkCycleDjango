@@ -225,8 +225,9 @@ div#menu-container a {
 
 @media only screen and (min-width: 900px) {
 
-    div#footer-table {
-        width:80%
+    table#footer-table {
+        width:80%;
+ 	    font-size: small;
     }
 
     div#ShareBar {

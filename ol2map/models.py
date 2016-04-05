@@ -82,6 +82,7 @@ class ol2Map(ol2Base):
 
     @confirmPropertyExists('domElement')
     def __call__(self):
+        levels = lambda extent=self.__dict__.get('zoomExtent', (1,19)) : extent[1] - extent[0]
         return format_html("<div id='{domElement}' "
                            "class='ol2mapElement {classes}' "
                            "data-ol2map-instance='{instance}' "
@@ -90,6 +91,8 @@ class ol2Map(ol2Base):
                            "data-ol2map-extent='{extent}' "
                            "data-ol2map-switcher='{switcher}' "
                            "data-ol2map-zoom='{zoom}' "
+                           "data-ol2map-zoomExtent='{zoomExtent}' "
+                           "data-ol2map-numZoomLevel='{numZoomLevel}' "
                            ">"
                            "</div>".format(
                 domElement=self.__dict__['domElement'],
@@ -100,4 +103,6 @@ class ol2Map(ol2Base):
                 extent=json.dumps(self.__dict__.get('restrictedExtent', None)),
                 switcher=json.dumps(self.__dict__.get('switcher', False)),
                 zoom=json.dumps(self.__dict__.get('zoom', None)),
+                zoomExtent=json.dumps(self.__dict__.get('zoomExtent', (1,19))),
+                numZoomLevel = json.dumps(self.__dict__.get('numZoomLevel', levels()))
         ))

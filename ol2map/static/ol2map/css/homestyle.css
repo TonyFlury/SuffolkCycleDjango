@@ -3,71 +3,83 @@
  * From Blueprint reset.css
  * http://blueprintcss.googlecode.com
  */
-html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {margin:0;padding:0;border:0;font-weight:inherit;font-style:inherit;font-size:100%;font-family:inherit;vertical-align:baseline;}
-body {line-height:1.5;}
-table {border-collapse:separate;border-spacing:0;}
-caption, th, td {text-align:left;font-weight:normal;}
-table, td, th {vertical-align:middle;}
-blockquote:before, blockquote:after, q:before, q:after {content:"";}
-blockquote, q {quotes:"" "";}
-a img {border:none;}
+div.olMap * {margin:0;padding:0;border:0;font-weight:inherit;font-style:inherit;font-family:inherit;vertical-align:baseline;}
+div.olMap table {border-collapse:separate;border-spacing:0;}
+div.olMap caption, div.olMap th, div.olMap td {text-align:left;font-weight:normal;}
+div.olMap table, div.olMap td, div.olMap th {vertical-align:middle;}
+div.olMapb lockquote:before, div.olMap blockquote:after, div.olMap q:before, div.olMap q:after {content:"";}
+div.olMap blockquote, div.olMap q {quotes:"" "";}
+div.olMap a img {border:none;}
 
-/**
- * Basic Typography
- */
-body {
+div.olMap * {
     font-family: "Lucida Grande", Verdana, Geneva, Lucida, Arial, Helvetica, sans-serif;
-    font-size: 80%;
-    color: #222;
-    background: #fff;
-    margin: 1em 1.5em;
+/*    color: #222;
+    background: #fff; */
 }
-pre, code {
+
+div.olMap div,
+div.olMap img,
+div.olMap svg {
+    margin : initial ;
+}
+
+div.olMap pre, div.olMap code {
     margin: 1.5em 0;
     white-space: pre;
 }
-pre, code {
+div.olMap pre, div.olMap code {
     font: 1em 'andale mono', 'lucida console', monospace;
     line-height:1.5;
 }
-a[href] {
+div.olMap a[href] {
     color: #436976;
     background-color: transparent;
 }
-h1, h2, h3, h4, h5, h6 {
+div.olMap h1,
+div.olMap h2,
+div.olMap h3,
+div.olMap h4,
+div.olMap h5,
+div.olMap h6 {
     color: #003a6b;
     background-color: transparent;
     font: 100% 'Lucida Grande', Verdana, Geneva, Lucida, Arial, Helvetica, sans-serif;
     margin: 0;
     padding-top: 0.5em;
 }
-h1 {
+div.olMap h1 {
     font-size: 130%;
     margin-bottom: 0.5em;
     border-bottom: 1px solid #fcb100;
 }
-h2 {
+div.olMap h2 {
     font-size: 120%;
     margin-bottom: 0.5em;
     border-bottom: 1px solid #aaa;
 }
-h3 {
+div.olMap h3 {
     font-size: 110%;
     margin-bottom: 0.5em;
     text-decoration: underline;
 }
-h4 {
+div.olMap h4 {
     font-size: 100%;
     font-weight: bold;
 }
-h5 {
+div.olMap h5 {
     font-size: 100%;
     font-weight: bold;
 }
-h6 {
+div.olMap h6 {
     font-size: 80%;
     font-weight: bold;
 }
+
+.olFramedCloudPopupContent {
+    color : #222;
+}
+
+
 
 .olControlAttribution {
     bottom: 5px;
@@ -76,68 +88,57 @@ h6 {
 /**
  * Map Examples Specific
  */
-.smallmap {
-    width: 512px;
-    height: 356px;
-    border: 1px solid #ccc;
+
 }
-#tags {
+div.olMap #tags {
     display: none;
 }
 
-#docs p {
+div.olMap #docs p {
     margin-bottom: 0.5em;
 }
+
 /* mobile specific */
 @media only screen and (max-width: 600px) {
-    body {
-        height           : 100%;
-        margin           : 0;
-        padding          : 0;
-        width            : 100%;
-    }
-    #map {
+div.olMap    #map {
         background : #7391ad;
         width      : 100%;
     }
-    #map {
+div.olMap    #map {
         border : 0;
         height : 250px;
     }
-    #title {
+div.olMap    #title {
         font-size   : 1.3em;
         line-height : 2em;
         text-indent : 1em;
         margin      : 0;
         padding     : 0;
     }
-    #docs {
+div.olMap    #docs {
         bottom     : 0;
         padding    : 1em;
     }
-    #shortdesc {
+div.olMap    #shortdesc {
         color      : #aaa;
         font-size  : 0.8em;
         padding    : 1em;
         text-align : right;
     }
-    #tags {
+div.olMap    #tags {
         display : none;
     }
 }
+
 @media only screen and (orientation: landscape) and (max-width: 600px) {
-    #shortdesc {
+div.olMap    #shortdesc {
        float: right;
        width: 25%;
     }
-    #map {
+div.olMap    #map {
         width: 70%;
     }
-    #docs {
+div.olMap    #docs {
         font-size: 12px;
     }
 }
-body {
-    -webkit-text-size-adjust: none;
-}
-

@@ -78,8 +78,7 @@ def googlemap(request):
                                   restrictedExtent = ((0.2, 52.55), (1.95, 51.5)),
                                   center = (1.0, 52.1),
                                   zoom = 7,
-                                  kmlLayers=[('Day 1','/media/kml/day1.kml', 0.1)],
-                                  switcher = True )
+                                  kmlLayers=[('Day 1','/media/kml/lowestoft-southwold/day1.kml', True,True)] )
 
     return render(request, 'SuffolkCycleRide/pages/google.html',
                   context={'themap':themap})
