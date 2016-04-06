@@ -2,116 +2,155 @@
 
 {% load staticfiles %}
 {% load helper_tags %}
+{% load map_tags %}
+
+{% block page_script_links %}
+        <script src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyA0JeZ9eOujzkEPKG4W6rWdU5P0NXOUmZ0"></script>
+        <script src="{% static 'ol2map/js/OpenLayers.2.14.js' %}"></script>
+        <script src="{% static 'ol2map/js/ol2map_base.js' %}"></script>
+        <script src="{% static 'dashboard/js/routes-selectall.js' %}"></script>
+{% endblock %}
+
+{% block page_styles_links %}
+       <!-- reinstate the dashboard.css from the base template - not pretty -->
+       <link rel="stylesheet" href="{% static 'dashboard/css/dashboard.css' %}">
+       <link rel="stylesheet" href="{% static 'ol2map/css/homestyle.css' %}" type="text/css">
+       <link rel="stylesheet" href="{% static 'SuffolkCycleRide/css/map-hide-show.css' %}" type="text/css">
+
+<!--        <link rel="stylesheet" href="{% static 'ol2map/css/style.css' %}" type="text/css"> -->
+{% endblock %}
 
 {% block page_styles %}
 
 label,
-td { text-align: center;}
+td#totalDistance {text-align:right; padding-right:2em;}
 
-td {font-size : 80%}
-
-td.distance, td#totalDistance {text-align:right; padding-right:2em;}
-
-{% endblock %}
-
-{% block page_scripts %}
-
-<!-- JQuery Magic to help the checkbox select/deselect all functions to work -->
-
-    function TotalDistance() {
-        // Calculate the Total Distance over all the selected Legs
-        var _totalDistance = 0;
-
-        // Look for each leg Row - and sum the distance cell to the total if the check is selected
-        $.each( $('tr.leg'), function(){
-            if ($(this).children('td.check').children('input.checkbox').is(':checked') )
-            {
-                 _totalDistance += parseInt($(this).children('.distance').text(), 10);
-            };
-        });
-
-        // Dump the result to the totals box
-        $('td#totalDistance').text(_totalDistance.toString());
-    }
-
-    function SyncSelectAll() {
-        var _totalChecked = $('tr.leg').length ;
-        var _total = $('tr.leg').children('td.check').children('input.checkbox:checked').length;
-
-        TotalDistance();
-
-        if(_totalChecked == _total){
-         $("input.selectAll").prop("checked", true);
-        }else{
-         $("input.selectAll").prop("checked", false);
+    div.cell {
+        display: inline-block ;
         }
+
+    div.InfoRow  div.cell:not(.check) {
+        font-size:100%;
+        }
+
+    div.InfoRow div.cell {
+        margin-top:10px;
+        }
+
+    /*
+        Primary Style for the Main Title Row
+        Dark with bold white text - extra high
+        with Rounded top corners only
+    */
+    div.TitleRow {
+        background : #005551;
+        color: white ;
+        font-size: 100%;
+        font-weight: bold ;
+        line-height: 180%;
+        text-align: left ;
+        vertical-align: middle ;
+        height: 2em;
+        border-radius : 10px 10px 0px 0px;
     }
 
-$(document).ready(function(){
+    /*
+        Main information row style
+        A lot of the InfoRow styling happens in the :checked events - see below
+    */
+    div.InfoRow {
+        text-align: left ;
+        padding-bottom: 5px ;
+        width: auto ;
+        overflow: hidden ;
+        height: auto ;
+        }
 
-    // Bind a simple JQuery Function to ensure that SelectAll checkbox - set all boxes to the same state
-    $('input.selectAll').bind( 'click', function(){
-      $('input.checkbox').prop("checked", this.checked);
-      TotalDistance();
-    });
+    /*  Rounded corners on the last Info Row - a nice rounded table */
+    div.InfoRow:last-of-type {
+        border-radius : 0px 0px 10px 10px;
+        }
 
-    //  ensure that the Selectall checkbox is kept in sync with the other checkboxes
-    $('input.checkbox').bind( 'click', function() { SyncSelectAll() });
+    /* The Columns - define their widths */
+    .cell.check { width: 1em; margin: 0px 5px; }
+    .Date { margin-left:10px; width:6.5em; display:inline-block;}
+    .Am  { width: 2.0em; display:inline-block; margin-right: 10px;}
+    .start { width:10em; display:inline-block;}
+    .end { width:10em; display:inline-block;}
+    .km { width:3em; display:inline-block;}
+    .extra {width:3em; display:inline-block;}
 
-    SyncSelectAll(); // Synchronise selectAll and Total Distance for the first time
-});
+    div.form.dashboard {
+        padding-left: 0.5em !important ;
+        padding-right: 0.5em !important ;
+        width: 100% !important ;
+        }
+
+    div#DashboardDetails {
+        padding-left: 1em !important;
+        }
+
+    label.MoreLess { left: 10px !important; }
+
+    div.MoreLess div.description { width: 25% !important ; }
+
 {% endblock %}
-
 
 {% block title %}
-Great Suffolk Bike Ride 2016 : My Details
+Great Suffolk Bike Ride 2016 : Cycle Routes
 {% endblock %}
 
 {% block dashboard-form %}
     {% if legs %}
-        <thead>
-            <tr>
-                <th class='cell check'>
-                    <input type="checkbox" class="selectAll" name="selectAll" id="selectAll"/>
-                    <label class="click selectAll" for="selectAll" name="selectAll" id="selectAll"></label></th>
-                <th class='cell name'>Name</th>
-                <th class='cell date'>Date</th>
-                <th class='cell date'>&nbsp;</th>
-                <th class='cell start'>Start</th>
-                <th class='cell end'>End</th>
-                <th class='cell distance'>Km</th>
-            </tr>
-        </thead>
-        <tbody>
+        <div class="TitleRow">
+            <div class='cell check'>
+                <input type="checkbox" class="selectAll" name="selectAll" id="selectAll"/>
+                <label class="click selectAll" for="selectAll" name="selectAll" id="selectAll"></label></div>
+            <div class='cell date'>Date</div>
+            <div class='cell am'>&nbsp;</div>
+            <div class='cell start'>Start</div>
+            <div class='cell end'>End</div>
+            <div class='cell km'>Km</div>
+            <div class='cell extra'>&nbsp;</div>
+        </div>
         {% for leg in legs %}
-            <tr class="row {% cycle 'row1' 'row2' %} leg">
-                <td class='cell check' >
-                    <input  id='check_{{ leg.id }}' type="checkbox" class='checkbox' name="selected" value="{{ leg.id }}"
+            <div class="InfoRow row {% cycle 'row1' 'row2' %} leg">
+                <div class='cell check' >
+                    <input  id='check_{{ leg.id }}' type="checkbox" class='RouteSelect' name="selected" value="{{ leg.id }}"
                     {% if leg.cyclist_on_leg %}
                          checked
                     {% endif %}
                     /><label class="click checkbox" for="check_{{ leg.id }}"></label>
-                </td>
-                <td class='cell name' >{{ leg.name }}</td>
-                <td class='cell date' >{% iffchanged leg.date|date leg.date|date '&nbsp;' %}</td>
-                <td class='cell am-pm' >{% iff leg.morning 'am' 'pm' %}</td>
-                <td class='cell start' >{{ leg.start }}</td>
-                <td class='cell end' >{{ leg.end }}</td>
-                <td class='cell distance' >{{ leg.distanceKM }}</td>
-            </tr>
+                </div>
+                <div class='cell date' >{% iffchanged leg.date|date leg.date|date '&nbsp;' %}</div>
+                <div class='cell am' >{% iff leg.morning 'am' 'pm' %}</div>
+                <div class='cell start' >{{ leg.start }}</div>
+                <div class='cell end' >{{ leg.end }}</div>
+                <div class='cell km' >{{ leg.distanceKM }}</div>
+                <div class='cell extra'>&nbsp;</div>
+                {% if leg.map %}
+                    <div style="height:auto;">
+                        <input id='olMap_{{leg.slug}}_Show' type="checkbox" class="MoreLess">
+                        <label for='olMap_{{leg.slug}}_Show' class="MoreLess">&nbsp;</label>
+                        <div class="MoreLess">
+                            <div class="Description">
+                                {{leg.description}}
+                            </div>
+                        {% MapForLeg leg %}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
         {% endfor %}
-        </tbody>
-        <tfoot>
-            <tr class='row'>
-                <td class='cell check' >&nbsp;</td>
-                <td class='cell' >&nbsp;</td>
-                <td class='cell' >&nbsp;</td>
-                <td class='cell' >&nbsp;</td>
-                <td class='cell' >&nbsp;</td>
-                <td class='cell' >&nbsp;</td>
-                <td class='cell' id="totalDistance" >&nbsp;</td>
-            </tr>
-        </tfoot>
+        <div>
+                <div class='cell check' >&nbsp;</div>
+                <div class='cell date' >&nbsp;</div>
+                <div class='cell am' >&nbsp;</div>
+                <div class='cell start' >&nbsp;</div>
+                <div class='cell end' >&nbsp;</div>
+                <div class='cell km' id="totalDistance" >&nbsp;</div>
+        </div>
+    </div>
     {% else %}
         <tbody>
             <tr><td>We are busy planning the route for the <span class="bold">Great Suffolk Cycle Ride</span></td></tr>

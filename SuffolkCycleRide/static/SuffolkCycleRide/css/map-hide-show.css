@@ -1,0 +1,101 @@
+
+
+
+
+
+     /* Styling for the map containing div */
+    .smallmap {
+        border: 1px solid #ccc;
+        border-radius : 25px;
+        overflow : hidden;
+        width: 384px;
+        height: 266px;
+        float: right;
+        display: inline-block ;
+    }
+
+    /*
+        The MoreLess class is used to signify stuff which gets hidden/revealed
+        or the items which control them
+    */
+
+    /*
+        Main Style for the Div - which contains the maps and information
+        This div is moved in and out of view when the checkbox is checked/unchecked
+    */
+    div.MoreLess {
+        border: thin dotted white ;
+        overflow: hidden ;
+        background : beige;
+        height: auto ;
+        width: 90% ;
+        padding: 0px;
+        margin : 0px 5% 10px 5%;
+        overflow: hidden ;
+        box-shadow: 6px 6px 6px 0px rgba(0, 0, 0, 0.6) ;
+        border-radius : 25px;
+    }
+
+    /* Style for the description information */
+    div.Description {
+        width: 30%;
+        float:left ;
+        display: inline-block ;
+        text-align: left ;
+        padding : 10px;
+        margin : 5px 5% 10px 5%;
+        height: auto ;
+        color : black ;
+        margin-left: 10px ;
+    }
+
+    /* Style the label - the label itself though is empty */
+    label.MoreLess {
+          display: inline-block !important;
+          cursor: pointer;
+          float:right ;
+          position: relative;
+          top: -20px ;
+          margin-right: 20px !important ;
+          padding: 0px !important ;
+    }
+
+    /* Move the checkbox out of view completely - we rely soley on the label */
+    input.MoreLess[type="checkbox"] {
+            position: absolute;
+            top: -9999px;
+            left: -999px;
+        }
+
+    /* Move the div.Moreless out of view when the checkbox is selected */
+    input.MoreLess[type="checkbox"] ~ div.MoreLess {
+            position: absolute !important;
+            left: -9999px !important;
+            }
+
+    /* Move the div.Moreless into view when the checkbox is selected */
+    input.MoreLess[type="checkbox"]:checked ~ div.MoreLess {
+            position: relative !important;
+            left : 0px !important;
+            top : 0px !important;
+            }
+
+    /* Style the :before for the label when the checkbox is unselected */
+    input.MoreLess[type="checkbox"] + label.MoreLess::before {
+          padding : 2px 5px ;
+          border-radius : 5px;
+          box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.6) ;
+          background : beige ;
+          color : black ;
+          content:'More';
+        }
+
+    /* Style the :before for the label when the checkbox is selected */
+    input.MoreLess[type="checkbox"]:checked + label.MoreLess::before {
+            padding : 2px 5px ;
+            border-radius : 5px;
+            box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.6) inset ;
+            background : beige ;
+            color : black ;
+            content:'Less';
+            }

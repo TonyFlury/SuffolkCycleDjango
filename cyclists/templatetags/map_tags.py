@@ -32,9 +32,9 @@ def MapForLeg(context, leg):
     context_name = 'ol2map_{}'.format(leg.name)
     themap = ol2map.models.ol2Map(domElement=context_name,
                                   classes = ['smallmap'],
-                                  restrictedExtent = ((0.2, 52.55), (1.95, 51.5)),
+                                  restrictedExtent = ((0.2, 52.6), (1.95, 51.5)),
                                   center = (1.245, 52.254),
-                                  zoom = 1,
+                                  zoom = 0,
                                   zoomExtent = (8,16),
                                   numZoomLevel = 9,
                                   kmlLayers=[(leg.name,os.path.join('/media', leg.map.name), True, False)],

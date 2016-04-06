@@ -95,19 +95,16 @@ $(document).ready(function(){
             select = new OpenLayers.Control.SelectFeature(layers);
             map.addControl(select);
             select.activate();
-
+            map.selector = select
         }
     })
 
     function onPopupClose(evt) {
-//        var layer = evt.feature.layer;
-//        var map = layer.map;
-//        var select = null;
-//        for (var i=0,  tot=map.controls.length; i < tot; i++) {
-//            if (map.controls[i] instanceof OpenLayers.Control.SelectFeature)
-//                select = map.controls[i]
-//        }
-//        if (select)
+        var feature = evt.feature ;
+        var layer = feature.layer ;
+        var map = layer.map;
+        var select = map.selector;
+        if (select)
             select.unselectAll();
     }
 
@@ -118,15 +115,24 @@ $(document).ready(function(){
         var map = layer.map;
         var popup = new OpenLayers.Popup.FramedCloud(feature.attributes.name,
             feature.geometry.getBounds().getCenterLonLat(),
-            null,
+            new OpenLayers.Size(100,30),
             "<h2>"+feature.attributes.name + "</h2>" + feature.attributes.description,
-            null, true, onPopupClose
+            null, true, function ( map ) {
+                                return function() {
+                                            if (map.selector)
+                                                    map.selector.unselectAll();
+                                                       }
+                                    }(map)
         );
+        popup.minSize = new OpenLayers.Size(100,30);
+        popup.maxSize = new OpenLayers.Size(250,200);
         popup.autoSize = true;
-/*         popup.maxSize = new OpenLayers.Size(250,200); */
+        popup.panMapIfOutOfView = false;
+        popup.keepInMap = false ;
         feature.popup = popup;
         map.addPopup(popup);
     }
+
     function onFeatureUnselect(event) {
         var feature = event.feature;
         var map = feature.layer.map;

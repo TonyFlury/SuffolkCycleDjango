@@ -16,89 +16,62 @@
 
 {% block page_styles_links %}
        <link rel="stylesheet" href="{% static 'ol2map/css/homestyle.css' %}" type="text/css">
+       <link rel="stylesheet" href="{% static 'SuffolkCycleRide/css/map-hide-show.css' %}" type="text/css">
+
 <!--        <link rel="stylesheet" href="{% static 'ol2map/css/style.css' %}" type="text/css"> -->
 {% endblock %}
 
 {% block page_styles %}
-
-    .smallmap {
-        border: 1px solid #ccc;
-        border-radius : 25px;
-        overflow : hidden;
-        width: 512px;
-        height: 356px;
-        float: right;
-        display: inline-block ;
-    }
-
-    div.MoreLess {
-        border: thin dotted white ;
-        overflow: hidden ;
-        background : beige;
-    }
-
-    div.Description {
-        width: 30%;
-        float:left ;
-        display: inline-block ;
+    /*
+        Primary Style for the Main Title Row
+        Dark with bold white text - extra high
+        with Rounded top corners only
+    */
+    div.TitleRow {
+        background : #005551;
+        color: white ;
+        font-size: 100%;
+        font-weight: bold ;
+        line-height: 180%;
         text-align: left ;
-        margin : 5px ;
-        color : black ;
-        margin-left: 10px ;
+        vertical-align: middle ;
+        height: 2em;
+        border-radius : 10px 10px 0px 0px;
     }
 
-    label.MoreLess {
-          background: beige;
-          display: block;
-          width: auto;
-          height: auto;
-          cursor: pointer;
-          float:right ;
-          color : black ;
-          margin : 6px 2px ;
-          padding : 2px 5px ;
-          border-radius : 5px;
-          box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.6) ;
-
-    }
-
-    .MoreLess[type="checkbox"] {
-            position: absolute;
-            top: -9999px;
-            left: -999px;
+    /*
+        Main information row style
+        A lot of the InfoRow styling happens in the :checked events - see below
+    */
+    div.InfoRow {
+        text-align: left ;
+        padding-bottom: 5px ;
+        width: auto ;
+        overflow: hidden ;
+        height: auto ;
         }
 
-    .MoreLess[type="checkbox"] + label.MoreLess::before {
-            content:'More';
-            }
+    /*  Rounded corners on the last Info Row - a nice rounded table */
+    div.InfoRow:last-of-type {
+        border-radius : 0px 0px 10px 10px;
+        }
 
-    .MoreLess[type="checkbox"]:checked + label.MoreLess::before {
-            content:'Less';
-            }
-
-    .MoreLess[type="checkbox"] ~ div.MoreLess {
-            height: 0 ;
-            width : 0 ;
-            padding : 0px;
-            overflow: hidden ;
-            }
-
-    .MoreLess[type="checkbox"]:checked ~ div.MoreLess {
-        margin: 5px;
-        height: auto ;
-        width: 95% ;
-        padding : 10px;
-        overflow: hidden ;
-        box-shadow: 6px 6px 6px 0px rgba(0, 0, 0, 0.6) ;
-        border-radius : 25px;
-            }
-
-    .Date { width:9em; display:inline-block;}
-    .Am  { width: 2em; display:inline-block;}
-    .name { width:20em; display:inline-block;}
-    .start { width:10em; display:inline-block;}
-    .end { width:10em; display:inline-block;}
+    /* The Columns - define their widths */
+    .Date { margin-left:10px; width:7em; display:inline-block;}
+    .Am  { width: 2.0em; display:inline-block; margin-right: 30px;}
+    .name { width:15em; display:inline-block;}
+    .start { width:15em; display:inline-block;}
+    .end { width:15em; display:inline-block;}
     .km { width:4em; display:inline-block;}
+    .extra {width:3em; display:inline-block;}
+
+    /* Might want to improve this - another class ? */
+    div.InfoRow .Date,
+    div.InfoRow .Am,
+    div.InfoRow .name,
+    div.InfoRow .start,
+    div.InfoRow .end,
+    div.InfoRow .km { margin-top:10px; }
 
 {% endblock %}
 
@@ -113,22 +86,24 @@
     The event is split into {{event.legs.count}} legs as follows :</p>
 </div>
     <div class='white' align='center' style="width:100%">
-        <div style="background : #000; color: white ; "> <!-- Title row -->
+        <div class="TitleRow" > <!-- Title row -->
             <div class="Date">Date</div><div class="Am">&nbsp;</div>
-            <div class="name">Name</div><div class="start">Start</div>
+            <!-- <div class="name">Name</div> -->
+            <div class="start">Start</div>
             <div class="end">End</div><div class="km">km</div>
+            <div class="extra">&nbsp;</div>
         </div>
-            {% for leg in event.legs %}
+        {% for leg in event.legs %}
 
-            <div class="{% cycle 'row1' 'row2' as rowClass %}">
-                <div>
-                    <div class="Date">{% iffchanged leg.date leg.date|date '&nbsp;' %}</div>
-                    <div class="Am">{% iff leg.morning 'am' 'pm' %}</div>
-                    <div class="name">{{leg.name}}</div>
-                    <div class="start">{{leg.start}}</div><div class="end">{{leg.end}}</div><div class="km">{{leg.distanceKM}}</div>
-                </div>
-                {% if leg.map %}
-                <div>
+        <div class="InfoRow {% cycle 'row1' 'row2' as rowClass %}">
+            <div>
+                <div class="Date">{% iffchanged leg.date leg.date|date '&nbsp;' %}</div>
+                <div class="Am">{% iff leg.morning 'am' 'pm' %}</div>
+               <!-- <div class="name">{{leg.name}}</div> -->
+                <div class="start">{{leg.start}}</div><div class="end">{{leg.end}}</div><div class="km">{{leg.distanceKM}}</div>
+            </div>
+            {% if leg.map %}
+                <div style="height:auto;">
                     <input id='olMap_{{leg.slug}}_Show' type="checkbox" class="MoreLess">
                         <label for='olMap_{{leg.slug}}_Show' class="MoreLess">&nbsp;</label>
                         <div class="MoreLess">
@@ -138,10 +113,10 @@
                         {% MapForLeg leg %}
                         </div>
                 </div>
-            </div>
             {% endif %}
-        {% endfor %}
-    </div>
+        </div>
+    {% endfor %}
+</div>
 <div></div>
 {% else %}
 <div>

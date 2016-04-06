@@ -72,6 +72,10 @@ margin-right:5px;
 padding-left: 10px;
 }
 
+.form-description {
+    margin-bottom: 10px;
+    }
+
 @media only screen and (min-width: 900px) {
 
     div#Dashboard {
