@@ -221,7 +221,7 @@ class CycleRoutes(TestCase):
 
     def checkbox_status(self, content):
         soup = BeautifulSoup(content, 'html5lib')
-        boxes = soup.select("input.checkbox")
+        boxes = soup.select("input.RouteSelect")
         return dict([(box['value'], ('checked' in box.attrs)) for box in boxes if 'checked' in box.attrs])
 
     def test_010_CycleRoutesNotSignedIn(self):
