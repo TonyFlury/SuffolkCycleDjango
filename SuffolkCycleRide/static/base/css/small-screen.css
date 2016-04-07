@@ -205,8 +205,9 @@
         font-size: xx-small;
     }
 
-    p#summary {
+    div.summary p#summary {
         margin: 0.2em 2em;
+        font-size: smaller;
     }
 
    h1.home-mainlines,

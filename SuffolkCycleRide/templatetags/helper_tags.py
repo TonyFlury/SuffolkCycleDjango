@@ -27,8 +27,23 @@ __author__ = 'Tony Flury : anthony.flury@btinternet.com'
 __created__ = '09 Feb 2016'
 
 
-
 register = template.Library()
+
+@register.simple_tag(name='ellipsis')
+def add_ellipsis(string, length=30, center=False):
+    if not isinstance(string, basestring):
+        return ""
+
+    if len(string) <= length:
+        return string
+
+    # Make sure that we never exceed designated length and that our two 'halves' don't overlap
+    if center:
+        stride = min((len(string) - 3) / 2, (length - 3) / 2)
+        return string[:stride] + '...' + string[-stride:]
+    else:
+        return string[:length - 3] + '...'
+
 
 # noinspection PyIncorrectDocstring
 @register.simple_tag(name='absolute_static', takes_context=True)

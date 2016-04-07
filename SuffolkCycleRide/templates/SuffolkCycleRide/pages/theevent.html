@@ -56,22 +56,47 @@
         border-radius : 0px 0px 10px 10px;
         }
 
+@media only screen and (min-width: 900px) {
+
     /* The Columns - define their widths */
     .Date { margin-left:10px; width:7em; display:inline-block;}
     .Am  { width: 2.0em; display:inline-block; margin-right: 30px;}
-    .name { width:15em; display:inline-block;}
     .start { width:15em; display:inline-block;}
     .end { width:15em; display:inline-block;}
     .km { width:4em; display:inline-block;}
     .extra {width:3em; display:inline-block;}
 
-    /* Might want to improve this - another class ? */
-    div.InfoRow .Date,
-    div.InfoRow .Am,
-    div.InfoRow .name,
-    div.InfoRow .start,
-    div.InfoRow .end,
-    div.InfoRow .km { margin-top:10px; }
+    .short {display:none;}
+
+    div.InfoRow .cell { margin-top:10px; }
+}
+
+@media only screen and (max-width: 900px) {
+
+     /* The Columns - define their widths */
+    .Date { margin-left:5px; width:5em; display:inline-block;}
+    .Am { width: 0.5em; display:inline-block; margin-right: 5px;}
+    .start { width:6.0em; display:inline-block;}
+    .end { width:6.0em; display:inline-block;}
+    .km { width:1.5em; display:inline-block;}
+    .extra {width:2em; display:inline-block;}
+
+    div.TitleRow .cell,
+    div.InfoRow .cell,
+    label.MoreLess { font-size:80% ; margin-top:10px; }
+
+    label.MoreLess { top:-25px !important;}
+
+    .InfoRow div.cell:not(.short) {display:none;}
+
+    div.MoreLess div.Description {width:90% !important ; font-size:80%; display:block; margin: 5px !important;}
+
+    div.MoreLess div.Smallmap { width: 260px !important ;
+                                height : 260px !important ;
+                                margin: 0px 5px 10px 5px !important;
+                                border: thin solid black ;
+                                border-radius: 0px !important ; }
+}
 
 {% endblock %}
 
@@ -87,20 +112,31 @@
 </div>
     <div class='white' align='center' style="width:100%">
         <div class="TitleRow" > <!-- Title row -->
-            <div class="Date">Date</div><div class="Am">&nbsp;</div>
+            <div class="cell Date">Date</div><div class="cell Am">&nbsp;</div>
             <!-- <div class="name">Name</div> -->
-            <div class="start">Start</div>
-            <div class="end">End</div><div class="km">km</div>
-            <div class="extra">&nbsp;</div>
+            <div class="cell start">Start</div>
+            <div class="cell end">End</div><div class="km">km</div>
+            <div class="cell extra">&nbsp;</div>
         </div>
         {% for leg in event.legs %}
 
         <div class="InfoRow {% cycle 'row1' 'row2' as rowClass %}">
             <div>
-                <div class="Date">{% iffchanged leg.date leg.date|date '&nbsp;' %}</div>
-                <div class="Am">{% iff leg.morning 'am' 'pm' %}</div>
+                <div class="cell Date">{% iffchanged leg.date leg.date|date '&nbsp;' %}</div>
+                <div class="cell Short Date">{% iffchanged leg.date leg.date|date:'D j M' '&nbsp;' %}</div>
+
+                <div class="cell Am">{% iff leg.morning 'am' 'pm' %}</div>
+                <div class="cell Short Am">{% iff leg.morning 'a' 'p' %}</div>
                <!-- <div class="name">{{leg.name}}</div> -->
-                <div class="start">{{leg.start}}</div><div class="end">{{leg.end}}</div><div class="km">{{leg.distanceKM}}</div>
+
+                <div class="cell start">{{leg.start}}</div>
+                <div class="cell short start">{%ellipsis leg.start length=10 %}</div>
+
+                <div class="cell end">{{leg.end}}</div>
+                <div class="cell short end">{%ellipsis leg.end length=10%}</div>
+
+                <div class="cell km">{{leg.distanceKM}}</div>
+                <div class="cell short km">{{leg.distanceKM}}</div>
             </div>
             {% if leg.map %}
                 <div style="height:auto;">

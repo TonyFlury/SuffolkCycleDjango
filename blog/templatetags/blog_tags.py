@@ -22,7 +22,6 @@ from django.utils.html import format_html, mark_safe
 
 register = template.Library()
 
-
 @register.simple_tag(name='ellipsis')
 def add_ellipsis(string, length=30, center=False):
     if not isinstance(string, basestring):
