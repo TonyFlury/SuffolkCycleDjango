@@ -14,8 +14,9 @@ How to Deploy :
     staging testing :
         In a new terminal window :
         cd ~/Development/python/SuffolkCycleStaging/SuffolkCycleDjango
-        ../SuffolkCycleDjango:$ git pull
-        ../SuffolkCycleDjango:$ manifest check
+        ../SuffolkCycleDjango $ source env/bin/activate
+        (env) ../SuffolkCycleDjango:$ git pull
+        (env) ../SuffolkCycleDjango:$ manifest check
 
         ** Resolve any issues **
 
@@ -25,7 +26,7 @@ How to Deploy :
         $ workon suffolkcycle
         (master)$ cd SuffolkCycleDjango/
         ~/SuffolkCycleDjango (master)$ git pull         # Fetch latest github repository
-        ~/SuffolkCycleDjango (master)$ python check_manifest.py
+        ~/SuffolkCycleDjango (master)$ manifest check
         ~/SuffolkCycleDjango (master)$ python manage.py migrate     # Execute migrations
         ~/SuffolkCycleDjango (master)$ python manage.py collectstatic
 
@@ -50,5 +51,8 @@ Dependencies
     django >= 1.9.1                                 # Basic project depedency
     django-ipware >= 1.1.3                          # Required by stats app
     django-markitup >= 2.3.1                        # Required by blog app
+    Pillow > 3.1.1                                  # Required by dashboard
     markdown >= 2.6.5                               # Required by blog app
-    BeautifulSoup >= 4.00                           # Required for testing
+    BeautifulSoup4 >= 4.00                          # Required for testing
+    htm5lib                                         # Required for testing
+    manifest-checker > 0.0.2rc3                     # Required for deployment check

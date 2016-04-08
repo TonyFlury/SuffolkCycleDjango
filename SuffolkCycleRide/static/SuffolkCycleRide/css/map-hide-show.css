@@ -63,7 +63,6 @@
     /* Move the checkbox out of view completely - we rely soley on the label */
     input.MoreLess[type="checkbox"] {
             position: absolute;
-            top: -9999px;
             left: -999px;
         }
 
@@ -77,7 +76,6 @@
     input.MoreLess[type="checkbox"]:checked ~ div.MoreLess {
             position: relative !important;
             left : 0px !important;
-            top : 0px !important;
             }
 
     /* Style the :before for the label when the checkbox is unselected */
